@@ -6,7 +6,7 @@
 % Begin!
 \begin{document}
 
-\title{Backprogating Gravitational wave events}
+\title{Backpropagating Gravitational wave events}
 
 \pacs{}
 
@@ -50,7 +50,7 @@ In this paper, instead of forward modelling the population of binary star to mat
 we propose a method to "backward" model each GW event to its progenitor state.
 
 
-This paper introduce a number of new perspectives in the study of binary evolution physics and gravitational-wave progenitors:
+This paper introduces a number of new perspectives in the study of binary evolution physics and gravitational-wave progenitors:
 \begin{enumerate}
 \item Instead of starting from a distribution 
 \item Using derivative-based optimization algorithm, we are allowed to explore a moderate size parameter space 
@@ -96,7 +96,7 @@ the probability of an event having evolutionary parameters given data can be obt
 The term $p(\bm{\theta}|d)$ is the inferred posterior probability for a particular event, which is usually presented by the LVK collaboration in the form of posterior samples.
 In eq.\ref{eq:evolutionary_posterior}, we use importance sampling to turn the integration into a sum over the posterior samples.
 
-For each posterior sample point, we can find the corresponding progenitor parameters by solving an optimization problem that minimize the mean square difference between the GW event parameters and progenitor parameters, i.e. 
+For each posterior sample point, we can find the corresponding evolutionary parameters by solving an optimization problem that minimize the mean square difference between the GW event parameters and evolutionary parameters, i.e. 
 
 \begin{align}
 \mathcal{L}(\bm{\Theta},\bm{\theta}) = ||f(\bm{\Theta})-\bm{\theta}||^2
@@ -108,13 +108,20 @@ However, it is not feasible to achieve such condition in practice, therefore we 
 To make sure we find the complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses in solving the optimization problem.
 
 Ideally we would like to have explicit control over all evolutionary parameters.
-In particular, having explicit control over variables allows us to marginalize over their contribution, so we can focus on progenitor parameters and hyper-parameters.
-However, in practice most of the population synthesis simulation code (including \texttt{COSMIC} which we use in this study.) define their random variables implicit,
+In particular, having explicit control over random variables allows us to marginalize over their contribution, so we can focus on progenitor parameters and hyper-parameters.
+However, in practice most of the population synthesis simulation code (including \texttt{COSMIC} which we use in this study.) define their random variables implicitly,
 i.e. the random variables are drawn within the program, instead of being arguments of the program.
 This means the function we use to evolve the binary is not a deterministic function but a stochastic function instead. 
-Hence, even if we can find all the roots that corresponds to the posterior samples,
-forward propagating this set of roots does not gauruntee to reproduce the set of posterior samples due to the randomness of the evolution function.
+Hence, even if the root-finding algorithm performs perfectly,
+forward modelling this set of roots does not guarantee to reproduce the set of posterior samples due to randomness of the evolution function.
 To assure the recovered progenitor and hyper-parameters robustly corresponds to the posterior in the GW observables space,
+we forward model ("Reproject) the recovered evolutionary parameters to the observables space to check whether the reprojected posterior agrees with the posterior given by the LVK collaboration.
+We use KL divergence to measure the agreement between the two posterior distributions.
+A small KL divergence means \texttt{COSMIC} is a viable channel for that specific event, otherwise it either means \texttt{COSMIC} can only explain part of the posterior or cannot explain the event at all.
+This is completely expected since \texttt{COSMIC} comes with its own assumptions and is expected to fail in reproducing a subset of the event in GWTC3, such as event with at least one component beyond the pair instability supernova massgap.
+On the other hand, the reprojection could subject to stochasticity in the evolution function we use.
+Instead of reprojecting the posterior only once, we reproject the posterior multiple times with different random seeds and check whether the KL divergence varies significantly.
+A varying KL divergence means this particular event is subjected to randomness in the evolution function, hence one should take extra caution in interpreting the result.
 
 
 \section{Result}
