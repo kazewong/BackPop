@@ -1,11 +1,7 @@
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
-from scipy.interpolate import interp1d
-from scipy.integrate import cumtrapz
-from scipy.optimize import curve_fit
 import copy
-from astropy.cosmology import Planck18
 
 import matplotlib as mpl
 import corner
@@ -32,7 +28,7 @@ params = {'axes.labelsize': 32,
 #          'axes.formatter.useoffset': False,
           'axes.formatter.limits' : (-3,3)}
 
-mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}'] #for \text command
+#mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}'] #for \text command
 
 mpl.rcParams.update(params)
 

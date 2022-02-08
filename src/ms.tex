@@ -3,6 +3,10 @@
 \documentclass[twocolumn]{aastex631}
 
 \newcommand{\flatiron}{\affiliation{Center for Computational Astrophysics, Flatiron Institute, New York, NY 10010, USA}}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+%\usepackage{align}
 % Begin!
 \begin{document}
 
@@ -115,8 +119,13 @@ This means the function we use to evolve the binary is not a deterministic funct
 Hence, even if the root-finding algorithm performs perfectly,
 forward modelling this set of roots does not guarantee to reproduce the set of posterior samples due to randomness of the evolution function.
 To assure the recovered progenitor and hyper-parameters robustly corresponds to the posterior in the GW observables space,
-we forward model ("Reproject) the recovered evolutionary parameters to the observables space to check whether the reprojected posterior agrees with the posterior given by the LVK collaboration.
-We use KL divergence to measure the agreement between the two posterior distributions.
+we forward model ("Reproject") the recovered evolutionary parameters to the observables space to check whether the reprojected posterior agrees with the posterior given by the LVK collaboration.
+We use KL divergence to measure the agreement between the two posterior distributions, which is given by
+\begin{align}
+D_{KL}(P||Q) = \int P(\bm{x}) \log(P(\bm{x})/Q(\bm{x})) dx.
+\label{eq:KLdivergence}
+\end{align}
+
 A small KL divergence means \texttt{COSMIC} is a viable channel for that specific event, otherwise it either means \texttt{COSMIC} can only explain part of the posterior or cannot explain the event at all.
 This is completely expected since \texttt{COSMIC} comes with its own assumptions and is expected to fail in reproducing a subset of the event in GWTC3, such as event with at least one component beyond the pair instability supernova massgap.
 On the other hand, the reprojection could subject to stochasticity in the evolution function we use.
@@ -135,11 +144,11 @@ A varying KL divergence means this particular event is subjected to randomness i
 
 
 
-% \begin{figure}
-% \includegraphics[width=0.49\textwidth]{figures/GW150914_reprojection.png}
-% \caption{Caption}
-% \label{fig:GW150914_reprojection}
-% \end{figure}
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{GW150914_reprojection.pdf}
+\caption{Caption}
+\label{fig:GW150914_reprojection}
+\end{figure}
 
 \section{Discussion}
 
