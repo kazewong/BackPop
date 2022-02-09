@@ -1,4 +1,3 @@
-
 % Define document class
 \documentclass[twocolumn]{aastex631}
 
@@ -6,10 +5,11 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{bm}
-%\usepackage{align}
+\usepackage{xcolor}
+\definecolor{rb4}{HTML}{27408B}
+\newcommand{\kw}[1]{{\color{rb4}[KW: #1 ]}}
 % Begin!
 \begin{document}
-
 \title{Backpropagating Gravitational wave events}
 
 \pacs{}
@@ -47,20 +47,25 @@ one can draw systems from an initial population, forward model each member in th
 However, this approach is essentially trading one inefficiency with another, since we still need to choose an initial distribution of binary parameters.
 For relatively well-known source properties such as initial masses this is less of a problem,
 but the distribution of some less well-studied properties such as common envelope efficiency is often heuristically chosen to be some simple distribution such as a delta function at some value, i.e. a fixed value for the entire population.
-This is a problem when the target of a study is to understand these less studied parameters, since one either need to justify their choice of distribution,
+This is a problem when the target of a study is to understand these less studied parameters, since one either need to justify their choice of distribution with other independent studies,
 or they should vary the family of distributions.
+In general, it is unclear how one can cover all possible distribution that may agree with the observation in generating a suite of simulations.
+The problem worsen as we increase the dimensionality of the parameter space.
+Indeed, one of the most common skepticism population synthesis studies receives is a simulations set usually only cover a small subdomain of the entire parameter space,
+i.e. only vary a number of hyper-parameters while holding all others fixed to some "default" values.
 
-In this paper, instead of forward modelling the population of binary star to match observed GW events population,
+In this paper, instead of forward modelling a population of binary star to match observed GW events population,
 we propose a method to "backward" model each GW event to its progenitor state.
 
 
-This paper introduces a number of new perspectives in the study of binary evolution physics and gravitational-wave progenitors:
-\begin{enumerate}
-\item Instead of starting from a distribution 
-\item Using derivative-based optimization algorithm, we are allowed to explore a moderate size parameter space 
-\end{enumerate}
+
+
+This paper is structured as follows: We detail our method in Sec. ~\ref{sec:method}.
+In Sec. ~\ref{sec:result}, we show the results of applying our method to a number of real events.
+We discuss the implications of this work and future direction in Sec. ~\ref{sec:discussion}.
 
 \section{Method}
+\label{sec:method}
 
 We define the parameters that describe the progenitor's properties such as ZAMS masses and eccentricity as progenitor parameters $\bm{\theta'}$,
 the parameters that control different physical prescriptions such as wind strength and common envelope efficiency as hyper-parameters $\bm{\lambda}$,
@@ -110,6 +115,7 @@ For each posterior sample point, we can find the corresponding evolutionary para
 In principle, we should only accept solutions that exactly reproduce the LVK posterior samples.
 However, it is not feasible to achieve such condition in practice, therefore we relax the condition in eq.\ref{eq:loss} to a small acceptance threshold, in our case we picked $10^{-2}$.
 To make sure we find the complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses in solving the optimization problem.
+\kw{Mention how we generate the initial guesses.}
 
 Ideally we would like to have explicit control over all evolutionary parameters.
 In particular, having explicit control over random variables allows us to marginalize over their contribution, so we can focus on progenitor parameters and hyper-parameters.
@@ -134,6 +140,7 @@ A varying KL divergence means this particular event is subjected to randomness i
 
 
 \section{Result}
+\label{sec:result}
 
 \begin{enumerate}
 \item Raw posterior of successful events.
@@ -142,23 +149,66 @@ A varying KL divergence means this particular event is subjected to randomness i
 \item Evidence ratio.
 \end{enumerate}
 
-
+\begin{figure*}
+\includegraphics[width=0.98\textwidth]{GW150914_corner.pdf}
+\caption{The posterior for GW150914}
+\label{fig:GW150914_posterior}
+\end{figure*}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{GW150914_reprojection.pdf}
-\caption{Caption}
+\caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.}
 \label{fig:GW150914_reprojection}
 \end{figure}
 
-\section{Discussion}
+We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
+\kw{Qoute the KL divergence.}
 
+\section{Discussion}
+\label{sec:discussion}
+
+
+We present a new pathway to understand binary evolution with GW events in this paper.
+Instead of forward modelling an assumed distribution of initial binary to the observed population,
+we solve a root-finding problem to find the best initial binary parameters that reproduce the posterior distribution for each event. 
+The most obvious advantage our method provides is it can return the joint posterior distribution of progenitor parameters and hyper-parameters for each event.
+This enables a data-driven way to study the distribution of hyper-parameters,
+i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space, we can employ common technique such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters.
+
+
+While our method allows data-driven exploration of the hyper-parameters space for the first time, there are numerous improvements 
+In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC3.
+For example, event with either of the component mass larger than the PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
+Alternative channels such as dynamic formation channel will be needed to explain some subset of the events in GWTC3.
+As pointed out in the literature, it is unlikely that all the observed events in GWTC3 can be explained by a single formation channel.
+As GW detectors sensitivity increase, we expect to see more and more events that are unusual in some way.
+Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
+
+Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
+This introduces significant inefficiency in our root-finding algorithm.
+The main stochasticity in \texttt{COSMIC} comes from natal kick, which significantly affect the evolution pathway of low mass events such as BNS events.
+The effect of natal kick is suppressed for heavier mass events due to fallback.
+This means events with the root-finding process for lighter masses are subject to stochasticity of the function,
+where the root-finding process for heavier events behaves as if the evolutionary function we use are deterministic.
+Indeed, we see this behavior in a couple of case studies.
+For heavy event such as GW150914, the reprojected posterior agrees with the data posterior.
+For light event such as GW170817, although during the root-finding process the convergence criteria is met,
+the reprojected posterior does not agree with the data posterior.
+Also, due to computational limitation, we only try 1000 different initial guesses per posterior sample in the root-finding process.
+This means any posterior sample that has a probability of merging rarer than 1 in 1000 could be missed.
+\kw{comment on the low mass ratio end.}
+
+\kw{Mention controlling the randomness is particular important for dynamical formation channel, which let different binary interact statisically.}
+
+
+
+We hope this letter would motivate the community to build the relevant infrastructure mentioned above,
+so in the near future we can explore the full parameter space of binary evolution models with the next-generation GW detectors network.
 Interpretation:
 \begin{enumerate}
 \item Highlight the fact that we turn hyper-parameters into parameters.
 \item Discuss this is need for high dimensional exploration.
 \end{enumerate}
-
-
 
 Caveats: 
 \begin{enumerate}
@@ -170,5 +220,7 @@ Caveats:
 \item Rate
 \item Failure studies go into appendix
 \end{enumerate}
+
+\section{Acknowledgement}
 
 \end{document}
