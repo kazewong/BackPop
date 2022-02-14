@@ -149,17 +149,17 @@ A varying KL divergence means this particular event is subjected to randomness i
 \item Evidence ratio.
 \end{enumerate}
 
-\begin{figure*}
-\includegraphics[width=0.98\textwidth]{GW150914_corner.pdf}
-\caption{The posterior for GW150914}
-\label{fig:GW150914_posterior}
-\end{figure*}
+% \begin{figure*}
+% \includegraphics[width=0.98\textwidth]{GW150914_corner.pdf}
+% \caption{The posterior for GW150914}
+% \label{fig:GW150914_posterior}
+% \end{figure*}
 
-\begin{figure}
-\includegraphics[width=0.49\textwidth]{GW150914_reprojection.pdf}
-\caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.}
-\label{fig:GW150914_reprojection}
-\end{figure}
+% \begin{figure}
+% \includegraphics[width=0.49\textwidth]{GW150914_reprojection.pdf}
+% \caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.}
+% \label{fig:GW150914_reprojection}
+% \end{figure}
 
 We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
 \kw{Qoute the KL divergence.}
@@ -171,11 +171,25 @@ We can see the reprojected posterior agrees very well with the original posterio
 We present a new pathway to understand binary evolution with GW events in this paper.
 Instead of forward modelling an assumed distribution of initial binary to the observed population,
 we solve a root-finding problem to find the best initial binary parameters that reproduce the posterior distribution for each event. 
-The most obvious advantage our method provides is it can return the joint posterior distribution of progenitor parameters and hyper-parameters for each event.
+The most obvious advantage our method provides is it returns the joint posterior distribution of progenitor parameters and hyper-parameters for each event.
 This enables a data-driven way to study the distribution of hyper-parameters,
-i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space, we can employ common technique such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters.
+i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
+we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters.
+\kw{Talk about GW150914.}
+
+% Rate analysis is now just counting, like what's done in phenomenological model, instead of forward modelling.
+Another perk of our method is the "rate" calculation is now independent of assumed initial condition such as a particular star formation rate model,
+which is a dominant factor of uncertainty for rate prediction in the past.
+Once we have pull back the GW event posterior from the observable space to the evolutionary parameter space,
+we can apply the same methods we use to account for the rate in the observable space.
+In the observable space, the overall rate is basically a normalization that is defined in the local universe i.e. the local merger rate. \kw{cite}
+In the evolutionary parameter space, we can instead fit for the production rate of merger events at some redshift.
+\kw{Talk about prior are now in post-processing instead of pre-processing.}
 
 
+% Gradient decending in the evolutionary parameter space is much more efficent than rejection sampling.
+
+% Single formation channel and fundamental limitation on that.
 While our method allows data-driven exploration of the hyper-parameters space for the first time, there are numerous improvements 
 In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC3.
 For example, event with either of the component mass larger than the PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
@@ -184,6 +198,7 @@ As pointed out in the literature, it is unlikely that all the observed events in
 As GW detectors sensitivity increase, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
 
+% Randomness paragraph
 Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
 This introduces significant inefficiency in our root-finding algorithm.
 The main stochasticity in \texttt{COSMIC} comes from natal kick, which significantly affect the evolution pathway of low mass events such as BNS events.
@@ -197,9 +212,19 @@ the reprojected posterior does not agree with the data posterior.
 Also, due to computational limitation, we only try 1000 different initial guesses per posterior sample in the root-finding process.
 This means any posterior sample that has a probability of merging rarer than 1 in 1000 could be missed.
 \kw{comment on the low mass ratio end.}
+Obviously the problems which comes with the randomness can be alleviated by performing more tries per posterior sample,
+but this is not scalable in practice.
+On top of limitation in efficiency, some formation channels require explicit control of random variables by construction.
+For example, in a dynamical formation scenario such as binaries that form in a globular cluster,
+each binary has some probability of undergoing a multi-body encounter with another member in the cluster.
+These encounter probability distributions are either studied with direct N-body simulations or semi-analytical methods.
+In both cases, each member of the cluster is no longer completely independent of the other members, but coupled through the encounter probability distribution.
+By studying the encounter probability distribution, we can infer the properties of the environment which the binary lives in.
+This can only be done if we have explicit control over the random variables that characterize the encounter probability distribution.
 
-\kw{Mention controlling the randomness is particular important for dynamical formation channel, which let different binary interact statisically.}
+% Need for selection bias to recover intrinsic distribution
 
+% Need for full autodiff.
 
 
 We hope this letter would motivate the community to build the relevant infrastructure mentioned above,
