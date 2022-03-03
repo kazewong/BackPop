@@ -35,6 +35,11 @@ In this
 \item We run the event backward in time
 \end{enumerate}
 
+To understand the origin of gravitational wave (GW) events,
+modeller 
+
+
+
 While forward modelling has been the canonical pathway to simulate binary systems and compare to GW observation,
 it is not necessarily the most efficient way to constraint the underlying physical model.
 Forward modelling of a binary system start with a set of initial binary parameters,
@@ -56,6 +61,7 @@ i.e. only vary a number of hyper-parameters while holding all others fixed to so
 
 In this paper, instead of forward modelling a population of binary star to match observed GW events population,
 we propose a method to "backward" model each GW event to its progenitor state.
+
 
 
 
@@ -112,10 +118,23 @@ For each posterior sample point, we can find the corresponding evolutionary para
 \label{eq:loss}
 \end{align}
 
-In principle, we should only accept solutions that exactly reproduce the LVK posterior samples.
+In principle, we should only accept solutions that exactly reproduce the LVK posterior samples in the observable space.
 However, it is not feasible to achieve such condition in practice, therefore we relax the condition in eq.\ref{eq:loss} to a small acceptance threshold, in our case we picked $10^{-2}$.
-To make sure we find the complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses in solving the optimization problem.
-\kw{Mention how we generate the initial guesses.}
+To make sure we find a reasonably complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses in solving the optimization problem.
+As long as the solution fulfill the acceptance criteria, the root is as valid as all other roots that fulfill the same acceptance criteria, regardless to its initial guess.
+In other word, we have the freedom to choose the set of initial guesses however we think it might benefit the optimization.
+Most of the points in the evolutionary parameter space do not produce mergers, and for systems that do not merge, we set the binary masses to be 0.
+This means the gradient for systems that do not merge is 0, and the root finder would likely to get stuck in such state during the first step.\footnote{On a plateau of constant loss, the root finder performs no better than a random guess. In a high dimensional space, this means the root finder will need a long time to get close to a solution.}
+Therefore, it is beneficial to put initial guesses in region of the evolutionary parameter space that does produce merger.
+To construct a list of initial guesses, we evolve a set of points that we uniformly sampled from the evolutionary parameter space, then keep the points that merge within a Hubble time.
+%Note that this freedom in choosing the initial guess introduces a subtlety in interpreting the posterior in the evolutionary parameter space. \kw{continue explaining}
+
+% \kw{There is a caveat to this initialization. Imagine there are two clusters of posterior points in the evolutionary parameter space, one with N points and one with M points, do we treat each cluster as one point? Or do we give equal weight to each root? This is probably a choice at the end which matters a little bit, and depends on the prior choice, but we should clear the conceptual confusion.
+% Perhaps we can put a heuristic experiment result in appendix: we randomly sample the possible root for each posterior, then use that as the result, and we do it multiple times to show the result doesn't change dramatically.
+% Prior weight across posterior samples may help to alleviate the issue.}
+% \kw{The most robust thing one can do is sample the prior in the evolationary parameter space, pipe it through BSE then the GW PE code. I think it is still subject to the same multiple root problem, and N-M problem will still be there.
+% So in a sense, the only prior we have to take care is really the GW prior.}
+% \kw{Mention how we generate the initial guesses.}
 
 Ideally we would like to have explicit control over all evolutionary parameters.
 In particular, having explicit control over random variables allows us to marginalize over their contribution, so we can focus on progenitor parameters and hyper-parameters.
@@ -132,7 +151,7 @@ D_{KL}(P||Q) = \int P(\bm{x}) \log(P(\bm{x})/Q(\bm{x})) dx.
 \label{eq:KLdivergence}
 \end{align}
 
-A small KL divergence means \texttt{COSMIC} is a viable channel for that specific event, otherwise it either means \texttt{COSMIC} can only explain part of the posterior or cannot explain the event at all.
+A small KL divergence means the reprojected \texttt{COSMIC} posterior is similar to the original posterior in the observable space, hence it is a viable channel for that specific event, otherwise it either means \texttt{COSMIC} can only explain part of the posterior or cannot explain the event at all.
 This is completely expected since \texttt{COSMIC} comes with its own assumptions and is expected to fail in reproducing a subset of the event in GWTC3, such as event with at least one component beyond the pair instability supernova massgap.
 On the other hand, the reprojection could subject to stochasticity in the evolution function we use.
 Instead of reprojecting the posterior only once, we reproject the posterior multiple times with different random seeds and check whether the KL divergence varies significantly.
@@ -146,20 +165,21 @@ A varying KL divergence means this particular event is subjected to randomness i
 \item Raw posterior of successful events.
 \item Trace back the event's $z_{\rm ZAMS}$.
 \item Reproject to observable space
-\item Evidence ratio.
+\item Evidence ratio?
+\item KL divergence?
 \end{enumerate}
 
-\begin{figure*}
-\includegraphics[width=0.98\textwidth]{GW150914_corner.pdf}
-\caption{The posterior for GW150914}
-\label{fig:GW150914_posterior}
-\end{figure*}
+% \begin{figure*}
+% \includegraphics[width=0.98\textwidth]{GW150914_corner.pdf}
+% \caption{The posterior for GW150914}
+% \label{fig:GW150914_posterior}
+% \end{figure*}
 
-\begin{figure}
-\includegraphics[width=0.49\textwidth]{GW150914_reprojection.pdf}
-\caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.}
-\label{fig:GW150914_reprojection}
-\end{figure}
+% \begin{figure}
+% \includegraphics[width=0.49\textwidth]{GW150914_reprojection.pdf}
+% \caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.}
+% \label{fig:GW150914_reprojection}
+% \end{figure}
 
 We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
 \kw{Qoute the KL divergence.}
@@ -174,7 +194,9 @@ we solve a root-finding problem to find the best initial binary parameters that 
 The most obvious advantage our method provides is it returns the joint posterior distribution of progenitor parameters and hyper-parameters for each event.
 This enables a data-driven way to study the distribution of hyper-parameters,
 i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
-we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters.
+we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters,
+without making specific assumption such as fixing the hyper-parameters for all types of event.
+ 
 \kw{Talk about GW150914.}
 
 % Rate analysis is now just counting, like what's done in phenomenological model, instead of forward modelling.
@@ -187,19 +209,17 @@ In the evolutionary parameter space, we can instead fit for the production rate 
 \kw{Talk about prior are now in post-processing instead of pre-processing.}
 
 
-% Gradient decending in the evolutionary parameter space is much more efficent than rejection sampling.
-
 % Single formation channel and fundamental limitation on that.
-While our method allows data-driven exploration of the hyper-parameters space for the first time, there are numerous improvements 
+While our method allows data-driven exploration of the hyper-parameters space for the first time, there are a number of improvements can be implemented in future studies.
 In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC3.
 For example, event with either of the component mass larger than the PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
 Alternative channels such as dynamic formation channel will be needed to explain some subset of the events in GWTC3.
-As pointed out in the literature, it is unlikely that all the observed events in GWTC3 can be explained by a single formation channel.
+As pointed out in the literature \kw{Cite mike}, it is unlikely that all the observed events in GWTC3 can be explained by a single formation channel.
 As GW detectors sensitivity increase, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
 
 % Randomness paragraph
-Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
+Due to thae implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
 This introduces significant inefficiency in our root-finding algorithm.
 The main stochasticity in \texttt{COSMIC} comes from natal kick, which significantly affect the evolution pathway of low mass events such as BNS events.
 The effect of natal kick is suppressed for heavier mass events due to fallback.
@@ -224,7 +244,33 @@ This can only be done if we have explicit control over the random variables that
 
 % Need for selection bias to recover intrinsic distribution
 
+
+
+% Gradient decending in the evolutionary parameter space is much more efficent than rejection sampling.
+% Potential pitfall of interpreting this result.
 % Need for full autodiff.
+
+By leveraging gradient-based optimization strategy, obtaining posterior samples in the evolutionary parameter space is much more efficient than rejection sampling.
+In each optimization step during the root-finding process, the current state of the guess and its gradient provide useful information about where the root might be.
+In contrast to sampling algorithm, which discard the sample whenever it is not accepted.
+This greatly benefit the efficiency of the root-finding process.
+
+On the other hand, this method is not a sampling algorithm, but a coordinate transform of the posterior samples.
+One should pay extra caution in interpreting the posterior samples in the evolutionary parameter space.
+Since posterior samples in the observable space can have multiple roots in the evolutionary parameter space,
+the relatively weighting of these roots becomes ambiguous when the number of roots is large.
+For example, should we consider roots that are close to each other a single root or multiple roots?
+If we have two clusters of roots, the relative number of roots within each cluster would determine the relative weight of each mode.
+Note that since they both map to the same observable posterior sample within the acceptance threshold, all weighting assigned are equally valid from a "matching data" standpoint.
+This leave the interpretation of the posterior in the evolutionary parameter space ambiguous.
+In our case, we found empirically each posterior sample may at most only correspond to a handful of roots (most of the posterior samples have a unique root.), therefore we choose to assign each weight to each root,
+and we have checked the posterior samples produced by this method for events discussed in this paper agree with direct sampling using a uniform prior.
+This is due to the behavior of posterior in the evolutionary parameter space are larger determined by the distribution in the observable space instead of multiple possible roots per posterior sample.
+We leave a detail comparison between this method and direct sampling to future studies.
+
+Another technical note is we use finite differencing to estimate the gradient of the objective function, which could be a significant source of error near transition points in the evolutionary parameter space.
+Also, finite differencing is increasing inefficiency as we increase the dimensionality of the problem.
+To improve the accuracy and efficiency in estimating the gradient of objective function, automatic differentiation is a promising feature that modeler should consider incorporating in their population synthesis code in the future.
 
 
 We hope this letter would motivate the community to build the relevant infrastructure mentioned above,
