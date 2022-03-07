@@ -29,23 +29,17 @@ In this
 
 \section{Introduction}
 
-\begin{enumerate}
-\item We have more and more event
-\item Problem with population synthesis -> Need for developing algorithm to explore the high dimensional space
-\item We run the event backward in time
-\end{enumerate}
+As gravitational-wave (GW) detectors sensitivity improve, the rapid increase of GW detectors shifts out 
+\kw{think about the first sentence.}
 
-To understand the origin of gravitational wave (GW) events,
-modeller 
-
-
+A very common way to study the origin of detected GW events is through forward modelling of GW progenitor.
+Forward modelling of a binary system start with a set of initial binary parameters,
+then evolve it according to the physics of interest until some stopping criteria is met.
+This usually mean either a merger event or the binary system stays stable for a Hubble time.
 
 While forward modelling has been the canonical pathway to simulate binary systems and compare to GW observation,
 it is not necessarily the most efficient way to constraint the underlying physical model.
-Forward modelling of a binary system start with a set of initial binary parameters,
-then evolve it until some stopping criteria is met,
-typically either a merger event or the binary system stays stable for a Hubble time.
-The problem is, most of the systems do not end in a merger, and the systems ending up as merger events do not necessarily agree with the observation.
+Most of the systems do not end in a merger, and the systems ending up as merger events do not necessarily agree with the observation.
 This means if we want to evolve a binary to match the observation by pure trial and error, a large fraction of computation will be wasted in trying initial binary configurations that are not related to the observation.
 To alleviate this inefficiency, the community often takes a population approach --- instead of trying to match binary systems to observations event by event,
 one can draw systems from an initial population, forward model each member in that population then match it to the observed population properties.
@@ -56,15 +50,19 @@ This is a problem when the target of a study is to understand these less studied
 or they should vary the family of distributions.
 In general, it is unclear how one can cover all possible distribution that may agree with the observation in generating a suite of simulations.
 The problem worsen as we increase the dimensionality of the parameter space.
+
 Indeed, one of the most common skepticism population synthesis studies receives is a simulations set usually only cover a small subdomain of the entire parameter space,
 i.e. only vary a number of hyper-parameters while holding all others fixed to some "default" values.
+Even with recently development on using emulators to speed up the simulation process, training the emulators also require a decent amount of samples in the parameter space of interest.
+For example, say we want to emulate a model with 10 parameters, this simplest option for constructing a bank of simulations for training is to lay down a grid. Along each axis we put the barely minimum of $2$ simulations, this would still require $1024$ simulations.
+The fastest kind of population synthesis simulation takes about an hour to complete, where longer simulations could take days.
+This means even training an emulator is impossible in high dimensional space.
 
-In this paper, instead of forward modelling a population of binary star to match observed GW events population,
+In this paper, instead of forward modelling a population of binary star to match the observed GW events population,
 we propose a method to "backward" model each GW event to its progenitor state.
-
-
-
-
+The idea is since we can compute the GW event properties of a guess by forward modelling its progenitor,
+we can define the difference between the GW event properties of this guess and the observed GW event properties.
+By minimizing this difference, i.e. solving a root finding problem, we can hope to recover the progenitor properties.
 
 This paper is structured as follows: We detail our method in Sec. ~\ref{sec:method}.
 In Sec. ~\ref{sec:result}, we show the results of applying our method to a number of real events.
@@ -219,7 +217,7 @@ As GW detectors sensitivity increase, we expect to see more and more events that
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
 
 % Randomness paragraph
-Due to thae implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
+Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
 This introduces significant inefficiency in our root-finding algorithm.
 The main stochasticity in \texttt{COSMIC} comes from natal kick, which significantly affect the evolution pathway of low mass events such as BNS events.
 The effect of natal kick is suppressed for heavier mass events due to fallback.
@@ -254,24 +252,24 @@ By leveraging gradient-based optimization strategy, obtaining posterior samples 
 In each optimization step during the root-finding process, the current state of the guess and its gradient provide useful information about where the root might be.
 In contrast to sampling algorithm, which discard the sample whenever it is not accepted.
 This greatly benefit the efficiency of the root-finding process.
-
 On the other hand, this method is not a sampling algorithm, but a coordinate transform of the posterior samples.
 One should pay extra caution in interpreting the posterior samples in the evolutionary parameter space.
-Since posterior samples in the observable space can have multiple roots in the evolutionary parameter space,
+Since posterior samples in the observable space can in principle have multiple roots in the evolutionary parameter space,
 the relatively weighting of these roots becomes ambiguous when the number of roots is large.
 For example, should we consider roots that are close to each other a single root or multiple roots?
 If we have two clusters of roots, the relative number of roots within each cluster would determine the relative weight of each mode.
 Note that since they both map to the same observable posterior sample within the acceptance threshold, all weighting assigned are equally valid from a "matching data" standpoint.
 This leave the interpretation of the posterior in the evolutionary parameter space ambiguous.
-In our case, we found empirically each posterior sample may at most only correspond to a handful of roots (most of the posterior samples have a unique root.), therefore we choose to assign each weight to each root,
+In our case, we found empirically each posterior sample may at most only correspond to a handful of roots (most of the posterior samples have a unique root.), therefore we choose to assign equal weight to each root,
 and we have checked the posterior samples produced by this method for events discussed in this paper agree with direct sampling using a uniform prior.
-This is due to the behavior of posterior in the evolutionary parameter space are larger determined by the distribution in the observable space instead of multiple possible roots per posterior sample.
+This is due to the behavior of posterior in the evolutionary parameter space are larger determined by the posterior distribution in the observable space instead of multiple possible roots per posterior sample.
 We leave a detail comparison between this method and direct sampling to future studies.
 
 Another technical note is we use finite differencing to estimate the gradient of the objective function, which could be a significant source of error near transition points in the evolutionary parameter space.
 Also, finite differencing is increasing inefficiency as we increase the dimensionality of the problem.
 To improve the accuracy and efficiency in estimating the gradient of objective function, automatic differentiation is a promising feature that modeler should consider incorporating in their population synthesis code in the future.
 
+\kw{Mention potential complimentary studies of direct sampling, and how all these suggestions are still useful regardless of whether we are doing root-finding or not.}
 
 We hope this letter would motivate the community to build the relevant infrastructure mentioned above,
 so in the near future we can explore the full parameter space of binary evolution models with the next-generation GW detectors network.
