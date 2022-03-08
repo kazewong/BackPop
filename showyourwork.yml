@@ -1,2 +1,21 @@
 # User configuration; see the docs for details!
 verbose: true
+
+dependencies:
+  src/figures/GW150914_posterior.py
+    - src/data/GW150914_posterior.npz
+    - src/data/GW150914_progenitor_posterior.hdf5
+    - src/data/GW150914_progenitor_posterior_reproject.hdf5
+
+  src/figures/GW150914_posterior_reprojection.py
+    - src/data/GW150914_posterior.npz
+    - src/data/GW150914_progenitor_posterior.hdf5
+    - src/data/GW150914_progenitor_posterior_reproject.hdf5
+
+zenodo:
+  - src/data/GW150914_posterior.npz
+    id: 1030349
+  - src/data/GW150914_progenitor_posterior.hdf5
+    id: 1030349
+  - src/data/GW150914_progenitor_posterior_reproject.hdf5
+    id: 1030349

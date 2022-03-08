@@ -3,8 +3,8 @@ import h5py
 import matplotlib.pyplot as plt
 import copy
 
-import matplotlib as mpl
 import corner
+import matplotlib as mpl
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
 from matplotlib.lines import Line2D
@@ -73,27 +73,26 @@ def get_posterior(value, coord,cut = 1e-2):
     index = np.where((b<criteria))
     return a[index],b[index],weight[index],index
 
-i = 0
-data = h5py.File('/mnt/home/wwong/ceph/GWProject/ProgenitorCatalogue/GWTC3_bse_event_1_merged.hdf5')
-GWTC = np.load('/mnt/ceph/users/wwong/GWProject/GWTC/Processed/Combined_GWTC_m1m2chieffz.npz')
-processed_data = h5py.File('/mnt/home/wwong/ceph/GWProject/ProgenitorCatalogue/GWTC3_bse_event_1_merged_process.hdf5')
-m1_obs = np.median(GWTC['m1'],axis=1)
-m2_obs = np.median(GWTC['m2'],axis=1)
-z_obs = np.median(GWTC['z'],axis=1)
+data = h5py.File('../data/GW150914_progenitor_posterior.hdf5')
+GWTC = np.load('../data/GW150914_posterior.npz')
+processed_data = h5py.File('../data/GW150914_progenitor_posterior_reproject.hdf5')
+m1_obs = np.median(GWTC['m1'])
+m2_obs = np.median(GWTC['m2'])
+z_obs = np.median(GWTC['z'])
 q = m2_obs/m1_obs
 m1_pred = processed_data['m1']
 m2_pred = processed_data['m2']
 t_merge = processed_data['t_merge']
-observables = np.stack([GWTC['m1'],GWTC['m2'],GWTC['z']],axis=2)
+observables = np.stack([GWTC['m1'],GWTC['m2'],GWTC['z']],axis=1)
 posterior_array = []
 weight_array = []
 observable_array = []
 quantile_array = []
 
-a,b,w,index = get_posterior(data['result_value'][i],data['result_coord'][i],1e-1)
+a,b,w,index = get_posterior(data['result_value'][0],data['result_coord'][0],1e-1)
 posterior_array.append(a)
 weight_array.append(w)
-observable_array.append(observables[i][index[0]])
+observable_array.append(observables[index[0]])
 quantile_array.append(np.quantile(a,[0.5-0.95/2,0.5,0.5+0.95/2],axis=0))
 quantile_array = np.array(quantile_array)
 
