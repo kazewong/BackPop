@@ -1,10 +1,11 @@
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - numpy>=1.20
   - pip>=20.3.3
   - python=3.9
   - h5py>=2.3.1
-  - corner>=2.2.1
+  - corner
   - pip:
       - matplotlib>=3.3.3

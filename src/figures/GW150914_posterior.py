@@ -73,9 +73,9 @@ def get_posterior(value, coord,cut = 1e-2):
     index = np.where((b<criteria))
     return a[index],b[index],weight[index],index
 
-data = h5py.File('../data/GW150914_progenitor_posterior.hdf5')
+data = h5py.File('../data/GW150914_progenitor_posterior.hdf5','r')
+processed_data = h5py.File('../data/GW150914_progenitor_posterior_reproject.hdf5','r')
 GWTC = np.load('../data/GW150914_posterior.npz')
-processed_data = h5py.File('../data/GW150914_progenitor_posterior_reproject.hdf5')
 m1_obs = np.median(GWTC['m1'])
 m2_obs = np.median(GWTC['m2'])
 z_obs = np.median(GWTC['z'])
