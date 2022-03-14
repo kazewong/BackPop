@@ -167,8 +167,11 @@ A varying KL divergence means this particular event is subjected to randomness i
 \item KL divergence?
 \end{enumerate}
 
-We show our main result in figure \ref{fig:GW150914_posterior}. 
+
+We show a portion of the joint posterior of the progenitor parameters and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
 \kw{Recover ratio of the posterior sample goes here.}
+
+The full posterior is available in appendix \kw{Or we should w=put a link to the dataset?}
 
 
 \begin{figure*}
@@ -202,7 +205,26 @@ The green contour is the posterior plotted using all of LVK posterior samples.
 We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
 \kw{Qoute the KL divergence.}
 
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{static/GW150914_CE_SMT.pdf}
+\caption{}
+\label{fig:GW150914_CE_SMT}
+\end{figure}
 \kw{Add figure of stable mass transfer vs common envelope}
+
+\begin{figure}
+\caption{}
+\label{fig:GW150914_M1_M2_q3}
+\end{figure}
+
+
+The most important point in this paper is illustrated in figure \ref{fig:GW150914_M1_M2_q3}.
+We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $q_3$,
+this means if we fixed the value of $q_3$ instead of allowing it to jointly vary with all other parameters,
+we would miss the samples that do not match the fixed value of $q_3$.
+Comparing our result with 
+\kw{Add figure showing hyper-parameters are important to recovering the progenitor parameters incorrectly.}
 
 \section{Discussion}
 \label{sec:discussion}
