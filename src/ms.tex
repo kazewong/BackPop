@@ -222,9 +222,11 @@ We can see the reprojected posterior agrees very well with the original posterio
 The most important point in this paper is illustrated in figure \ref{fig:GW150914_M1_M2_q3}.
 We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $q_3$,
 this means if we fixed the value of $q_3$ instead of allowing it to jointly vary with all other parameters,
-we would miss the samples that do not match the fixed value of $q_3$.
-Comparing our result with 
-\kw{Add figure showing hyper-parameters are important to recovering the progenitor parameters incorrectly.}
+we would miss the samples that do not match the chosen value of $q_3$.
+By folding in the hyper-parameters into the root-finding algorithm,
+we can capture the correlation between 
+\kw{Dartboard comparsion} Comparing our result with 
+\kw{Add figure showing hyper-parameters are important to recovering the progenitor parameters correctly.}
 
 \section{Discussion}
 \label{sec:discussion}
@@ -237,9 +239,13 @@ The most obvious advantage our method provides is it returns the joint posterior
 This enables a data-driven way to study the distribution of hyper-parameters,
 i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
 we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters,
-without making specific assumption such as fixing the hyper-parameters for all types of event.
+without making specific assumptions such as fixing the hyper-parameters for all types of event.
  
-\kw{Talk about GW150914.}
+In this work we showcase the power of the proposed method with two events, GW150914 and GW191129.
+We show the joint posterior of the two events' progenitor parameters and hyper-parameters.
+In particular, to the authors knowledge, this is the first time the correlation between progenitor parameters and hyper-parameters is shown.
+Our work is not only a more efficient way to study GW events' progenitors,
+but also allows the possibility of measuring the astrophysics related the binary evolution.
 
 % Rate analysis is now just counting, like what's done in phenomenological model, instead of forward modelling.
 Another perk of our method is the "rate" calculation is now independent of assumed initial condition such as a particular star formation rate model,
@@ -259,6 +265,10 @@ Alternative channels such as dynamic formation channel will be needed to explain
 As pointed out in the literature \kw{Cite mike}, it is unlikely that all the observed events in GWTC3 can be explained by a single formation channel.
 As GW detectors sensitivity increase, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
+In this paper, our main focus is to illustrate the concept of "back-propagating" GW events posterior sample in this work,
+highlighting the capability of our method and motivating the community to build the next generation population synthesis code that can work with our method.
+To avoid cluttering of focus, we discuss the physical implication of the result presented in this work under our specific assumption (i.e. using \texttt{COSMIC} as our evolutionary function) in a companion paper.
+
 
 % Randomness paragraph
 Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
