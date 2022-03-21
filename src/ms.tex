@@ -8,6 +8,10 @@
 \usepackage{xcolor}
 \definecolor{rb4}{HTML}{27408B}
 \newcommand{\kw}[1]{{\color{rb4}[KW: #1 ]}}
+% \setlength{\floatsep}{0cm}
+% \setlength{\textfloatsep}{0cm}
+% \setlength{\belowcaptionskip}{-5pt}
+% \setlength{\abovecaptionskip}{-5pt}
 % Begin!
 \begin{document}
 \title{Backpropagating Gravitational wave events}
@@ -212,9 +216,8 @@ and we show a portion of the joint posterior of the progenitor parameters and hy
 
 The full posterior is available in appendix \kw{Or we should put a link to the dataset?}
 
-
-\begin{figure*}[h!]
-\includegraphics[width=0.98\textwidth]{static/GW150914_corner_zoomed.pdf}
+\begin{figure*}[h]
+\includegraphics[width=\textwidth]{static/GW150914_corner_zoomed.pdf}
 \caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
 $M_1$ and $M_2$ are the progenitors' masses. $\log{Z}$ is log metallicity at ZAMS.
 $z$ is the redshift at ZAMS. 
