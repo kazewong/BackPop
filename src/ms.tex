@@ -51,7 +51,7 @@ or they should vary the family of distributions.
 In general, it is unclear how one can cover all possible distribution that may agree with the observation in generating a suite of simulations.
 The problem worsen as we increase the dimensionality of the parameter space.
 
-Indeed, one of the most common skepticism population synthesis studies receives is a simulations set usually only cover a small subdomain of the entire parameter space,
+Indeed, one of the most common skepticism population synthesis studies receives is a simulation set usually only cover a small subdomain of the entire parameter space,
 i.e. only vary a number of hyper-parameters while holding all others fixed to some "default" values.
 Even with recently development on using emulators to speed up the simulation process, training the emulators also require a decent amount of samples in the parameter space of interest.
 For example, say we want to emulate a model with 10 parameters, this simplest option for constructing a bank of simulations for training is to lay down a grid. Along each axis we put the barely minimum of $2$ simulations, this would still require $1024$ simulations.
@@ -167,17 +167,20 @@ A varying KL divergence means this particular event is subjected to randomness i
 \item KL divergence?
 \end{enumerate}
 
-We show our main result in figure \ref{fig:GW150914_posterior}. 
+
+We show a portion of the joint posterior of the progenitor parameters and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
 \kw{Recover ratio of the posterior sample goes here.}
+
+The full posterior is available in appendix \kw{Or we should put a link to the dataset?}
 
 
 \begin{figure*}
-\includegraphics[width=0.98\textwidth]{static/GW150914_corner.pdf}
+\includegraphics[width=0.98\textwidth]{static/GW150914_corner_zoomed.pdf}
 \caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
 $M_1$ and $M_2$ are the progenitors' masses. $\log{t_{orb}}, e, \log{Z}$ are the progenitor binary's log orbital period, eccentricity and log metallicity at ZAMS.
 $\alpha$ is the common envelope efficiency.
 $f_{\rm acc}$ is the fraction of mass accreted during stable mass transfer.
-$q_{\rm crit 3,4}$ are the ciritical mass during \kw{Katie fill in},
+$q_{\rm crit 3,4}$ are the critical mass during \kw{Katie fill in},
 $\sigma$ is the mean magnitude of the Maxwellian distribution characterizing natal kick strength.
 }
 \label{fig:GW150914_posterior}
@@ -202,7 +205,29 @@ The green contour is the posterior plotted using all of LVK posterior samples.
 We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
 \kw{Qoute the KL divergence.}
 
-\kw{Add figure of stable mass transfer vs common envelope}
+
+% \begin{figure}
+% \includegraphics[width=0.49\textwidth]{static/GW150914_CE_SMT.pdf}
+% \caption{}
+% \label{fig:GW150914_CE_SMT}
+% \end{figure}
+% \kw{Add figure of stable mass transfer vs common envelope}
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{static/GW150914_m1m2alpha.png}
+\caption{}
+\label{fig:GW150914_m1_m2_alpha}
+\end{figure}
+
+
+The most important point in this paper is illustrated in figure \ref{fig:GW150914_m1_m2_alpha}.
+We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $\alpha$,
+this means if we fixed the value of $\alpha$ instead of allowing it to jointly vary with all other parameters,
+we would miss the samples that do not match the chosen value of $\alpha$.
+By folding in the hyper-parameters into the root-finding algorithm,
+we can capture the correlation between 
+\kw{Dartboard comparsion} Comparing our result with 
+\kw{Add figure showing hyper-parameters are important to recovering the progenitor parameters correctly.}
 
 \section{Discussion}
 \label{sec:discussion}
@@ -215,9 +240,13 @@ The most obvious advantage our method provides is it returns the joint posterior
 This enables a data-driven way to study the distribution of hyper-parameters,
 i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
 we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters,
-without making specific assumption such as fixing the hyper-parameters for all types of event.
+without making specific assumptions such as fixing the hyper-parameters for all types of event.
  
-\kw{Talk about GW150914.}
+In this work we showcase the power of the proposed method with two events, GW150914 and GW191129.
+We show the joint posterior of the two events' progenitor parameters and hyper-parameters.
+In particular, to the authors knowledge, this is the first time the correlation between progenitor parameters and hyper-parameters is shown.
+Our work is not only a more efficient way to study GW events' progenitors,
+but also allows the possibility of measuring the astrophysics related the binary evolution, especially in capturing the correlation between different hyper-parameters.
 
 % Rate analysis is now just counting, like what's done in phenomenological model, instead of forward modelling.
 Another perk of our method is the "rate" calculation is now independent of assumed initial condition such as a particular star formation rate model,
@@ -237,6 +266,10 @@ Alternative channels such as dynamic formation channel will be needed to explain
 As pointed out in the literature \kw{Cite mike}, it is unlikely that all the observed events in GWTC3 can be explained by a single formation channel.
 As GW detectors sensitivity increase, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
+In this paper, our main focus is to illustrate the concept of "back-propagating" GW events posterior sample in this work,
+highlighting the capability of our method and motivating the community to build the next generation population synthesis code that can work with our method.
+To avoid cluttering of focus, we discuss the physical implication of the result presented in this work under our specific assumption (i.e. using \texttt{COSMIC} as our evolutionary function) in a companion paper.
+
 
 % Randomness paragraph
 Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
@@ -293,26 +326,41 @@ To improve the accuracy and efficiency in estimating the gradient of objective f
 
 \kw{Mention potential complimentary studies of direct sampling, and how all these suggestions are still useful regardless of whether we are doing root-finding or not.}
 
-We hope this letter would motivate the community to build the relevant infrastructure mentioned above,
-so in the near future we can explore the full parameter space of binary evolution models with the next-generation GW detectors network.
+To summarize, we propose a novel method to recover the posterior samples in the evolutionary parameter space for each GW event.
+We point out hyper-parameters in the usual population synthesis simulation context are not actually parameters related to the population,
+but parameters about the evolutionary function.
+This means the binary evolution functions can be constrained on an individual event basis.
+We "back propagate" the posterior in the observable space to the evolutionary parameter space,
+thus allowing us to study hyper-parameters and its correlation with progenitor parameters in a data-driven manner.
+Our method makes less assumption than the traditional forward modelling approach,
+which often fix the hyper-parameters across the entire population.
+Since we are not limited to the fix hyper-parameters assumption, we can explore the behavior of the hyper-parameters across the population much more efficiently.
+While our work lay down a data analysis pathway to understand the population of GW events,
+no physics can be learned without a comprehensive complimentary physical model.
+We hope this letter would motivate the community to build the next generation population synthesis codes that have the following properties:
+first, they should have explicit control over the random variables so marginalizing over random variables can be done more precisely;
+second, they should be as automatically differentiable as much as possible so exploring the evolutionary parameter space is efficient.
+Combining this work and the next generation population synthesis code,
+we can explore the full parameter space of binary evolution models with the next-generation GW detectors network in the near future.
 
 
-Interpretation:
-\begin{enumerate}
-\item Highlight the fact that we turn hyper-parameters into parameters.
-\item Discuss this is need for high dimensional exploration.
-\end{enumerate}
 
-Caveats: 
-\begin{enumerate}
-\item Discuss events that cannot be complete transferred backward. From BSE angle and from LIGO posterior angle. Failure mode in mass.
-\item We only assume BSE
-\item Caveat on marginalizing over random samples.
-\item Prior need to be applied after one translate the posterior, i.e. it is a post-processing step now.
-\item How next generation "Progenitor synthesis" code should be built.
-\item Rate
-\item Failure studies go into appendix
-\end{enumerate}
+% Interpretation:
+% \begin{enumerate}
+% \item Highlight the fact that we turn hyper-parameters into parameters.
+% \item Discuss this is need for high dimensional exploration.
+% \end{enumerate}
+
+% Caveats: 
+% \begin{enumerate}
+% \item Discuss events that cannot be complete transferred backward. From BSE angle and from LIGO posterior angle. Failure mode in mass.
+% \item We only assume BSE
+% \item Caveat on marginalizing over random samples.
+% \item Prior need to be applied after one translate the posterior, i.e. it is a post-processing step now.
+% \item How next generation "Progenitor synthesis" code should be built.
+% \item Rate
+% \item Failure studies go into appendix
+% \end{enumerate}
 
 \section{Acknowledgement}
 
