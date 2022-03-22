@@ -174,29 +174,29 @@ A varying KL divergence means this particular event is subjected to randomness i
     Observables &\ &\  \\
     \hline
     \hline
-    $M_{\rm GW,1}$ & primary mass of the GW event & NA \\
-    $M_{\rm GW,2}$ & secondary mass of the GW event  & NA\\
+    $M_{\rm GW,1}$ & Primary mass of the GW event & NA \\
+    $M_{\rm GW,2}$ & Secondary mass of the GW event  & NA\\
     \hline
     \hline
     Progenitor parameters &\ &\  \\
     \hline
     \hline
-    $M_{\rm ZAMS,1}$ & primary mass at ZAMS & $[10,150]\ M_{\odot}$\\
-    $M_{\rm ZAMS,2}$ & secondary mass at ZAMS & $[10,150]\ M_{\odot}$\\
-    $t_{\rm orb}$ & orbital period at ZAMS & $[5,5000]$ days\\
-    $e$ & eccentricity at ZAMS & $[0,1]$\\
-    $Z$ & metallicity at ZAMS & $[10^{-4},2\times10^{-2}]$\\
-    $z$ & redshift at ZAMS & NA\\
+    $M_{\rm ZAMS,1}$ & Primary mass at ZAMS & $[10,150]\ M_{\odot}$\\
+    $M_{\rm ZAMS,2}$ & Secondary mass at ZAMS & $[10,150]\ M_{\odot}$\\
+    $t_{\rm orb}$ & Orbital period at ZAMS & $[5,5000]$ days\\
+    $e$ & Eccentricity at ZAMS & $[0,1]$\\
+    $Z$ & Metallicity at ZAMS & $[10^{-4},2\times10^{-2}]$\\
+    $z$ & Redshift at ZAMS & NA\\
     \hline
     \hline
     Hyper-parameters &\ &\ \\
     \hline
     \hline
     
-    $\alpha$ & common envelope efficiency & $[0.1,10]$\\
-    $f_{\rm acc}$ & fraction of accretion during stable mass transfer & $[0,1]$\\
+    $\alpha$ & Common envelope efficiency & $[0.1,10]$\\
+    $f_{\rm acc}$ & Fraction of accretion during stable mass transfer & $[0,1]$\\
     $q_{\rm crit,3}$ & & $[0.1,10]$\\
-    $\sigma$ & mean natal kick magnitude & $[10,300]\ {\rm km/h}$\\
+    $\sigma$ & & $[10,300]\ {\rm km/h}$\\
 
 
     \hline
@@ -208,9 +208,17 @@ A varying KL divergence means this particular event is subjected to randomness i
 \end{table*}
     
 We apply the method described in section \ref{sec:method} to the first GW events GW150914.
-The parameters involved in the analysis are tabulated in table \ref{tab:parameters}.
-
-and we show a portion of the joint posterior of the progenitor parameters and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
+The parameters involved in the analysis and the range we allow for finding the root are tabulated in table \ref{tab:parameters}.
+\kw{@Katie state why not spin here.}
+Therefore, we solve the rootfinding problem with only the two component masses in the observable space.
+For progenitor parameters, we characterize each guess with five parameters: the two component masses $M_{\rm ZAMS,1}$ and $M_{\rm ZAMS,2}$, the orbital period $t_{\rm orb}$, the eccentricity $e$, the metallicity $Z$ at ZAMS.
+Note that the progenitor formation redshift is not obtained through the root-finding process.
+This is because the formation redshift does not affect the evolution of the binary, so we do not need to include in the optimization.
+Instead, we compute the time it takes for the binary to evolve from formation to the merger, then we add this time back to the lookback time when this event is observed.
+Using the total lookback time, we can compute the redshift of the binary at formation.
+We adopt the cosmological model in \kw{cite Planck 18} to compute the redshift of the binary at formation.
+For hyper-parameters, we choose parameters that affect binary evolution in \texttt{COSMIC} mostly significantly, including the common envelope efficiency $\alpha$, the fraction of accretion during stable mass transfer $f_{\rm acc}$, the critical mass fraction $q_{\rm crit,3}$, and the accretion rate $\sigma$.
+We show a portion of the joint posterior of the progenitor parameters and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
 
 \kw{Recover ratio of the posterior sample goes here.}
 
@@ -260,7 +268,7 @@ We can see the reprojected posterior agrees very well with the original posterio
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GW150914_m1m2alpha.png}
-\caption{}
+\caption{The posterior samples of GW150914 in the progenitor masses space, colorcoded by the common envelope efficiency $\alpha$ for that sample.}
 \label{fig:GW150914_m1_m2_alpha}
 \end{figure}
 
