@@ -8,6 +8,10 @@
 \usepackage{xcolor}
 \definecolor{rb4}{HTML}{27408B}
 \newcommand{\kw}[1]{{\color{rb4}[KW: #1 ]}}
+% \setlength{\floatsep}{0cm}
+% \setlength{\textfloatsep}{0cm}
+% \setlength{\belowcaptionskip}{-5pt}
+% \setlength{\abovecaptionskip}{-5pt}
 % Begin!
 \begin{document}
 \title{Backpropagating Gravitational wave events}
@@ -117,7 +121,7 @@ For each posterior sample point, we can find the corresponding evolutionary para
 \end{align}
 
 In principle, we should only accept solutions that exactly reproduce the LVK posterior samples in the observable space.
-However, it is not feasible to achieve such condition in practice, therefore we relax the condition in eq.\ref{eq:loss} to a small acceptance threshold, in our case we picked $10^{-2}$.
+However, it is not feasible to achieve such condition in practice, therefore we relax the condition in eq.\ref{eq:loss} to a small acceptance threshold, in our case we picked $10^{-2}$ to be our threshold.
 To make sure we find a reasonably complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses in solving the optimization problem.
 As long as the solution fulfill the acceptance criteria, the root is as valid as all other roots that fulfill the same acceptance criteria, regardless to its initial guess.
 In other word, we have the freedom to choose the set of initial guesses however we think it might benefit the optimization.
@@ -125,14 +129,6 @@ Most of the points in the evolutionary parameter space do not produce mergers, a
 This means the gradient for systems that do not merge is 0, and the root finder would likely to get stuck in such state during the first step.\footnote{On a plateau of constant loss, the root finder performs no better than a random guess. In a high dimensional space, this means the root finder will need a long time to get close to a solution.}
 Therefore, it is beneficial to put initial guesses in region of the evolutionary parameter space that does produce merger.
 To construct a list of initial guesses, we evolve a set of points that we uniformly sampled from the evolutionary parameter space, then keep the points that merge within a Hubble time.
-%Note that this freedom in choosing the initial guess introduces a subtlety in interpreting the posterior in the evolutionary parameter space. \kw{continue explaining}
-
-% \kw{There is a caveat to this initialization. Imagine there are two clusters of posterior points in the evolutionary parameter space, one with N points and one with M points, do we treat each cluster as one point? Or do we give equal weight to each root? This is probably a choice at the end which matters a little bit, and depends on the prior choice, but we should clear the conceptual confusion.
-% Perhaps we can put a heuristic experiment result in appendix: we randomly sample the possible root for each posterior, then use that as the result, and we do it multiple times to show the result doesn't change dramatically.
-% Prior weight across posterior samples may help to alleviate the issue.}
-% \kw{The most robust thing one can do is sample the prior in the evolationary parameter space, pipe it through BSE then the GW PE code. I think it is still subject to the same multiple root problem, and N-M problem will still be there.
-% So in a sense, the only prior we have to take care is really the GW prior.}
-% \kw{Mention how we generate the initial guesses.}
 
 Ideally we would like to have explicit control over all evolutionary parameters.
 In particular, having explicit control over random variables allows us to marginalize over their contribution, so we can focus on progenitor parameters and hyper-parameters.
@@ -167,21 +163,78 @@ A varying KL divergence means this particular event is subjected to randomness i
 \item KL divergence?
 \end{enumerate}
 
+\begin{table*}[hbt!]
+    \begin{center}
+    \begin{tabular}{ l l l }
+    \hline
+    \hline
+    Parameters &  Description & Optimization range\\
+    \hline
+    \hline
+    Observables &\ &\  \\
+    \hline
+    \hline
+    $M_{\rm GW,1}$ & Primary mass of the GW event & NA \\
+    $M_{\rm GW,2}$ & Secondary mass of the GW event  & NA\\
+    \hline
+    \hline
+    Progenitor parameters &\ &\  \\
+    \hline
+    \hline
+    $M_{\rm ZAMS,1}$ & Primary mass at ZAMS & $[10,150]\ M_{\odot}$\\
+    $M_{\rm ZAMS,2}$ & Secondary mass at ZAMS & $[10,150]\ M_{\odot}$\\
+    $t_{\rm orb}$ & Orbital period at ZAMS & $[5,5000]$ days\\
+    $e$ & Eccentricity at ZAMS & $[0,1]$\\
+    $Z$ & Metallicity at ZAMS & $[10^{-4},2\times10^{-2}]$\\
+    $z$ & Redshift at ZAMS & NA\\
+    \hline
+    \hline
+    Hyper-parameters &\ &\ \\
+    \hline
+    \hline
+    
+    $\alpha$ & Common envelope efficiency & $[0.1,10]$\\
+    $f_{\rm acc}$ & Fraction of accretion during stable mass transfer & $[0,1]$\\
+    $q_{\rm crit,3}$ & & $[0.1,10]$\\
+    $\sigma$ & & $[10,300]\ {\rm km/h}$\\
 
+
+    \hline
+    \hline
+    \end{tabular}
+    \caption{A list of parameters we used in this study.}
+    \label{tab:parameters}
+    \end{center}
+\end{table*}
+    
+We apply the method described in section \ref{sec:method} to the first GW events GW150914.
+The parameters involved in the analysis and the range we allow for finding the root are tabulated in table \ref{tab:parameters}.
+\kw{@Katie state why not spin here.}
+Therefore, we solve the rootfinding problem with only the two component masses in the observable space.
+For progenitor parameters, we characterize each guess with five parameters: the two component masses $M_{\rm ZAMS,1}$ and $M_{\rm ZAMS,2}$, the orbital period $t_{\rm orb}$, the eccentricity $e$, the metallicity $Z$ at ZAMS.
+Note that the progenitor formation redshift is not obtained through the root-finding process.
+This is because the formation redshift does not affect the evolution of the binary, so we do not need to include in the optimization.
+Instead, we compute the time it takes for the binary to evolve from formation to the merger, then we add this time back to the lookback time when this event is observed.
+Using the total lookback time, we can compute the redshift of the binary at formation.
+We adopt the cosmological model in \kw{cite Planck 18} to compute the redshift of the binary at formation.
+For hyper-parameters, we choose parameters that affect binary evolution in \texttt{COSMIC} mostly significantly, including the common envelope efficiency $\alpha$, the fraction of accretion during stable mass transfer $f_{\rm acc}$, the critical mass fraction $q_{\rm crit,3}$, and the accretion rate $\sigma$.
 We show a portion of the joint posterior of the progenitor parameters and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
+
 \kw{Recover ratio of the posterior sample goes here.}
 
 The full posterior is available in appendix \kw{Or we should put a link to the dataset?}
 
-
-\begin{figure*}
-\includegraphics[width=0.98\textwidth]{static/GW150914_corner_zoomed.pdf}
+\begin{figure*}[h]
+\includegraphics[width=\textwidth]{static/GW150914_corner_zoomed.pdf}
 \caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
-$M_1$ and $M_2$ are the progenitors' masses. $\log{t_{orb}}, e, \log{Z}$ are the progenitor binary's log orbital period, eccentricity and log metallicity at ZAMS.
+$M_1$ and $M_2$ are the progenitors' masses. $\log{Z}$ is log metallicity at ZAMS.
+$z$ is the redshift at ZAMS. 
 $\alpha$ is the common envelope efficiency.
 $f_{\rm acc}$ is the fraction of mass accreted during stable mass transfer.
-$q_{\rm crit 3,4}$ are the critical mass during \kw{Katie fill in},
-$\sigma$ is the mean magnitude of the Maxwellian distribution characterizing natal kick strength.
+$q_{\rm crit 3}$ are the critical mass during \kw{Katie fill in},
+Note that the redshift is not fitted during the root finding process.
+Once we have find the evolutionary parameters, we add the time it would take the progenitor to merge to the lookback time of the observed posterior sample,
+then from the total lookback time we can compute the redshift at ZAMS.
 }
 \label{fig:GW150914_posterior}
 \end{figure*}
@@ -215,7 +268,7 @@ We can see the reprojected posterior agrees very well with the original posterio
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GW150914_m1m2alpha.png}
-\caption{}
+\caption{The posterior samples of GW150914 in the progenitor masses space, colorcoded by the common envelope efficiency $\alpha$ for that sample.}
 \label{fig:GW150914_m1_m2_alpha}
 \end{figure}
 
