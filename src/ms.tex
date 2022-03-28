@@ -8,6 +8,7 @@
 \usepackage{xcolor}
 \definecolor{rb4}{HTML}{27408B}
 \newcommand{\kw}[1]{{\color{rb4}[KW: #1 ]}}
+\newcommand{\wf}[1]{\textcolor{cyan}{WF: #1}}
 % \setlength{\floatsep}{0cm}
 % \setlength{\textfloatsep}{0cm}
 % \setlength{\belowcaptionskip}{-5pt}
@@ -42,7 +43,7 @@ then evolve it according to the physics of interest until some stopping criteria
 This usually mean either a merger event or the binary system stays stable for a Hubble time.
 
 While forward modelling has been the canonical pathway to simulate binary systems and compare to GW observation,
-it is not necessarily the most efficient way to constraint the underlying physical model.
+it is not necessarily the most efficient way to constrain the underlying physical model.
 Most of the systems do not end in a merger, and the systems ending up as merger events do not necessarily agree with the observation.
 This means if we want to evolve a binary to match the observation by pure trial and error, a large fraction of computation will be wasted in trying initial binary configurations that are not related to the observation.
 To alleviate this inefficiency, the community often takes a population approach --- instead of trying to match binary systems to observations event by event,
@@ -54,6 +55,7 @@ This is a problem when the target of a study is to understand these less studied
 or they should vary the family of distributions.
 In general, it is unclear how one can cover all possible distribution that may agree with the observation in generating a suite of simulations.
 The problem worsen as we increase the dimensionality of the parameter space.
+\wf{This says what you want to say, but it's a bit wordy right now---I'll return to it, but it would be good to tighten up the language a lot.}
 
 Indeed, one of the most common skepticism population synthesis studies receives is a simulation set usually only cover a small subdomain of the entire parameter space,
 i.e. only vary a number of hyper-parameters while holding all others fixed to some "default" values.
