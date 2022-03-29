@@ -86,13 +86,13 @@ which includes $\bm{\theta'}$, $\bm{\lambda}$, and $\bm{X}$.
 
 Once all the parameters including a particular draw of all the random variables are known,
 the population synthesis code is a deterministic function that transforms the properties of the progenitors into the GW parameters.
-Hence, the probability of obtaining a GW event with parameters $\bm{\theta}$ given the progenitor parameters $\bm{\theta}'$ is given by
+Hence, the probability of obtaining a GW event with parameters $\bm{\theta}$ given the progenitor parameters $\bm{\Theta}$ is given by
 
 \begin{align}
     p(\bm{\theta}|\bm{\Theta}) &= \bm{\delta}(\bm{f}(\bm{\Theta})-\bm{\theta}),
 \end{align}
 
-where $\bm{f}$ represents the population synthesis code.
+where $\bm{f}$ represents the evolution encoded by the population synthesis model with fixed random parameters $\bm{X}$.
 
 While it is straightforward to write down the "forward" probability, the "backward" probability is more complicated since multiple evolutionary parameters can produce the same GW event.
 Using Bayes theorem, the probability of an event with evolutionary parameters given the GW parameters can be derived as following
