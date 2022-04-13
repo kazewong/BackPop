@@ -151,8 +151,9 @@ On the other hand, the reprojection could subject to stochasticity in the evolut
 Instead of reprojecting the posterior only once, we reproject the posterior multiple times with different random seeds and check whether the KL divergence varies significantly.
 A varying KL divergence means this particular event is subjected to randomness in the evolution function, hence one should take extra caution in interpreting the result.
 
-To ensure 
-
+On top of using the raw result from the root-finding process, we also perform MCMC sampling \footnote{We use sampling package \texttt{emcee}\kw{cite} for the MCMC.} using the roots to initialize the MCMC chains.
+The two results agree well with each other.
+This should eliminate all concern related to the ambiguity in interpreting the roots because MCMC result should not depend on the initialization.less
 \section{Result}
 \label{sec:result}
 
@@ -370,9 +371,7 @@ If we have two clusters of roots, the relative number of roots within each clust
 Note that since they both map to the same observable posterior sample within the acceptance threshold, all weighting assigned are equally valid from a "matching data" standpoint.
 This leave the interpretation of the posterior in the evolutionary parameter space ambiguous.
 In our case, we found empirically each posterior sample may at most only correspond to a handful of roots (most of the posterior samples have a unique root.), therefore we choose to assign equal weight to each root.
-On top of using the raw result from the root-finding process, we also perform MCMC sampling \footnote{We use sampling package \texttt{emcee}\kw{cite} for the MCMC.} using the roots to initialize the MCMC chains.
-The two results agree well with each other.
-This should eliminate all concern related to the ambiguity in interpreting the roots because MCMC result should not depend on the initialization.
+
 The potential reason for the good agreement between MCMC and the root finding is due to the behavior of posterior in the evolutionary parameter space are larger determined by the posterior distribution in the observable space instead of multiple possible roots per posterior sample.
 We have also compared two MCMC results, one is initialized using the roots and another is initialized using samples drawn from a uniform prior.
 We found empirically the MCMC result using the roots as initialization converges at least an order of magnitude faster than the uniform prior initialization.
