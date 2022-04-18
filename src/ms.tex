@@ -27,7 +27,13 @@
 \date{\today}
 
 \begin{abstract}
-In this
+Population synthesis simulation is the main workhorse for extracting physical information from a population of gravitational wave (GW) observations.
+Unfortunately, current pathways for comparing simulations to observations are not scalable to high dimenionsnailty.
+In addition, it is very common to assume a particular distribution for "hyper-parameters" for the entire population (often a fixed value), such as common envelope efficiency.
+This limits the flexibility of the model hence potential to discover complex relations between hyper-parameters.
+In this work, we introduce a new paradiagm to extract physical information from GW observations.
+We propose an inference pipeline to jointly infer the posterior density of both progenitor parameters (e.g. ZAMS masses) and hyper-parameters for each observation in GWTC3.
+We showcase the effectiveness of this pipeline with GW150914, as well as its flexibility in studying a population of GW observations. 
 \end{abstract}
 
 %\maketitle
@@ -114,11 +120,8 @@ catalogs \citep{Veitch2015,Ashton2019,Romero-Shaw2020,GWTC-3} to develop samples
 of progenitor parameters, hyper-parameters, and random variables in
 $\bm{\Theta}$ from a posterior density.
 
-\kw{Talk about the MCMC}
-
 Since the gravitational wave likelihood function
-ultimately depends only on the GW parameters $\theta$, and GWTC3 have already
-produced samples over these parameters from a posterior density 
+ultimately depends only on the GW parameters $\theta$, and GWTC3 already has samples over these parameters from a posterior density 
 \begin{equation}
     p\left( \bm{\theta} \mid d \right) \propto p\left( d \mid \bm{\theta} \right) \pi_\mathrm{GW} \left( \bm{\theta} \right),
 \end{equation}
@@ -126,57 +129,19 @@ where $\pi_\mathrm{GW}$ is the prior density used for sampling,
 we can save the computation cost in evaluating the GW likelihood by rewriting the posterior density of $\Theta$ in terms of the posterior density of $\theta$, namely
 
 \begin{align}
-    p(\Theta | d) = \frac{p(\theta(\Theta)| d) \pi(\Theta)}{\pi_\mathrm{GW}(\theta)}.
+    p(\Theta | d) = \frac{p(\theta(\Theta)| d) \pi(\Theta)}{\pi_\mathrm{GW}(\theta)},
 \end{align}
+which we applies a kernel density estimator to the posterior samples released in GWTC3 to estimate $p(\theta(\Theta)|d)$.
 
 Including hyper-parameters and random variables in the sampling drastically increase the dimensionality of the problem,
 which makes the sampling process more computationally expensive and harder to converge.
-To speed up the convergence, we 
+To speed up the convergence, we first solve a root-finding problem to find points that are close to the bulk of the posterior density,
+then we use those points to initialize a set of chains in the MCMC process.
 
 
-
-\section{Method}
-\label{sec:method}
-
-We define the parameters that describe the progenitor's properties such as ZAMS masses and eccentricity as progenitor parameters $\bm{\theta'}$,
-the parameters that control different physical prescriptions such as wind strength and common envelope efficiency as hyper-parameters $\bm{\lambda}$,
-and random variables that affect certain stochastic process such as whether natal kick unbinds a binary as $\bm{X}$.
-To avoid clutter in the following derivation,
-we denote all the parameters related to mapping a particular progenitor system into a GW event collectively as evolutionary parameters $\bm{\Theta}$,
-which includes $\bm{\theta'}$, $\bm{\lambda}$, and $\bm{X}$.
-
-Once all the parameters including a particular draw of all the random variables are known,
-the population synthesis code is a deterministic function that transforms the properties of the progenitors into the GW parameters.
-Hence, the probability of obtaining a GW event with parameters $\bm{\theta}$ given the progenitor parameters $\bm{\Theta}$ is given by
-
-\begin{align}
-    p(\bm{\theta}|\bm{\Theta}) &= \bm{\delta}(\bm{f}(\bm{\Theta})-\bm{\theta}),
-\end{align}
-
-where $\bm{f}$ represents the evolution encoded by the population synthesis model with fixed random parameters $\bm{X}$.
-
-While it is straightforward to write down the "forward" probability, the "backward" probability is more complicated since multiple evolutionary parameters can produce the same GW event.
-Using Bayes theorem, the probability of an event with evolutionary parameters given the GW parameters can be derived as following
-
-\begin{align}
-    p(\bm{\Theta}|\bm{\theta}) &= \frac{p(\bm{\theta}|\bm{\Theta})p(\bm{\Theta})}{p(\bm{\theta})}, \nonumber \\
-    &= \frac{p(\bm{\theta}|\bm{\Theta})p(\bm{\Theta})}{\int p(\bm{\theta}|\bm{\Theta}) p(\bm{\Theta}) d\bm{\Theta}}, \nonumber \\
-    &= \frac{\bm{\delta}(\bm{f}(\bm{\Theta})-\bm{\theta})p(\bm{\Theta})}{\int d\bm{\theta} \bm{\delta}(f(\bm{\Theta})-\bm{\theta})p(\bm{\Theta})}.
-\label{eq:backward_prob}
-\end{align}
-
-Using the result in eq.\ref{eq:backward_prob},
-the probability of an event having evolutionary parameters given data can be obtained by marginalizing over the GW parameters
-
-\begin{align}
-    p(\bm{\Theta}|d) &= \int p(\bm{\Theta}|\bm{\theta}) p(\bm{\theta}|d) d\bm{\theta}\\
-    &= \frac{1}{N}\sum_{i=1}^{N} p(\bm{\Theta}|\bm{\theta}_i). \label{eq:evolutionary_posterior}
-\end{align}
-
-The term $p(\bm{\theta}|d)$ is the inferred posterior probability for a particular event, which is usually presented by the LVK collaboration in the form of posterior samples.
-In eq.\ref{eq:evolutionary_posterior}, we use importance sampling to turn the integration into a sum over the posterior samples.
-
-For each posterior sample point, we can find the corresponding evolutionary parameters by solving an optimization problem that minimize the mean square difference between the GW event parameters and evolutionary parameters, i.e. 
+The root-finding procedure is described as followed:
+For each posterior sample point in the GW observables space,
+we can find the corresponding evolutionary parameters by solving an optimization problem that minimize the mean square difference between the GW event parameters and evolutionary parameters, i.e. 
 
 \begin{align}
 \mathcal{L}(\bm{\Theta},\bm{\theta}) = ||f(\bm{\Theta})-\bm{\theta}||^2
@@ -214,9 +179,7 @@ On the other hand, the reprojection could subject to stochasticity in the evolut
 Instead of reprojecting the posterior only once, we reproject the posterior multiple times with different random seeds and check whether the KL divergence varies significantly.
 A varying KL divergence means this particular event is subjected to randomness in the evolution function, hence one should take extra caution in interpreting the result.
 
-On top of using the raw result from the root-finding process, we also perform MCMC sampling \footnote{We use sampling package \texttt{emcee}\kw{cite} for the MCMC.} using the roots to initialize the MCMC chains.
-The two results agree well with each other.
-This should eliminate all concern related to the ambiguity in interpreting the roots because MCMC result should not depend on the initialization.less
+
 \section{Result}
 \label{sec:result}
 
@@ -347,20 +310,22 @@ we can capture the correlation between
 \kw{Dartboard comparsion} Comparing our result with 
 \kw{Add figure showing hyper-parameters are important to recovering the progenitor parameters correctly.}
 
+\kw{Add population figure?}
+
 \section{Discussion}
 \label{sec:discussion}
 
 
 We present a new pathway to understand binary evolution with GW events in this paper.
 Instead of forward modelling an assumed distribution of initial binary to the observed population,
-we solve a root-finding problem to find the best initial binary parameters that reproduce the posterior distribution for each event. 
+we find the corresponding evolutionary parameters for each GW events. 
 The most obvious advantage our method provides is it returns the joint posterior distribution of progenitor parameters and hyper-parameters for each event.
 This enables a data-driven way to study the distribution of hyper-parameters,
 i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
 we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters,
 without making specific assumptions such as fixing the hyper-parameters for all types of event.
  
-In this work we showcase the power of the proposed method with two events, GW150914 and GW191129.
+In this work we showcase the power of the proposed method with GW150914.
 We show the joint posterior of the two events' progenitor parameters and hyper-parameters.
 In particular, to the authors knowledge, this is the first time the correlation between progenitor parameters and hyper-parameters is shown.
 Our work is not only a more efficient way to study GW events' progenitors,
@@ -391,18 +356,17 @@ To avoid cluttering of focus, we discuss the physical implication of the result 
 
 % Randomness paragraph
 Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
-This introduces significant inefficiency in our root-finding algorithm.
+This introduces significant inefficiency in our root-finding and sampling algorithm.
 The main stochasticity in \texttt{COSMIC} comes from natal kick, which significantly affect the evolution pathway of low mass events such as BNS events.
 The effect of natal kick is suppressed for heavier mass events due to fallback.
-This means events with the root-finding process for lighter masses are subject to stochasticity of the function,
-where the root-finding process for heavier events behaves as if the evolutionary function we use are deterministic.
-Indeed, we see this behavior in a couple of case studies.
-For heavy event such as GW150914, the reprojected posterior agrees with the data posterior.
-For light event such as GW170817, although during the root-finding process the convergence criteria is met,
-the reprojected posterior does not agree with the data posterior.
-Also, due to computational limitation, we only try 1000 different initial guesses per posterior sample in the root-finding process.
+This means events with lighter masses are subject to stochasticity of the function,
+where the sampling process for heavier events behaves as if the evolutionary function we use are deterministic.
+% Indeed, we see this behavior in a couple of case studies.
+% For heavy event such as GW150914, the reprojected posterior agrees with the data posterior.
+% For light event such as GW170817, although during the root-finding process the convergence criteria is met,
+% the reprojected posterior does not agree with the data posterior.
+Due to computational limitation, we only try 1000 different initial guesses per posterior sample in the root-finding process.
 This means any posterior sample that has a probability of merging rarer than 1 in 1000 could be missed.
-\kw{comment on the low mass ratio end.}
 Obviously the problems which comes with the randomness can be alleviated by performing more tries per posterior sample,
 but this is not scalable in practice.
 On top of limitation in efficiency, some formation channels require explicit control of random variables by construction.
@@ -421,31 +385,30 @@ This can only be done if we have explicit control over the random variables that
 % Potential pitfall of interpreting this result.
 % Need for full autodiff.
 
-By leveraging gradient-based optimization strategy, obtaining posterior samples in the evolutionary parameter space is much more efficient than rejection sampling.
-In each optimization step during the root-finding process, the current state of the guess and its gradient provide useful information about where the root might be.
-In contrast to sampling algorithm, which discard the sample whenever it is not accepted.
-This greatly benefit the efficiency of the root-finding process.
-On the other hand, this method is not a sampling algorithm, but a coordinate transform of the posterior samples.
-One should pay extra caution in interpreting the posterior samples in the evolutionary parameter space.
-Since posterior samples in the observable space can in principle have multiple roots in the evolutionary parameter space,
-the relatively weighting of these roots becomes ambiguous when the number of roots is large.
-For example, should we consider roots that are close to each other a single root or multiple roots?
-If we have two clusters of roots, the relative number of roots within each cluster would determine the relative weight of each mode.
-Note that since they both map to the same observable posterior sample within the acceptance threshold, all weighting assigned are equally valid from a "matching data" standpoint.
-This leave the interpretation of the posterior in the evolutionary parameter space ambiguous.
-In our case, we found empirically each posterior sample may at most only correspond to a handful of roots (most of the posterior samples have a unique root.), therefore we choose to assign equal weight to each root.
+% By leveraging gradient-based optimization strategy, obtaining posterior samples in the evolutionary parameter space is much more efficient than rejection sampling.
+% In each optimization step during the root-finding process, the current state of the guess and its gradient provide useful information about where the root might be.
+% In contrast to sampling algorithm, which discard the sample whenever it is not accepted.
+% This greatly benefit the efficiency of the root-finding process.
+% On the other hand, this method is not a sampling algorithm, but a coordinate transform of the posterior samples.
+% One should pay extra caution in interpreting the posterior samples in the evolutionary parameter space.
+% Since posterior samples in the observable space can in principle have multiple roots in the evolutionary parameter space,
+% the relatively weighting of these roots becomes ambiguous when the number of roots is large.
+% For example, should we consider roots that are close to each other a single root or multiple roots?
+% If we have two clusters of roots, the relative number of roots within each cluster would determine the relative weight of each mode.
+% Note that since they both map to the same observable posterior sample within the acceptance threshold, all weighting assigned are equally valid from a "matching data" standpoint.
+% This leave the interpretation of the posterior in the evolutionary parameter space ambiguous.
+% In our case, we found empirically each posterior sample may at most only correspond to a handful of roots (most of the posterior samples have a unique root.), therefore we choose to assign equal weight to each root.
 
-The potential reason for the good agreement between MCMC and the root finding is due to the behavior of posterior in the evolutionary parameter space are larger determined by the posterior distribution in the observable space instead of multiple possible roots per posterior sample.
-We have also compared two MCMC results, one is initialized using the roots and another is initialized using samples drawn from a uniform prior.
-We found empirically the MCMC result using the roots as initialization converges at least an order of magnitude faster than the uniform prior initialization.
-This makes sense since the roots basically eliminate the long burn-in needed to go from random location in the evolutionary parameters to the most probable region.
-We leave a detail comparison between this method and direct sampling to future studies.
+% The potential reason for the good agreement between MCMC and the root finding is due to the behavior of posterior in the evolutionary parameter space are larger determined by the posterior distribution in the observable space instead of multiple possible roots per posterior sample.
+% We have also compared two MCMC results, one is initialized using the roots and another is initialized using samples drawn from a uniform prior.
+% We found empirically the MCMC result using the roots as initialization converges at least an order of magnitude faster than the uniform prior initialization.
+% This makes sense since the roots basically eliminate the long burn-in needed to go from random location in the evolutionary parameters to the most probable region.
+% We leave a detail comparison between this method and direct sampling to future studies.
 
 Another technical note is we use finite differencing to estimate the gradient of the objective function, which could be a significant source of error near transition points in the evolutionary parameter space.
 Also, finite differencing is increasing inefficiency as we increase the dimensionality of the problem.
 To improve the accuracy and efficiency in estimating the gradient of objective function, automatic differentiation is a promising feature that modeler should consider incorporating in their population synthesis code in the future.
 
-\kw{Mention potential complimentary studies of direct sampling, and how all these suggestions are still useful regardless of whether we are doing root-finding or not.}
 
 To summarize, we propose a novel method to recover the posterior samples in the evolutionary parameter space for each GW event.
 We point out hyper-parameters in the usual population synthesis simulation context are not actually parameters related to the population,
