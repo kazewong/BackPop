@@ -28,7 +28,7 @@
 
 \begin{abstract}
 Population synthesis simulation is the main workhorse for extracting physical information from a population of gravitational wave (GW) observations.
-Unfortunately, current pathways for comparing simulations to observations are not scalable to high dimenionsnailty.
+Unfortunately, current pathways for comparing simulations to observations are not scalable to high dimensionality.
 In addition, it is very common to assume a particular distribution for "hyper-parameters" for the entire population (often a fixed value), such as common envelope efficiency.
 This limits the flexibility of the model hence potential to discover complex relations between hyper-parameters.
 In this work, we introduce a new paradiagm to extract physical information from GW observations.
@@ -40,7 +40,7 @@ We showcase the effectiveness of this pipeline with GW150914, as well as its fle
 
 \section{Introduction}
 
-As the rate of detection of gravitational-wave (GW) increase with the sensitivity of the GW detector network \kw{},
+As the rate of detection of gravitational-wave (GW) increase with the sensitivity of the GW detector network \kw{cite},
 understanding astrophysical processes related to progenitors of GW events through analyzing a population of GW events has become more popular \kw{cite}.
 A very common way to study the origin of detected GW events is through population synthesis simulation \kw{cite},
 which evolves a population of binaries to form a population of GW events.
@@ -83,8 +83,8 @@ This paper is structured as follows: We detail our method in Sec. ~\ref{sec:meth
 In Sec. ~\ref{sec:result}, we show the results of applying our method to a number of real events.
 We discuss the implications of this work and future direction in Sec. ~\ref{sec:discussion}.
 
-\section{Method Rewrite}
-\label{sec:method-rewrite}
+\section{Method}
+\label{sec:method}
 
 \wf{Re-writing the methods section with a new viewpoint, gonna try to eventually merge the content.}
 
@@ -129,7 +129,7 @@ where $\pi_\mathrm{GW}$ is the prior density used for sampling,
 we can save the computation cost in evaluating the GW likelihood by rewriting the posterior density of $\Theta$ in terms of the posterior density of $\theta$, namely
 
 \begin{align}
-    p(\Theta | d) = \frac{p(\theta(\Theta)| d) \pi(\Theta)}{\pi_\mathrm{GW}(\theta)},
+    p(\Theta | d) = \frac{p(\theta(\Theta)| d) \pi(\Theta)}{\pi_\mathrm{GW}(\theta(\Theta))},
 \end{align}
 which we applies a kernel density estimator to the posterior samples released in GWTC3 to estimate $p(\theta(\Theta)|d)$.
 
@@ -182,14 +182,6 @@ A varying KL divergence means this particular event is subjected to randomness i
 
 \section{Result}
 \label{sec:result}
-
-\begin{enumerate}
-\item Raw posterior of successful events.
-\item Trace back the event's $z_{\rm ZAMS}$.
-\item Reproject to observable space
-\item Evidence ratio?
-\item KL divergence?
-\end{enumerate}
 
 \begin{table*}[hbt!]
     \begin{center}
@@ -319,17 +311,18 @@ we can capture the correlation between
 We present a new pathway to understand binary evolution with GW events in this paper.
 Instead of forward modelling an assumed distribution of initial binary to the observed population,
 we find the corresponding evolutionary parameters for each GW events. 
+In this work we first showcase the power of the proposed method with GW150914.
+We show the joint posterior of the two events' progenitor parameters and hyper-parameters.
+In particular, to the authors' knowledge, this is the first time the correlation between progenitor parameters and hyper-parameters is explored.
+Our work is not only a more efficient way to study GW events' progenitors,
+but also allows the possibility of measuring the astrophysics related the binary evolution, especially in capturing the correlation between different hyper-parameters.
+
+To further illustrate the power of the method, we show the inferred common envelope efficiency depends on the progenitor masses.
 The most obvious advantage our method provides is it returns the joint posterior distribution of progenitor parameters and hyper-parameters for each event.
 This enables a data-driven way to study the distribution of hyper-parameters,
 i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
 we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyper-parameters,
 without making specific assumptions such as fixing the hyper-parameters for all types of event.
- 
-In this work we showcase the power of the proposed method with GW150914.
-We show the joint posterior of the two events' progenitor parameters and hyper-parameters.
-In particular, to the authors knowledge, this is the first time the correlation between progenitor parameters and hyper-parameters is shown.
-Our work is not only a more efficient way to study GW events' progenitors,
-but also allows the possibility of measuring the astrophysics related the binary evolution, especially in capturing the correlation between different hyper-parameters.
 
 % Rate analysis is now just counting, like what's done in phenomenological model, instead of forward modelling.
 Another perk of our method is the "rate" calculation is now independent of assumed initial condition such as a particular star formation rate model,
@@ -338,7 +331,6 @@ Once we have pull back the GW event posterior from the observable space to the e
 we can apply the same methods we use to account for the rate in the observable space.
 In the observable space, the overall rate is basically a normalization that is defined in the local universe i.e. the local merger rate. \kw{cite}
 In the evolutionary parameter space, we can instead fit for the production rate of merger events at some redshift.
-\kw{Talk about prior are now in post-processing instead of pre-processing.}
 
 
 % Single formation channel and fundamental limitation on that.
@@ -427,24 +419,6 @@ second, they should be as automatically differentiable as much as possible so ex
 Combining this work and the next generation population synthesis code,
 we can explore the full parameter space of binary evolution models with the next-generation GW detectors network in the near future.
 
-
-
-% Interpretation:
-% \begin{enumerate}
-% \item Highlight the fact that we turn hyper-parameters into parameters.
-% \item Discuss this is need for high dimensional exploration.
-% \end{enumerate}
-
-% Caveats: 
-% \begin{enumerate}
-% \item Discuss events that cannot be complete transferred backward. From BSE angle and from LIGO posterior angle. Failure mode in mass.
-% \item We only assume BSE
-% \item Caveat on marginalizing over random samples.
-% \item Prior need to be applied after one translate the posterior, i.e. it is a post-processing step now.
-% \item How next generation "Progenitor synthesis" code should be built.
-% \item Rate
-% \item Failure studies go into appendix
-% \end{enumerate}
 
 \section{Acknowledgement}
 
