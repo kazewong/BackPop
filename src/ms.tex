@@ -262,7 +262,6 @@ We reproject the recovered posterior to the observable space, and compare the KL
 For GW150914, the KL divergence between the reprojected posterior and the original posterior is \kw{fill later} on average.
 The KL divergence stays stable for reprojecting with different random seeds.
 
-
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GW150914_reprojection.pdf}
 \caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.
@@ -272,9 +271,7 @@ The green contour is the posterior plotted using all of LVK posterior samples.
 }
 \label{fig:GW150914_reprojection}
 \end{figure}
-
 We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
-\kw{Qoute the KL divergence.}
 
 
 % \begin{figure}
@@ -290,7 +287,13 @@ We can see the reprojected posterior agrees very well with the original posterio
 \label{fig:GW150914_m1_m2_alpha}
 \end{figure}
 
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{static/GWTC3_alpha_mass.pdf}
+\caption{This figure is ugly as fucked now. Let's change it in later iteration}
+\label{fig:GWTC3_alpha_mass}
+\end{figure}
 
+\kw{Talk about implication on single event posterior.}
 The most important point in this paper is illustrated in figure \ref{fig:GW150914_m1_m2_alpha}.
 We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $\alpha$,
 this means if we fixed the value of $\alpha$ instead of allowing it to jointly vary with all other parameters,
@@ -298,9 +301,22 @@ we would miss the samples that do not match the chosen value of $\alpha$.
 By folding in the hyper-parameters into the root-finding algorithm,
 we can capture the correlation between 
 \kw{Dartboard comparsion} Comparing our result with 
-\kw{Add figure showing hyper-parameters are important to recovering the progenitor parameters correctly.}
 
-\kw{Add population figure?}
+\kw{Discuss implication in population.}
+To illustrate the potential benefit of our method in the population, we perform the same analysis for most of the events in GWTC3.
+
+Plotted in figure \ref{fig:GWTC3_alpha_mass} is the constraint of $f_{\rm acc}$ for all the events included in the analysis sorted by the median of their inferred primary mass in the observable space.
+Note that some events on the extreme of the mass spectrum did not pass the KL divergence test we proposed in section \ref{sec:method}.
+\kw{Double check}On the low mass end, the events are more subjected to random fluctuation because natal kick is less modulated by fallback in lighter system, so the reprojected 
+On the high mass end, \texttt{COSMIC} struggles to produce events in the pair instability supernova mass gap,
+so the posterior in the evolutionary parameter space only correspond part of the posterior in the observable space, therefore events beyond the PISN mass gap has higher KL divergence.
+
+
+The point of figure \ref{fig:GWTC3_alpha_mass} is to show this method could reveal the correlation between the primary mass in the BBH and the common envelope efficiency.
+A careful treatment of each event in the catalog and discussion related the physical implication of figure \ref{fig:GWTC3_alpha_mass} is beyond the scope of this paper,
+therefore we defer a detail study of the physics related to the population of GW events in the future.
+
+
 
 \section{Discussion}
 \label{sec:discussion}
