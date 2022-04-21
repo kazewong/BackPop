@@ -23,6 +23,12 @@
 \email{kwong@flatironinstitute.org}
 \flatiron
 
+\author{Katelyn Breivik}
+\flatiron
+
+\author{Will Farr}
+\flatiron
+
 
 \date{\today}
 
@@ -50,35 +56,26 @@ then evolve each individual members according to the physics of interest until s
 This usually mean either a merger event or the binary system stays stable for a Hubble time.
 After this, one can collect all the GW emitting binaries in the synthetic population and compare to the observed population.
 
-\kw{Shorten}
 While forward modelling has been the canonical pathway to simulate binary systems and compare to GW observation,
 it is not necessarily the most efficient way to constrain the underlying physical model.
-Most of the systems do not end in a merger, and the systems ending up as merger events do not necessarily agree with the observation.
-This means if we want to evolve a binary to match the observation by pure trial and error, a large fraction of computation will be wasted in trying initial binary configurations that are not related to the observation.
-To alleviate this inefficiency, the community often takes a population approach --- instead of trying to match binary systems to observations event by event,
-one can draw systems from an initial population, forward model each member in that population then match it to the observed population properties.
-However, this approach is essentially trading one inefficiency with another, since we still need to choose an initial distribution of binary parameters.
-For relatively well-known source properties such as initial masses this is less of a problem,
-but the distribution of some less well-studied properties such as common envelope efficiency is often heuristically chosen to be some simple distribution such as a delta function at some value, i.e. a fixed value for the entire population.
-This is a problem when the target of a study is to understand these less studied parameters, since one either need to justify their choice of distribution with other independent studies,
-or they should vary the family of distributions.
-In general, it is unclear how one can cover all possible distribution that may agree with the observation in generating a suite of simulations.
-The problem worsen as we increase the dimensionality of the parameter space.
-\wf{This says what you want to say, but it's a bit wordy right now---I'll return to it, but it would be good to tighten up the language a lot.}
-
-Indeed, one of the most common skepticism population synthesis studies receives is a simulation set usually only cover a small subdomain of the entire parameter space,
-i.e. only vary a number of hyper-parameters while holding all others fixed to some "default" values.
+One of the most common skepticism population synthesis studies receives is a simulation set usually only cover a small subdomain of the entire parameter space,
+i.e. only vary a number of hyper-parameters (e.g. common envelope efficiency) while holding all others fixed to some "default" values.
 Even with recently development on using emulators to speed up the simulation process, training the emulators also require a decent amount of samples in the parameter space of interest.
-For example, say we want to emulate a model with 10 parameters, this simplest option for constructing a bank of simulations for training is to lay down a grid. Along each axis we put the barely minimum of $2$ simulations, this would still require $1024$ simulations.
+For example, say we want to emulate a model with 10 parameters, this simplest option for constructing a bank of simulations for training is to lay down a grid.
+Along each axis we put the barely minimum of $2$ simulations, this would still require $1024$ simulations.
 The fastest kind of population synthesis simulation takes about an hour to complete, where longer simulations could take days.
-This means even training an emulator is impossible in high dimensional space.
+This means even training an emulator is impossible in a high dimensional space.
+To make the problem even worse, there is no gaurantee the entire population should share the same hyper-parameters (i.e. a delta distribution at a fixed value.),
+which means there could be a large (possibly infinite) family of hyper-parameters distribution one need to test to compare the simulations to the observed data.
 
-In this paper, instead of forward modelling a population of binary star to match the observed GW events population,
-we propose a method to "backward" model each GW event to its progenitor state.
-The idea is since we can compute the GW event properties of a guess by forward modelling its progenitor,
-we can define the difference between the GW event properties of this guess and the observed GW event properties.
-By minimizing this difference, i.e. solving a root finding problem, we can hope to recover the progenitor properties.
-
+However, this issue is not a fundamental issue, but an apparent obstacle because we are approach the problem from an infinitely inefficient angle.
+Since each binary system could in principle come from a different environment, hence they can have different progenitor parameters as well as hyper-parameters.
+What one should do is to ask what is the posterior density in the progenitor and hyper-parameter joint space for each individual binary system,
+then perform population analysis in that space.
+In this paper, we propose a method to "backward" model each GW event to its progenitor state.
+The method is a two stages process:
+first we solve a root finding problem to obtain guesses that are likely to produce the desire system properties in the joint space,
+then we sample the posterior in the joint space with Markov chain Monte Carlo (MCMC) algorithm that is initialized using the root found in the previous stage.
 This paper is structured as follows: We detail our method in Sec. ~\ref{sec:method}.
 In Sec. ~\ref{sec:result}, we show the results of applying our method to a number of real events.
 We discuss the implications of this work and future direction in Sec. ~\ref{sec:discussion}.
