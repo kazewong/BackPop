@@ -37,7 +37,7 @@ Population synthesis simulation is the main workhorse for extracting physical in
 Unfortunately, current pathways for comparing simulations to observations are not scalable to high dimensionality.
 In addition, it is very common to assume a particular distribution for "hyper-parameters" for the entire population (often a fixed value), such as common envelope efficiency.
 This limits the flexibility of the model hence potential to discover complex relations between hyper-parameters.
-In this work, we introduce a new paradiagm to extract physical information from GW observations.
+In this work, we introduce a new paradigm to extract physical information from GW observations.
 We propose an inference pipeline to jointly infer the posterior density of both progenitor parameters (e.g. ZAMS masses) and hyper-parameters for each observation in GWTC3.
 We showcase the effectiveness of this pipeline with GW150914, as well as its flexibility in studying a population of GW observations. 
 \end{abstract}
@@ -133,7 +133,6 @@ which makes the sampling process more computationally expensive and harder to co
 To speed up the convergence, we first solve a root-finding problem to find points that are close to the bulk of the posterior density,
 then we use those points to initialize a set of chains in the MCMC process.
 
-
 The root-finding procedure is described as followed:
 For each posterior sample point in the GW observables space,
 we can find the corresponding evolutionary parameters by solving an optimization problem that minimize the mean square difference between the GW event parameters and evolutionary parameters, i.e. 
@@ -223,21 +222,17 @@ A varying KL divergence means this particular event is subjected to randomness i
 \end{table*}
     
 We apply the method described in section \ref{sec:method} to the first GW events GW150914.
-The parameters involved in the analysis and the range we allow for finding the root are tabulated in table \ref{tab:parameters}.
+The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 \kw{@Katie state why not spin here.}
-Therefore, we solve the rootfinding problem with only the two component masses in the observable space.
+Therefore, we only consider the two component masses in the observable space in the both the root-finding stage and the MCMC stage..
 For progenitor parameters, we characterize each guess with five parameters: the two component masses $M_{\rm ZAMS,1}$ and $M_{\rm ZAMS,2}$, the orbital period $t_{\rm orb}$, the eccentricity $e$, the metallicity $Z$ at ZAMS.
 Note that the progenitor formation redshift is not obtained through the root-finding process.
-This is because the formation redshift does not affect the evolution of the binary, so we do not need to include in the optimization.
+This is because the formation redshift does not affect the evolution of the binary explicitly.
 Instead, we compute the time it takes for the binary to evolve from formation to the merger, then we add this time back to the lookback time when this event is observed.
 Using the total lookback time, we can compute the redshift of the binary at formation.
 We adopt the cosmological model in \kw{cite Planck 18} to compute the redshift of the binary at formation.
 For hyper-parameters, we choose parameters that affect binary evolution in \texttt{COSMIC} mostly significantly, including the common envelope efficiency $\alpha$, the fraction of accretion during stable mass transfer $f_{\rm acc}$, the critical mass fraction $q_{\rm crit,3}$, and the accretion rate $\sigma$.
 We show a portion of the joint posterior of the progenitor parameters and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
-
-\kw{Recover ratio of the posterior sample goes here.}
-
-The full posterior is available in appendix \kw{Or we should put a link to the dataset?}
 
 \begin{figure*}[h]
 \includegraphics[width=\textwidth]{static/GW150914_corner_zoomed.pdf}
@@ -258,6 +253,10 @@ To check the validity of the recovered posterior, it is essential to check wheth
 We reproject the recovered posterior to the observable space, and compare the KL divergence between the original posterior and the reprojected posterior.
 For GW150914, the KL divergence between the reprojected posterior and the original posterior is \kw{fill later} on average.
 The KL divergence stays stable for reprojecting with different random seeds.
+In fig.\ref{fig:GW150914_reprojection}, we can see the reprojected posterior agrees very well with the original posterior.
+Compared to the result shown in a previous study, our result covers almost all the posterior of GW150914 in the masses space,
+which means our result is more consistent with the observation.
+\kw{Do we want to draw comparison with Jeff's result?}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GW150914_reprojection.pdf}
@@ -268,52 +267,45 @@ The green contour is the posterior plotted using all of LVK posterior samples.
 }
 \label{fig:GW150914_reprojection}
 \end{figure}
-We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
-
-
-% \begin{figure}
-% \includegraphics[width=0.49\textwidth]{static/GW150914_CE_SMT.pdf}
-% \caption{}
-% \label{fig:GW150914_CE_SMT}
-% \end{figure}
-% \kw{Add figure of stable mass transfer vs common envelope}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GW150914_m1m2alpha.png}
-\caption{The posterior samples of GW150914 in the progenitor masses space, colorcoded by the common envelope efficiency $\alpha$ for that sample.}
+\caption{The posterior samples of GW150914 in the progenitor masses space, color-coded by the common envelope efficiency $\alpha$ for that sample.}
 \label{fig:GW150914_m1_m2_alpha}
 \end{figure}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GWTC3_alpha_mass.pdf}
-\caption{This figure is ugly as fucked now. Let's change it in later iteration}
+\caption{This figure is ugly as fucked now. Let's change it in later iteration.
+Also replace only with events that pass the KL divergence test.}
 \label{fig:GWTC3_alpha_mass}
 \end{figure}
 
-\kw{Talk about implication on single event posterior.}
-The most important point in this paper is illustrated in figure \ref{fig:GW150914_m1_m2_alpha}.
+% \kw{Talk about implication on single event posterior.}
+Figure \ref{fig:GW150914_m1_m2_alpha} illustrates the importance of inferring both the progenitor parameters and hyper-parameters jointly.
 We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $\alpha$,
 this means if we fixed the value of $\alpha$ instead of allowing it to jointly vary with all other parameters,
 we would miss the samples that do not match the chosen value of $\alpha$.
-By folding in the hyper-parameters into the root-finding algorithm,
-we can capture the correlation between 
-\kw{Dartboard comparsion} Comparing our result with 
+Also, our method shows it is capable to find mode that is hard to find by previous methods.
+\kw{Talk about the high mass branch that is missed by Jeff's paper}
 
-\kw{Discuss implication in population.}
-To illustrate the potential benefit of our method in the population, we perform the same analysis for most of the events in GWTC3.
+% \kw{Discuss implication in population.}
+To illustrate the potential benefit of our method on the population level, we perform the same analysis for all events in GWTC3.
+Plotted in figure \ref{fig:GWTC3_alpha_mass} is the constraint on $f_{\rm acc}$ for events passing the KL divergence test sorted by the median of their primary mass in the observable space.
+We can see $f_{\rm acc}$ increases as the primary mass of the event increases.
+This means the stable mass transfer (SMT) phase of a light binary is preferably non-conservative, whereas the heavier the events are, the more likely their SMT is conservative.
 
-Plotted in figure \ref{fig:GWTC3_alpha_mass} is the constraint of $f_{\rm acc}$ for all the events included in the analysis sorted by the median of their inferred primary mass in the observable space.
-Note that some events on the extreme of the mass spectrum did not pass the KL divergence test we proposed in section \ref{sec:method}.
-\kw{Double check}On the low mass end, the events are more subjected to random fluctuation because natal kick is less modulated by fallback in lighter system, so the reprojected 
-On the high mass end, \texttt{COSMIC} struggles to produce events in the pair instability supernova mass gap,
+Note that some events did not pass the KL divergence test we proposed in section \ref{sec:method}, which we do not include in figure \ref{fig:GWTC3_alpha_mass}.
+Low mass events are more subjected to random fluctuation because natal kick is less modulated by fallback in lighter system,
+so the reprojected posterior may not agree with the original posterior in the observable space consistently when varying the random seed.
+On the other hand, \texttt{COSMIC} struggles to produce events above the pair instability supernova mass cutoff \kw{State cutoff},
 so the posterior in the evolutionary parameter space only correspond part of the posterior in the observable space, therefore events beyond the PISN mass gap has higher KL divergence.
+Events with more extreme mass ratios are not likely to be recovered by the method. \kw{@Katie gives reason?}
 
-
-The point of figure \ref{fig:GWTC3_alpha_mass} is to show this method could reveal the correlation between the primary mass in the BBH and the common envelope efficiency.
-A careful treatment of each event in the catalog and discussion related the physical implication of figure \ref{fig:GWTC3_alpha_mass} is beyond the scope of this paper,
+The point of figure \ref{fig:GWTC3_alpha_mass} is to show this method could in principal reveal the correlation between progenitor parameters and hyper-parameters on a population level.
+A careful treatment of all event in the catalog and discussion related the physical implication of figure \ref{fig:GWTC3_alpha_mass} is beyond the scope of this paper,
 therefore we defer a detail study of the physics related to the population of GW events in the future.
-
-
+Also, despite some events do not pass the KL divergence test, we can still see the correlation in the region where the events are neither affected by randomness nor the PISN mass gap.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -328,7 +320,7 @@ In particular, to the authors' knowledge, this is the first time the correlation
 Our work is not only a more efficient way to study GW events' progenitors,
 but also allows the possibility of measuring the astrophysics related the binary evolution, especially in capturing the correlation between different hyper-parameters.
 
-To further illustrate the power of the method, we show the inferred common envelope efficiency depends on the progenitor masses.
+To further illustrate the power of the method, we show the inferred fraction of accretion during SMT depends on the progenitor masses.
 The most obvious advantage our method provides is it returns the joint posterior distribution of progenitor parameters and hyper-parameters for each event.
 This enables a data-driven way to study the distribution of hyper-parameters,
 i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
@@ -342,6 +334,7 @@ Once we have pull back the GW event posterior from the observable space to the e
 we can apply the same methods we use to account for the rate in the observable space.
 In the observable space, the overall rate is basically a normalization that is defined in the local universe i.e. the local merger rate. \kw{cite}
 In the evolutionary parameter space, we can instead fit for the production rate of merger events at some redshift.
+This also means one can study the progenitor-formation rate in a data-driven manner instead of assuming a particular model.
 
 
 % Single formation channel and fundamental limitation on that.
