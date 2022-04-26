@@ -9,6 +9,7 @@
 \definecolor{rb4}{HTML}{27408B}
 \newcommand{\kw}[1]{{\color{rb4}[KW: #1 ]}}
 \newcommand{\wf}[1]{\textcolor{cyan}{WF: #1}}
+\newcommand{\kb}[1]{\textcolor{pink}{KB: #1}}
 % \setlength{\floatsep}{0cm}
 % \setlength{\textfloatsep}{0cm}
 % \setlength{\belowcaptionskip}{-5pt}
@@ -34,27 +35,44 @@
 
 \begin{abstract}
 Population synthesis simulation is the main workhorse for extracting physical information from a population of gravitational wave (GW) observations.
-Unfortunately, current pathways for comparing simulations to observations are not scalable to high dimensionality.
-In addition, it is very common to assume a particular distribution for "hyper-parameters" for the entire population (often a fixed value), such as common envelope efficiency.
-This limits the flexibility of the model hence potential to discover complex relations between hyper-parameters.
+Unfortunately, current pathways for comparing simulations to observations are not scalable to high dimensionality. 
+\kb{I think we need to substantiate the previous sentence with citations that show this.}
+In addition, it is very common to assume a \kb{set of assumptions, or "hyper-parameters", for how uncertain binary interactions proceed }
+for the entire population (often a fixed value), such as common envelope efficiency.
+This limits the flexibility of the model \kb{and hence the potential} to discover complex relations between hyper-parameters.
 In this work, we introduce a new paradigm to extract physical information from GW observations.
-We propose an inference pipeline to jointly infer the posterior density of both progenitor parameters (e.g. ZAMS masses) and hyper-parameters for each observation in GWTC3.
+We propose an inference pipeline to jointly infer the posterior density of both progenitor parameters (e.g. ZAMS masses) and hyper-parameters 
+\kb{associated with uncertainties in binary evolution} for each observation in GWTC3.
 We showcase the effectiveness of this pipeline with GW150914, as well as its flexibility in studying a population of GW observations. 
 \end{abstract}
 
 %\maketitle
 
 \section{Introduction}
+{\kb{As the detection rate of gravitation waves (GWs) from merging double-compact-object (DCO) binaries increases 
+with the sensitivty of the ground-based GW detector network, the ability to disentangle the astrophysical processes 
+which shape the evolution of GW progenitor populations is becoming increasingly attainable. One of the most common ways
+to study progenitor populations of GW mergers is through population synthesis simulations for a host of formation environments
+including isolated binary stars, triple systems, globular clusters, nuclear star clusters, AGN disks, and more 
+cite Mandel \& Broekgaarden. In these types of studies, the population is forward modeled based on random samples from
+empirically or theoretically motivated distributions of initial parameters which define the age, metallicity, and intrinsic 
+properties of the population like masses, orbital separations, and eccentricites. These initial populations are then evolved
+using a set of assumptions for how astrophysical processes impact the evolution of the DCO merger progenitors, ultimately producing
+a synthetic catalog of mergers which can be compared of observations from ground-based GW detectors.
+}}
 
-As the rate of detection of gravitational-wave (GW) increase with the sensitivity of the GW detector network \kw{cite},
-understanding astrophysical processes related to progenitors of GW events through analyzing a population of GW events has become more popular \kw{cite}.
-A very common way to study the origin of detected GW events is through population synthesis simulation \kw{cite},
-which evolves a population of binaries to form a population of GW events.
-Forward modelling of a population of GW events start with sampling a set of initial binary parameters from some distributions related to the progenitor population,
-such as the initial mass function or star-formation history,
-then evolve each individual members according to the physics of interest until some stopping criteria is met.
-This usually mean either a merger event or the binary system stays stable for a Hubble time.
-After this, one can collect all the GW emitting binaries in the synthetic population and compare to the observed population.
+
+%As the rate of detection of gravitational-wave (GW) increases with the sensitivity of the \kb{ground-based} GW detector network \kw{cite},
+%understanding astrophysical processes related to progenitors of GW events through analyzing a population of GW events has become more popular \kw{cite}. 
+%\kb{I think we can reword the end of this previous sentence -- I should come back to it.}
+%A very common way to study the origin of detected GW events is through population synthesis simulations \kw{cite} \kb{cite Mandel \& Broekgaarden review},
+%which evolve populations of various kinds of binaries to form populations of GW events. \kb{Do we want to do isolated only here? or other channels?}
+%\kb{The process to forward model a population of GW events relies on random samples }
+%Forward modelling of a population of GW events start with sampling a set of initial binary parameters from some distributions related to the progenitor population,
+%such as the initial mass function or star-formation history,
+%then evolve each individual members according to the physics of interest until some stopping criteria is met.
+%This usually mean either a merger event or the binary system stays stable for a Hubble time.
+%After this, one can collect all the GW emitting binaries in the synthetic population and compare to the observed population.
 
 While forward modelling has been the canonical pathway to simulate binary systems and compare to GW observation,
 it is not necessarily the most efficient way to constrain the underlying physical model.
@@ -273,6 +291,14 @@ The green contour is the posterior plotted using all of LVK posterior samples.
 \caption{The posterior samples of GW150914 in the progenitor masses space, color-coded by the common envelope efficiency $\alpha$ for that sample.}
 \label{fig:GW150914_m1_m2_alpha}
 \end{figure}
+
+\begin{figure*}
+    \includegraphics[width=0.98\textwidth]{static/compare_fixed_variable.png}
+    \caption{Comparison of ZAMS masses for binaries which produce GW150914-like mergers for three variations of $\alpha$
+     with fixed set of parameter assumptions matching those of A22 (first three columns) and for binaries which produce 
+     GW150914-like mergers when $\alpha$, $f_{\mathrm{acc}}$, and $q_{c,3}$ are allowed to vary, (fourth column).}
+    \label{fig:compare_fixed_variable}
+    \end{figure*}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GWTC3_alpha_mass.pdf}
