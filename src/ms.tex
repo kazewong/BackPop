@@ -74,38 +74,54 @@ a synthetic catalog of mergers which can be compared of observations from ground
 %This usually mean either a merger event or the binary system stays stable for a Hubble time.
 %After this, one can collect all the GW emitting binaries in the synthetic population and compare to the observed population.
 
-While forward modelling has been the canonical pathway to simulate binary systems and compare to GW observation,
-it is not necessarily the most efficient way to constrain the underlying physical model.
-One of the most common skepticism population synthesis studies receives is a simulation set usually only cover a small subdomain of the entire parameter space,
-i.e. only vary a number of hyper-parameters (e.g. common envelope efficiency) while holding all others fixed to some "default" values.
-Even with recently development on using emulators to speed up the simulation process, training the emulators also require a decent amount of samples in the parameter space of interest.
-For example, say we want to emulate a model with 10 parameters, this simplest option for constructing a bank of simulations for training is to lay down a grid.
-Along each axis we put the barely minimum of $2$ simulations, this would still require $1024$ simulations.
-The fastest kind of population synthesis simulation takes about an hour to complete, where longer simulations could take days.
-This means even training an emulator is impossible in a high dimensional space.
-To make the problem even worse, there is no gaurantee the entire population should share the same hyper-parameters (i.e. a delta distribution at a fixed value.),
-which means there could be a large (possibly infinite) family of hyper-parameters distribution one need to test to compare the simulations to the observed data.
+While forward modelling \kb{entire populations} has been the canonical pathway to \kb{compare simulations and GW observations,}%simulate binary systems and compare to GW observation,
+it is not necessarily the most efficient way to constrain the underlying physical \kb{processes, or "hyper parameters", which drive the evolution of the population}.
+One of the most common skepticisms of population synthesis studies \kb{is that these studies employ} simulation sets which often 
+cover a small subdomain of the entire parameter space \kb{of uncertain physics, or only vary one uncertain process per simulation}
+%i.e. only vary a number of hyper-parameters 
+(e.g. common envelope efficiency) while holding all others fixed to some "default" values \kb{which have not been calibrated to data.}
+Even with recent developments in using emulators to speed up the simulation process, training the emulators 
+\kb{still requires a significant amount of computation to span the wide range of uncertainty.} %require a decent amount of samples in the parameter space of interest.
+\kb{As an} example, \kb{to} emulate a model with $10$ parameters, the simplest \kb{way to construct a training set of simulations is to }
+\kb{run a grid which varies combinations of uncertain physics.} %option for constructing a bank of simulations for training is to lay down a grid.
+\kb{For 10 uncertain physical processes, if we consider $2$ variations }%each axis we put the barely minimum of $2$ simulations, 
+this would still require $1024$ simulations.
+{}\kb{Because population sythesis simulations require hundreds to thousands of cpu hours, training an emulator which spans 
+a high dimensional uncertainty space remains an impossibility at present.}}%The fastest kind of population synthesis simulation takes about an hour to complete, where longer simulations could take days.
+%This means even training an emulator is impossible in a high dimensional space.
+%To make the problem even worse, 
+\kb{This compounds with the fact that} there is no gaurantee the entire population should share the same fixed hyper parameters, 
+\kb{as is often assumed in most population synthesis studies.}
+% (i.e. a delta distribution at a fixed value.),
+%which means 
+\kb{This suggests that} there could be a large (possibly infinite) family of hyper-parameter distributions %one need to test to compare the simulations to the observed data.
+\kb{required to compare data to simulations which span the full set of uncertain physical models.}
+However, this issue is not a fundamental issue, but an apparent obstacle %because 
+\kb{which arises from an inneficient approach to the problem.} %we are approach the problem from an infinitely inefficient angle.
+Furthermore, each binary system could in principle come from a different formation environment and hence %they can 
+have different progenitor parameters as well as hyper parameters \kb{which define uncertain physics associated with each environment}.
+{\kb{In this case, it is advantageous to determine the posterier density in the progenitor and hyper-parameter joint space 
+for each individual binary system, then perform population in analyses in that space.}}
+%What one should do is to ask what is the posterior density in the progenitor and hyper-parameter joint space for each individual binary system,
+%then perform population analysis in that space.
+In this paper, we propose a method to "backward" model each GW event to its progenitor state 
+\kb{while allowing the hyper parameters to vary across the full range of physical uncertainty}
+following a two-stage process.
+First, we solve a root finding problem to obtain guesses that are likely to produce the desired system properties in the joint progenitor--hyper-parameter space.
+We then sample the posterior in the joint space with Markov chain Monte Carlo (MCMC) algorithm that is initialized using the roots found in the previous stage.
 
-However, this issue is not a fundamental issue, but an apparent obstacle because we are approach the problem from an infinitely inefficient angle.
-Since each binary system could in principle come from a different environment, hence they can have different progenitor parameters as well as hyper-parameters.
-What one should do is to ask what is the posterior density in the progenitor and hyper-parameter joint space for each individual binary system,
-then perform population analysis in that space.
-In this paper, we propose a method to "backward" model each GW event to its progenitor state.
-The method is a two stages process:
-first we solve a root finding problem to obtain guesses that are likely to produce the desire system properties in the joint space,
-then we sample the posterior in the joint space with Markov chain Monte Carlo (MCMC) algorithm that is initialized using the root found in the previous stage.
-This paper is structured as follows: We detail our method in Sec. ~\ref{sec:method}.
+The rest of the paper is structured as follows: We detail our method in Sec. ~\ref{sec:method}.
 In Sec. ~\ref{sec:result}, we show the results of applying our method to a number of real events.
 We discuss the implications of this work and future direction in Sec. ~\ref{sec:discussion}.
 
 \section{Method}
 \label{sec:method}
 
-We define the parameters that describe the progenitor's properties such as ZAMS
+We define the parameters that describe the progenitor's zero age main sequence (ZAMS) properties
 masses and eccentricity as progenitor parameters $\bm{\theta'}$, the parameters
-that control different physical prescriptions such as wind strength and common
+that control different uncertain physical prescriptions such as wind strength and common
 envelope efficiency as hyper-parameters $\bm{\lambda}$, and random variables
-that affect certain stochastic process such as whether natal kick unbinds a
+that affect certain stochastic process such as whether CO natal kick unbinds a
 binary as $\bm{X}$. To avoid clutter in the following derivation, we denote all
 the parameters related to mapping a particular progenitor system into a GW event
 collectively as evolutionary parameters $\bm{\Theta}$, which includes
@@ -118,9 +134,11 @@ the GW parameters $\bm{\theta}$:
 \begin{equation}
     \bm{\theta} = \bm{f}\left( \bm{\Theta} \right).
 \end{equation}
-The mapping $\bm{f}$ from $\bm{\Theta}$ to $\bm{\theta}$ can be many-to-one.  
-In order to draw inferences about $\bm{\Theta}$ from gravitational wave data, we
-need to be able to evaluate the likelihood of that data at fixed progenitor
+The mapping $\bm{f}$ from $\bm{\Theta}$ to $\bm{\theta}$ can be many-to-one
+{\kb{due to degeneracies in the different physical processes and initial parameters  
+of the GW event progenitors}}.
+In order to draw inferences about $\bm{\Theta}$ from GW data, we
+must be able to evaluate the likelihood of that data at fixed progenitor
 parameters, namely
 \begin{equation}
     p\left( d \mid \bm{\Theta} \right) = p\left( d \mid \bm{\theta} = \bm{f}\left( \bm{\Theta} \right) \right).
@@ -128,47 +146,56 @@ parameters, namely
 The equality holds because the likelihood depends only on the gravitational waveform generated by
 parameters $\bm{\theta}$ to which the progenitor parameters map onto.  In principle
 this likelihood could be computed at arbitrary values of $\bm{\Theta}$ using the
-same machinery that is used to estimate source parameters in gravitational wave
+same machinery that is used to estimate source parameters in GW
 catalogs \citep{Veitch2015,Ashton2019,Romero-Shaw2020,GWTC-3} to develop samples
 of progenitor parameters, hyper-parameters, and random variables in
 $\bm{\Theta}$ from a posterior density.
 
-Since the gravitational wave likelihood function
+Since the GW likelihood function
 ultimately depends only on the GW parameters $\theta$, and GWTC3 already has samples over these parameters from a posterior density 
 \begin{equation}
     p\left( \bm{\theta} \mid d \right) \propto p\left( d \mid \bm{\theta} \right) \pi_\mathrm{GW} \left( \bm{\theta} \right),
 \end{equation}
 where $\pi_\mathrm{GW}$ is the prior density used for sampling,
-we can save the computation cost in evaluating the GW likelihood by rewriting the posterior density of $\Theta$ in terms of the posterior density of $\theta$, namely
+we can save the computation cost associated with evaluating the GW likelihood by rewriting the posterior 
+density of $\Theta$ in terms of the posterior density of $\theta$, namely
 
 \begin{align}
     p(\Theta | d) = \frac{p(\theta(\Theta)| d) \pi(\Theta)}{\pi_\mathrm{GW}(\theta(\Theta))},
 \end{align}
 which we applies a kernel density estimator to the posterior samples released in GWTC3 to estimate $p(\theta(\Theta)|d)$.
 
-Including hyper-parameters and random variables in the sampling drastically increase the dimensionality of the problem,
-which makes the sampling process more computationally expensive and harder to converge.
-To speed up the convergence, we first solve a root-finding problem to find points that are close to the bulk of the posterior density,
+Including hyper-parameters and random variables %in the sampling 
+drastically increases the dimensionality of the problem,
+which makes the sampling process more computationally expensive and \kb{thus more} to converge.
+To speed up the convergence, we first solve a root-finding problem to find points that are close to the bulk of the posterior density of a GW event,
 then we use those points to initialize a set of chains in the MCMC process.
 
-The root-finding procedure is described as followed:
-For each posterior sample point in the GW observables space,
-we can find the corresponding evolutionary parameters by solving an optimization problem that minimize the mean square difference between the GW event parameters and evolutionary parameters, i.e. 
+%The root-finding procedure is described as follows:
+For each posterior sample point in the GW-observable space,
+we can find the corresponding evolutionary parameters by solving an optimization problem that minimizes 
+the mean square difference between the GW event parameters and evolutionary parameters as:
 
 \begin{align}
-\mathcal{L}(\bm{\Theta},\bm{\theta}) = ||f(\bm{\Theta})-\bm{\theta}||^2
+\mathcal{L}(\bm{\Theta},\bm{\theta}) = ||f(\bm{\Theta})-\bm{\theta}||^2.
 \label{eq:loss}
 \end{align}
 
-In principle, we should only accept solutions that exactly reproduce the LVK posterior samples in the observable space.
-However, it is not feasible to achieve such condition in practice, therefore we relax the condition in eq.\ref{eq:loss} to a small acceptance threshold, in our case we picked $10^{-2}$ to be our threshold.
-To make sure we find a reasonably complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses in solving the optimization problem.
-As long as the solution fulfill the acceptance criteria, the root is as valid as all other roots that fulfill the same acceptance criteria, regardless to its initial guess.
-In other word, we have the freedom to choose the set of initial guesses however we think it might benefit the optimization.
-Most of the points in the evolutionary parameter space do not produce mergers, and for systems that do not merge, we set the binary masses to be 0.
-This means the gradient for systems that do not merge is 0, and the root finder would likely to get stuck in such state during the first step.\footnote{On a plateau of constant loss, the root finder performs no better than a random guess. In a high dimensional space, this means the root finder will need a long time to get close to a solution.}
-Therefore, it is beneficial to put initial guesses in region of the evolutionary parameter space that does produce merger.
-To construct a list of initial guesses, we evolve a set of points that we uniformly sampled from the evolutionary parameter space, then keep the points that merge within a Hubble time.
+In principle, we should only accept solutions that exactly reproduce the LVK posterior samples in the GW-observable space.
+However, it is not feasible to achieve such a condition in practice, therefore we relax the condition in eq.\ref{eq:loss} 
+to a small acceptance threshold. \kb{For this study, we picked a threshold of $10^{-2}$}. To make sure we find a reasonably 
+complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses 
+in solving the optimization problem. As long as the solution fulfills the acceptance criteria, the root is as valid as all 
+other roots that fulfill the same acceptance criteria, \emph{regardless to its initial guess}.
+\kb{This means}, we have the freedom to choose the set of initial guesses however we think might benefit the optimization.
+
+Most of the points in the evolutionary parameter space do not produce DCO mergers in a Hubble time. For systems that do not merge, 
+we set the binary masses to be $0$ such that the gradient for the same systems is also $0$ and leads the root finder to get stuck on 
+its first step.{\footnote{On a plateau of constant loss, the root finder performs no better than a random guess. 
+In a high dimensional space, this means the root finder will need a long time to get close to a solution.}}
+Therefore, it is beneficial to choose initial guesses in region of the evolutionary parameter space that \kb{are very likely to} 
+produce DCO mergers. To construct a list of initial guesses, we evolve a set of \kb{ZAMS parameters} uniformly sampled from the 
+\kb{initial binary} parameter space, then keep the points that merge within a Hubble time.
 
 Ideally we would like to have explicit control over all evolutionary parameters.
 In particular, having explicit control over random variables allows us to marginalize over their contribution, so we can focus on progenitor parameters and hyper-parameters.
