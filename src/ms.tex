@@ -9,7 +9,7 @@
 \definecolor{rb4}{HTML}{27408B}
 \newcommand{\kw}[1]{{\color{rb4}[KW: #1 ]}}
 \newcommand{\wf}[1]{\textcolor{cyan}{WF: #1}}
-\newcommand{\kb}[1]{\textcolor{pink}{KB: #1}}
+\newcommand{\kb}[1]{\textcolor{pink}{#1}}
 % \setlength{\floatsep}{0cm}
 % \setlength{\textfloatsep}{0cm}
 % \setlength{\belowcaptionskip}{-5pt}
@@ -84,12 +84,15 @@ Even with recent developments in using emulators to speed up the simulation proc
 \kb{still requires a significant amount of computation to span the wide range of uncertainty.} %require a decent amount of samples in the parameter space of interest.
 \kb{As an} example, \kb{to} emulate a model with $10$ parameters, the simplest \kb{way to construct a training set of simulations is to }
 \kb{run a grid which varies combinations of uncertain physics.} %option for constructing a bank of simulations for training is to lay down a grid.
-\kb{For 10 uncertain physical processes, if we consider $2$ variations }%each axis we put the barely minimum of $2$ simulations, 
+\kb{For 10 uncertain physical processes, if we consider $2$ variations} %each axis we put the barely minimum of $2$ simulations, 
 this would still require $1024$ simulations.
-{}\kb{Because population sythesis simulations require hundreds to thousands of cpu hours, training an emulator which spans 
-a high dimensional uncertainty space remains an impossibility at present.}}%The fastest kind of population synthesis simulation takes about an hour to complete, where longer simulations could take days.
+\kb{Because population sythesis simulations require hundreds to thousands of cpu hours, }
+\kb{training an emulator which spans a high dimensional uncertainty space remains an impossibility at present.}
+
+%The fastest kind of population synthesis simulation takes about an hour to complete, where longer simulations could take days.
 %This means even training an emulator is impossible in a high dimensional space.
 %To make the problem even worse, 
+
 \kb{This compounds with the fact that} there is no gaurantee the entire population should share the same fixed hyper parameters, 
 \kb{as is often assumed in most population synthesis studies.}
 % (i.e. a delta distribution at a fixed value.),
@@ -101,11 +104,15 @@ However, this issue is not a fundamental issue, but an apparent obstacle %becaus
 Furthermore, each binary system could in principle come from a different formation environment and hence %they can 
 have different progenitor parameters as well as hyper parameters \kb{which define uncertain physics associated with each environment}.
 {\kb{In this case, it is advantageous to determine the posterier density in the progenitor and hyper-parameter joint space 
-for each individual binary system, then perform population in analyses in that space.}}
+for each individual binary system, then perform population in analyses in that space. \citet{Andrews2021} (herafter A21) used \texttt{DartBoard} \citep{Andrews2018} 
+to deterine the ZAMS parameters which produce GW150914-like BBH merger based on posterior samples for GW150914 and a fixed 
+set of hyperparameters which define assumptions for how isolated binary-star interactions proceed using 
+\texttt{COSMIC}, a binary population synthesis code \citep{Breivik2020}.}}
+
 %What one should do is to ask what is the posterior density in the progenitor and hyper-parameter joint space for each individual binary system,
 %then perform population analysis in that space.
 In this paper, we propose a method to "backward" model each GW event to its progenitor state 
-\kb{while allowing the hyper parameters to vary across the full range of physical uncertainty}
+\kb{while allowing the hyper parameters to vary across their full range of physical uncertainty}
 following a two-stage process.
 First, we solve a root finding problem to obtain guesses that are likely to produce the desired system properties in the joint progenitor--hyper-parameter space.
 We then sample the posterior in the joint space with Markov chain Monte Carlo (MCMC) algorithm that is initialized using the roots found in the previous stage.
@@ -182,7 +189,7 @@ the mean square difference between the GW event parameters and evolutionary para
 \end{align}
 
 In principle, we should only accept solutions that exactly reproduce the LVK posterior samples in the GW-observable space.
-However, it is not feasible to achieve such a condition in practice, therefore we relax the condition in eq.\ref{eq:loss} 
+However, it is not feasible to achieve such a condition in practice, therefore we relax the condition in eq.~\ref{eq:loss} 
 to a small acceptance threshold. \kb{For this study, we picked a threshold of $10^{-2}$}. To make sure we find a reasonably 
 complete set of progenitor parameters that corresponds to the posterior sample point, we use 1000 different initial guesses 
 in solving the optimization problem. As long as the solution fulfills the acceptance criteria, the root is as valid as all 
@@ -192,31 +199,40 @@ other roots that fulfill the same acceptance criteria, \emph{regardless to its i
 Most of the points in the evolutionary parameter space do not produce DCO mergers in a Hubble time. For systems that do not merge, 
 we set the binary masses to be $0$ such that the gradient for the same systems is also $0$ and leads the root finder to get stuck on 
 its first step.{\footnote{On a plateau of constant loss, the root finder performs no better than a random guess. 
-In a high dimensional space, this means the root finder will need a long time to get close to a solution.}}
-Therefore, it is beneficial to choose initial guesses in region of the evolutionary parameter space that \kb{are very likely to} 
-produce DCO mergers. To construct a list of initial guesses, we evolve a set of \kb{ZAMS parameters} uniformly sampled from the 
-\kb{initial binary} parameter space, then keep the points that merge within a Hubble time.
+Because of this, a root finder in a high dimensional space will require a significant amount of computation
+to get close to a solution.}} Therefore, it is beneficial to choose initial guesses in region of the evolutionary parameter 
+space that \kb{are very likely to} produce DCO mergers. To construct a list of initial guesses, we evolve a set of 
+\kb{ZAMS parameters} uniformly sampled from the \kb{initial binary} parameter space, then keep the systems that 
+merge within a Hubble time.
 
-Ideally we would like to have explicit control over all evolutionary parameters.
-In particular, having explicit control over random variables allows us to marginalize over their contribution, so we can focus on progenitor parameters and hyper-parameters.
-However, in practice most of the population synthesis simulation code (including \texttt{COSMIC} which we use in this study.) define their random variables implicitly,
-i.e. the random variables are drawn within the program, instead of being arguments of the program.
-This means the function we use to evolve the binary is not a deterministic function but a stochastic function instead. 
-Hence, even if the root-finding algorithm performs perfectly,
-forward modelling this set of roots does not guarantee to reproduce the set of posterior samples due to randomness of the evolution function.
-To assure the recovered progenitor and hyper-parameters robustly corresponds to the posterior in the GW observables space,
-we forward model ("Reproject") the recovered evolutionary parameters to the observables space to check whether the reprojected posterior agrees with the posterior given by the LVK collaboration.
-We use KL divergence to measure the agreement between the two posterior distributions, which is given by
+%Ideally, we would like to have explicit control over all evolutionary parameters.
+\kb{Retaining} explicit control over random variables allows us to marginalize over their contribution, 
+\kb{and thus allows us to} focus on progenitor parameters and hyper-parameters.
+However, in practice most population synthesis codes (including \texttt{COSMIC} which we use in this study) 
+define their random variables implicitly \kb{such that} the random variables are drawn within the program instead of 
+being \kb{passed as arguments.} This means the function we use to evolve the binary is not fully deterministic. % function but a stochastic function instead. 
+\kb{Thus}, even if the root-finding algorithm performs perfectly, forward modelling a set of roots does not 
+guarantee that the \kb{simulated population} reproduces \kb{exactly} the set of posterior samples due to 
+randomness in the evolution \kb{of each binary}. To assure \kb{that} the recovered progenitor and hyper-parameters 
+robustly correspond to the posterior in the GW-observable space, we forward model (or "reproject") the recovered 
+evolutionary parameters to the GW-observable space to check whether the reprojected posterior agrees 
+with the posterior given by the LVK collaboration. We use KL divergence to measure the agreement between the two posterior 
+distributions as:
 \begin{align}
 D_{KL}(P||Q) = \int P(\bm{x}) \log(P(\bm{x})/Q(\bm{x})) dx.
 \label{eq:KLdivergence}
 \end{align}
 
-A small KL divergence means the reprojected \texttt{COSMIC} posterior is similar to the original posterior in the observable space, hence it is a viable channel for that specific event, otherwise it either means \texttt{COSMIC} can only explain part of the posterior or cannot explain the event at all.
-This is completely expected since \texttt{COSMIC} comes with its own assumptions and is expected to fail in reproducing a subset of the event in GWTC3, such as event with at least one component beyond the pair instability supernova massgap.
-On the other hand, the reprojection could subject to stochasticity in the evolution function we use.
-Instead of reprojecting the posterior only once, we reproject the posterior multiple times with different random seeds and check whether the KL divergence varies significantly.
-A varying KL divergence means this particular event is subjected to randomness in the evolution function, hence one should take extra caution in interpreting the result.
+A small KL divergence means the reprojected \texttt{COSMIC} posterior is similar to the original posterior in the 
+observable space, \kb{and is thus} a viable channel for that specific event. Otherwise it either means \texttt{COSMIC} 
+can only explain part of the posterior or cannot explain the event at all. This is completely expected behaviour since 
+\texttt{COSMIC}, \kb{and isolated binary evolution more generally}, carries its own assumptions and is expected to 
+fail in reproducing a subset of the event in GWTC3. \kb{One example of this are GW events} with at least one component 
+\kb{with masses above the} the pair instability supernova mass limit \kb{cite Farmer, and others}.
+\kb{The reprojection could also be} subject to stochasticity in the evolution \kb{of each binary}.
+\kb{To account for this}, we reproject the posterior multiple times with different random seeds and 
+check whether the KL divergence varies significantly. A varying KL divergence means a particular GW event is subject 
+to randomness in the evolution \kb{of the progenitor}, and extra caution should be used when interpreting the result.
 
 
 \section{Result}
@@ -254,8 +270,8 @@ A varying KL divergence means this particular event is subjected to randomness i
     
     $\alpha$ & Common envelope efficiency & $[0.1,10]$\\
     $f_{\rm acc}$ & Fraction of accretion during stable mass transfer & $[0,1]$\\
-    $q_{\rm crit,3}$ & \kw{Katie fill in} & $[0.1,10]$\\
-    $\sigma$ & \kw{Katie fill in}& $[10,300]\ {\rm km/h}$\\
+    $q_{\rm crit,3}$ & Critical mass ratio on the Hertzsprung Gap & $[0.1,10]$\\
+    $\sigma$ & Root mean square of Maxwellian natal kick distribution& $[10,300]\ {\rm km/s}$\\
 
 
     \hline
@@ -266,18 +282,51 @@ A varying KL divergence means this particular event is subjected to randomness i
     \end{center}
 \end{table*}
     
-We apply the method described in section \ref{sec:method} to the first GW events GW150914.
+We apply the method described in section \ref{sec:method} to the first GW event GW150914.
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
-\kw{@Katie state why not spin here.}
-Therefore, we only consider the two component masses in the observable space in the both the root-finding stage and the MCMC stage..
-For progenitor parameters, we characterize each guess with five parameters: the two component masses $M_{\rm ZAMS,1}$ and $M_{\rm ZAMS,2}$, the orbital period $t_{\rm orb}$, the eccentricity $e$, the metallicity $Z$ at ZAMS.
-Note that the progenitor formation redshift is not obtained through the root-finding process.
-This is because the formation redshift does not affect the evolution of the binary explicitly.
-Instead, we compute the time it takes for the binary to evolve from formation to the merger, then we add this time back to the lookback time when this event is observed.
-Using the total lookback time, we can compute the redshift of the binary at formation.
-We adopt the cosmological model in \kw{cite Planck 18} to compute the redshift of the binary at formation.
-For hyper-parameters, we choose parameters that affect binary evolution in \texttt{COSMIC} mostly significantly, including the common envelope efficiency $\alpha$, the fraction of accretion during stable mass transfer $f_{\rm acc}$, the critical mass fraction $q_{\rm crit,3}$, and the accretion rate $\sigma$.
-We show a portion of the joint posterior of the progenitor parameters and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
+{\kb{The spin of BHs formed in isolated binaries depends strongly on the angular 
+momentum transport in massive stars which is still highly uncertain (see however Bavera+, fuller+),}}
+therefore we only consider the two component masses in the observable space in the both the 
+root-finding stage and the MCMC stage. For progenitor parameters, we characterize each guess with 
+five parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the orbital period $t_{\rm orb}$, 
+the eccentricity $e$, the metallicity $Z$ at ZAMS. Note that the progenitor formation redshift is not 
+obtained through the root-finding process because the formation redshift does not \kb{intrinsically} affect 
+the evolution of the binary. Instead, we compute the time it takes for the binary to evolve from 
+formation to the merger and add this time back to the lookback time when a GW event is observed and limit the total 
+time to merger to by less than $13.7\,\rm{Gyr}$.
+Using the total lookback time, we can compute the redshift of the binary at ZAMS formation following the 
+\kw{cite Planck 18} cosmological model. For hyper-parameters, we choose parameters that affect 
+binary evolution in \texttt{COSMIC} mostly significantly for massive stars, including the common envelope 
+efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$, 
+the critical mass ratio which determines whether Roche-overflow mass transfer 
+proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap 
+$q_{\rm crit,3}$, and the root mean square of the Maxwellian distribution
+employed for CO natal kicks, $\sigma$. 
+
+{\kb{Once we obtain a set of binaries which successfuly map the ZAMS parameters and hyper parameters to BBH merger masses, 
+we re-evolve the set of ZAMS parameters with the same physical assumptions as A21, but vary the common envelope efficiency 
+to explore how keeping a fixed model which only varies one hyper parameter affects our analysis. 
+Figure~\ref{fig:compare_fixed_variable} shows the distribution of ZAMS masses for three models (first through third columns), 
+each with a different $\alpha$ but the same hyper parameters as A21, 
+as well as the results of our sampling which allows our hyper parameters to vary (fourth column). We find that holding the accretion 
+efficiency, common envelope and natal kick physics to fixed values greatly reduces the ZAMS parameter space 
+that produces GW150914-like mergers. In contrast, by allowing the hyper parameters to fully span the model uncertainty, we 
+find that there are distinct ZAMS parameters which produce GW150914-like mergers and conversely, ZAMS parameters which 
+fail to produce GW150914-like mergers \emph{regardless of our hyper parameter choice.}}}
+
+\kb{Need to describe the formation channels and gaps here.}
+
+\begin{figure*}
+    \includegraphics[width=0.98\textwidth]{static/compare_fixed_variable.png}
+    \caption{Comparison of ZAMS masses for binaries which produce GW150914-like mergers for three variations of $\alpha$
+     with fixed set of parameter assumptions matching those of A22 (first three columns) and for binaries which produce 
+     GW150914-like mergers when $\alpha$, $f_{\mathrm{acc}}$, and $q_{c,3}$ are allowed to vary, (fourth column).}
+    \label{fig:compare_fixed_variable}
+\end{figure*}
+
+We show a portion of the joint posterior of the progenitor parameters 
+and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
+\kb{We need to describe the interpretation of this as well.}
 
 \begin{figure*}[h]
 \includegraphics[width=\textwidth]{static/GW150914_corner_zoomed_annotated.pdf}
@@ -288,7 +337,8 @@ $\alpha$ is the common envelope efficiency.
 $f_{\rm acc}$ is the fraction of mass accreted during stable mass transfer.
 $q_{\rm crit 3}$ are the critical mass during \kw{Katie fill in},
 Note that the redshift is not fitted during the root finding process.
-Once we have find the evolutionary parameters, we add the time it would take the progenitor to merge to the lookback time of the observed posterior sample,
+Once we have find the evolutionary parameters, we add the time it would take the progenitor 
+to merge to the lookback time of the observed posterior sample,
 then from the total lookback time we can compute the redshift at ZAMS.
 }
 \label{fig:GW150914_posterior}
@@ -297,11 +347,13 @@ then from the total lookback time we can compute the redshift at ZAMS.
 To check the validity of the recovered posterior, it is essential to check whether it is consistent with the original posterior in the observable space.
 We reproject the recovered posterior to the observable space, and compare the KL divergence between the original posterior and the reprojected posterior.
 For GW150914, the KL divergence between the reprojected posterior and the original posterior is \kw{fill later} on average.
-The KL divergence stays stable for reprojecting with different random seeds.
+The KL divergence stays stable for reprojecting with different random seeds. 
+\kb{Can we show this in the figure somehow? Maybe like KL divergence as a function of reprojection number as a lower small panel?}
 In fig.\ref{fig:GW150914_reprojection}, we can see the reprojected posterior agrees very well with the original posterior.
 Compared to the result shown in a previous study, our result covers almost all the posterior of GW150914 in the masses space,
 which means our result is more consistent with the observation.
 \kw{Do we want to draw comparison with Jeff's result?}
+\kb{Yes -- but I think we need to point to Jeff's result in the intro as well.}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GW150914_reprojection.pdf}
@@ -319,13 +371,6 @@ The green contour is the posterior plotted using all of LVK posterior samples.
 \label{fig:GW150914_m1_m2_alpha}
 \end{figure}
 
-\begin{figure*}
-    \includegraphics[width=0.98\textwidth]{static/compare_fixed_variable.png}
-    \caption{Comparison of ZAMS masses for binaries which produce GW150914-like mergers for three variations of $\alpha$
-     with fixed set of parameter assumptions matching those of A22 (first three columns) and for binaries which produce 
-     GW150914-like mergers when $\alpha$, $f_{\mathrm{acc}}$, and $q_{c,3}$ are allowed to vary, (fourth column).}
-    \label{fig:compare_fixed_variable}
-    \end{figure*}
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GWTC3_alpha_mass.pdf}
