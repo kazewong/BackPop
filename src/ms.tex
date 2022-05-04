@@ -295,12 +295,33 @@ binary evolution in \texttt{COSMIC} mostly significantly for massive stars, incl
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$, 
 the critical mass ratio which determines whether Roche-overflow mass transfer 
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap 
-$q_{\rm crit,3}$, and the root mean square of the Maxwellian distribution
+$q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
 employed for CO natal kicks, $\sigma$. 
 
+We show a portion of the joint posterior of the progenitor parameters 
+and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
+\kb{We need to describe the interpretation of this as well.}
+
+\begin{figure*}[h]
+    \includegraphics[width=\textwidth]{static/GW150914_corner_zoomed.png}
+    \caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
+    $M_1$ and $M_2$ are the progenitors' masses. $\log{Z}$ is log metallicity at ZAMS.
+    $z$ is the redshift at ZAMS. 
+    $\alpha$ is the common envelope efficiency.
+    $f_{\rm acc}$ is the fraction of mass accreted during stable mass transfer.
+    $q_{\rm crit 3}$ are the critical mass during \kw{Katie fill in},
+    Note that the redshift is not fitted during the root finding process.
+    Once we have find the evolutionary parameters, we add the time it would take the progenitor 
+    to merge to the lookback time of the observed posterior sample,
+    then from the total lookback time we can compute the redshift at ZAMS.
+    }
+    \label{fig:GW150914_posterior}
+\end{figure*}
+
+% \kw{Talk about implication on single event posterior.}
 Once we obtain a set of binaries which successfully map the ZAMS parameters and hyper-parameters to BBH merger masses, 
 we re-evolve the set of ZAMS parameters with the same physical assumptions as A21, but vary the common envelope efficiency 
-to explore how keeping a fixed model which only varies one hyper parameter affects our analysis. 
+to explore how keeping a fixed model which only varies one hyper-parameter affects our analysis. 
 Figure~\ref{fig:compare_fixed_variable} shows the distribution of ZAMS masses for three models (first through third columns), 
 each with a different $\alpha$ but the same hyper-parameters as A21, 
 as well as the results of our sampling which allows our hyper-parameters to vary (fourth column). We find that holding the accretion 
@@ -308,8 +329,10 @@ efficiency, common envelope and natal kick physics to fixed values greatly reduc
 that produces GW150914-like mergers. In contrast, by allowing the hyper-parameters to fully span the model uncertainty, we 
 find that there are distinct ZAMS parameters which produce GW150914-like mergers and conversely, ZAMS parameters which 
 fail to produce GW150914-like mergers \emph{regardless of our hyper-parameter choice.}
+\kw{@Katie, can you put a frame around the fourth column highlighting it is this work?}
 
 \kb{Need to describe the formation channels and gaps here.}
+\kw{I think this can be very brief. Save the main explanation to the physics paper.}
 
 \begin{figure*}
     \includegraphics[width=0.98\textwidth]{static/compare_fixed_variable.png}
@@ -319,37 +342,21 @@ fail to produce GW150914-like mergers \emph{regardless of our hyper-parameter ch
     \label{fig:compare_fixed_variable}
 \end{figure*}
 
-We show a portion of the joint posterior of the progenitor parameters 
-and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
-\kb{We need to describe the interpretation of this as well.}
-
-\begin{figure*}[h]
-\includegraphics[width=\textwidth]{static/GW150914_corner_zoomed.png}
-\caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
-$M_1$ and $M_2$ are the progenitors' masses. $\log{Z}$ is log metallicity at ZAMS.
-$z$ is the redshift at ZAMS. 
-$\alpha$ is the common envelope efficiency.
-$f_{\rm acc}$ is the fraction of mass accreted during stable mass transfer.
-$q_{\rm crit 3}$ are the critical mass during \kw{Katie fill in},
-Note that the redshift is not fitted during the root finding process.
-Once we have find the evolutionary parameters, we add the time it would take the progenitor 
-to merge to the lookback time of the observed posterior sample,
-then from the total lookback time we can compute the redshift at ZAMS.
-}
-\label{fig:GW150914_posterior}
-\end{figure*}
-
 To check the validity of the recovered posterior, it is essential to check whether it is consistent with the original posterior in the observable space.
 We reproject the recovered posterior to the observable space, and compare the KL divergence between the original posterior and the reprojected posterior.
-For GW150914, the KL divergence between the reprojected posterior and the original posterior is \kw{fill later} on average.
+In particular, we compute KL divergence of the samples obtained from root-finding alone and after MCMC sampling.
+For GW150914, the KL divergence between the reprojected posterior and the original posterior is \kw{fill later}logits on average if we use the root-finding result alone,
+whereas the MCMC result has a higher KL divergence at \kw{fill} logits.
 The KL divergence stays stable for reprojecting with different random seeds. 
 \kb{Can we show this in the figure somehow? Maybe like KL divergence as a function of reprojection number as a lower small panel?}
 \kw{The problem with that is it is basically one dot or a flat line, which is very unentertaining. I wouldn't necessarily want to make a figure out of the KL divergence just because it is pretty boring and distracting.}
-In fig.\ref{fig:GW150914_reprojection}, we can see the reprojected posterior agrees very well with the original posterior.
+In fig.\ref{fig:GW150914_reprojection}, we can see the reprojected posterior from both the root-fidining process alone and the MCMC result agrees well with the original posterior,
+even though the agreement between the MCMC result and the original posterior is not perfect. 
+This degradation of the agreement comes from the fact that we are using a KDE to estimate the posterior density in the observable space.
+Note that the result from root-finding alone and the result from MCMC agrees well in the evolutionary parameter space.
 Compared to the result shown in a previous study, our result covers almost all the posterior of GW150914 in the masses space,
 which means our result is more consistent with the observation.
-\kw{Do we want to draw comparison with Jeff's result?}
-\kb{Yes -- but I think we need to point to Jeff's result in the intro as well.}
+
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{static/GW150914_reprojection.pdf}
@@ -361,29 +368,6 @@ The green contour is the posterior plotted using all of LVK posterior samples.
 \label{fig:GW150914_reprojection}
 \end{figure}
 
-\begin{figure}
-\includegraphics[width=0.49\textwidth]{static/GW150914_m1m2alpha.png}
-\caption{The posterior samples of GW150914 in the progenitor masses space, color-coded by the common envelope efficiency $\alpha$ for that sample.}
-\label{fig:GW150914_m1_m2_alpha}
-\end{figure}
-
-
-\begin{figure}
-\includegraphics[width=0.49\textwidth]{static/GWTC3_alpha_mass.pdf}
-\caption{This figure is ugly as fucked now. Let's change it in later iteration.
-Also replace only with events that pass the KL divergence test.}
-\label{fig:GWTC3_alpha_mass}
-\end{figure}
-
-% \kw{Talk about implication on single event posterior.}
-Figure \ref{fig:GW150914_m1_m2_alpha} illustrates the importance of inferring both the progenitor parameters and hyper-parameters jointly.
-We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $\alpha$,
-this means if we fixed the value of $\alpha$ instead of allowing it to jointly vary with all other parameters,
-we would miss the samples that do not match the chosen value of $\alpha$.
-Also, our method shows it is capable to find mode that is hard to find by previous methods.
-\kw{Talk about the high mass branch that is missed by Jeff's paper}
-
-% \kw{Discuss implication in population.}
 To illustrate the potential benefit of our method on the population level, we perform the same analysis for all events in GWTC3.
 Plotted in figure \ref{fig:GWTC3_alpha_mass} is the constraint on $f_{\rm acc}$ for events passing the KL divergence test sorted by the median of their primary mass in the observable space.
 We can see $f_{\rm acc}$ increases as the primary mass of the event increases.
@@ -400,6 +384,23 @@ The point of figure \ref{fig:GWTC3_alpha_mass} is to show this method could in p
 A careful treatment of all event in the catalog and discussion related the physical implication of figure \ref{fig:GWTC3_alpha_mass} is beyond the scope of this paper,
 therefore we defer a detail study of the physics related to the population of GW events in the future.
 Also, despite some events do not pass the KL divergence test, we can still see the correlation in the region where the events are neither affected by randomness nor the PISN mass gap.
+
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{static/GWTC3_alpha_mass.pdf}
+\caption{This figure is ugly as fucked now. Let's change it in later iteration.
+Also replace only with events that pass the KL divergence test.}
+\label{fig:GWTC3_alpha_mass}
+\end{figure}
+
+% Figure \ref{fig:GW150914_m1_m2_alpha} illustrates the importance of inferring both the progenitor parameters and hyper-parameters jointly.
+% We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $\alpha$,
+% this means if we fixed the value of $\alpha$ instead of allowing it to jointly vary with all other parameters,
+% we would miss the samples that do not match the chosen value of $\alpha$.
+% Also, our method shows it is capable to find mode that is hard to find by previous methods.
+% \kw{Talk about the high mass branch that is missed by Jeff's paper}
+
+% \kw{Discuss implication in population.}
 
 \section{Discussion}
 \label{sec:discussion}
