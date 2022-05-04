@@ -120,6 +120,8 @@ We discuss the implications of this work and future direction in Sec. ~\ref{sec:
 \section{Method}
 \label{sec:method}
 
+
+
 We define the parameters that describe the progenitor's zero age main sequence (ZAMS) properties
 masses and eccentricity as progenitor parameters $\bm{\theta'}$, the parameters
 that control different uncertain physical prescriptions such as wind strength and common
@@ -218,6 +220,7 @@ D_{KL}(P||Q) = \int P(\bm{x}) \log(P(\bm{x})/Q(\bm{x})) dx.
 \label{eq:KLdivergence}
 \end{align}
 
+
 A small KL divergence means the reprojected \texttt{COSMIC} posterior is similar to the original posterior in the 
 observable space, and is thus a viable channel for that specific event. Otherwise, it either means \texttt{COSMIC} 
 can only explain part of the posterior or cannot explain the event at all. This is completely expected behavior since 
@@ -232,7 +235,7 @@ to randomness in the evolution of the progenitor, and extra caution should be us
 
 \section{Result}
 \label{sec:result}
-
+    
 \begin{table*}[hbt!]
     \begin{center}
     \begin{tabular}{ l l l }
@@ -276,7 +279,7 @@ to randomness in the evolution of the progenitor, and extra caution should be us
     \label{tab:parameters}
     \end{center}
 \end{table*}
-    
+
 We apply the method described in section \ref{sec:method} to the first GW event GW150914.
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular 
@@ -301,6 +304,9 @@ employed for CO natal kicks, $\sigma$.
 We show a portion of the joint posterior of the progenitor parameters 
 and hyper-parameters of GW150914 in figure \ref{fig:GW150914_posterior}.
 \kb{We need to describe the interpretation of this as well.}
+\kw{I think we can just hightlight the fact that we have three kinds of correlation, progenitor-hyper, progenitor-hyper, hyper-hyper,
+since the implication is related to figure @Katie made.}
+\kb{Need to describe the formation channels and gaps here.}
 
 \begin{figure*}[h]
     \includegraphics[width=\textwidth]{static/GW150914_corner_zoomed.png}
@@ -331,8 +337,7 @@ find that there are distinct ZAMS parameters which produce GW150914-like mergers
 fail to produce GW150914-like mergers \emph{regardless of our hyper-parameter choice.}
 \kw{@Katie, can you put a frame around the fourth column highlighting it is this work?}
 
-\kb{Need to describe the formation channels and gaps here.}
-\kw{I think this can be very brief. Save the main explanation to the physics paper.}
+
 
 \begin{figure*}
     \includegraphics[width=0.98\textwidth]{static/compare_fixed_variable.png}
@@ -392,15 +397,6 @@ Also, despite some events do not pass the KL divergence test, we can still see t
 Also replace only with events that pass the KL divergence test.}
 \label{fig:GWTC3_alpha_mass}
 \end{figure}
-
-% Figure \ref{fig:GW150914_m1_m2_alpha} illustrates the importance of inferring both the progenitor parameters and hyper-parameters jointly.
-% We can see the posterior samples in $M_1-M_2$ space are spatially correlated with $\alpha$,
-% this means if we fixed the value of $\alpha$ instead of allowing it to jointly vary with all other parameters,
-% we would miss the samples that do not match the chosen value of $\alpha$.
-% Also, our method shows it is capable to find mode that is hard to find by previous methods.
-% \kw{Talk about the high mass branch that is missed by Jeff's paper}
-
-% \kw{Discuss implication in population.}
 
 \section{Discussion}
 \label{sec:discussion}
