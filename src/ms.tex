@@ -37,16 +37,25 @@
 \date{\today}
 
 \begin{abstract}
-Population synthesis simulation is the main workhorse for extracting physical information from a population of gravitational wave (GW) observations.
-\kw{Unfortunately, it is difficult to follow current pathways for comparing simulations to observations when handling problems with a high dimensionality.}
-\kb{I think we need to substantiate the previous sentence with citations that show this.}\kw{We do that in the introduction, is that enough? I reword the statement to be softer.}
-In addition, it is very common to assume a set of assumptions, or "hyper-parameters", for how uncertain binary interactions proceed
-for the entire population (often a fixed value), such as common envelope efficiency.
-This limits the flexibility of the model and hence the potential to discover complex relations between hyper-parameters.
-In this work, we introduce a new paradigm to extract physical information from GW observations.
-We propose an inference pipeline to jointly infer the posterior density of both progenitor parameters (e.g. ZAMS masses) and hyper-parameters 
-\kb{associated with uncertainties in binary evolution} \kw{I don't think we need this addition?} for each observation in GWTC3.
-We showcase the effectiveness of this pipeline with GW150914, as well as its flexibility in studying a population of GW observations. 
+One promising way to extract information about stellar astrophysics from
+gravitational wave catalogs is to compare the catalog to the outputs of
+population synthesis modeling with varying physical assumptions.  The parameter
+space of physical assumptions in population synthesis is high-dimensional and
+the choice of parameters that best represents the evolution of a binary system
+may depend in an as-yet-to-be-determined way on the system's properties; indeed,
+measuring the variation of population synthesis parameter settings with binary
+properties is one of the principal ways to extract information about binary
+astrophysics from catalogs. Here we propose an inference pipeline to
+simultaneously infer the posterior density of stellar progenitor parameters
+(e.g. zero-age main sequence masses) and population synthesis parameter settings
+controlling modeled binary evolution from gravitational wave observations.  Our
+pipeline can efficiently explore the high-dimensional space of population
+synthesis settings and progenitor system properties for each system in a catalog
+of gravitational wave observations.  We apply our pipeline to observations in
+the third LIGO Virgo Kagra Gravitational Wave Transient Catalog (GWTC3).  We
+showcase the effectiveness of this pipeline with a detailed study of the
+progenitor properties and population synthesis settings that produce mergers
+like the observed GW150914.
 \end{abstract}
 
 %\maketitle
