@@ -37,49 +37,49 @@
 \date{\today}
 
 \begin{abstract}
-One promising way to extract information about stellar astrophysics from
-gravitational wave catalogs is to compare the catalog to the outputs of
-population synthesis modeling with varying physical assumptions.  The parameter
-space of physical assumptions in population synthesis is high-dimensional and
-the choice of parameters that best represents the evolution of a binary system
-may depend in an as-yet-to-be-determined way on the system's properties; indeed,
-measuring the variation of population synthesis parameter settings with binary
-properties is one of the principal ways to extract information about binary
-astrophysics from catalogs. Here we propose an inference pipeline to
-simultaneously infer the posterior density of stellar progenitor parameters
-(e.g. zero-age main sequence masses) and population synthesis parameter settings
-controlling modeled binary evolution from gravitational wave observations.  Our
-pipeline can efficiently explore the high-dimensional space of population
-synthesis settings and progenitor system properties for each system in a catalog
-of gravitational wave observations.  We apply our pipeline to observations in
-the third LIGO Virgo Kagra Gravitational Wave Transient Catalog (GWTC3).  We
-showcase the effectiveness of this pipeline with a detailed study of the
-progenitor properties and population synthesis settings that produce mergers
-like the observed GW150914.
-\end{abstract}
-
-%\maketitle
-
-\section{Introduction}
-As the detection rate of gravitation waves (GWs) from merging
-double-compact-object (DCO) binaries increases with the sensitivity of the
-ground-based GW detector network
-\citep{Abbott2018,LIGOScientificCollaboration2015,Buikema2020,Tse2019,Acernese2015,Acernese2019,Aso2013,Akutsu2021},
-we are beginning to constrain the astrophysical processes which shape the
-evolution of GW progenitor populations. One of the most common ways to study
-progenitor populations of GW mergers is through population synthesis simulations
-for a host of formation environments including isolated binary stars, triple
-systems, globular clusters, nuclear star clusters, AGN disks, and more
-\citep{Mandel2022}. \wf{Moar citations here} In these types of studies, the
-population is forward modeled based on random samples from empirically or
-theoretically motivated distributions of initial parameters which define the
-age, metallicity, and intrinsic properties of the population like masses,
-orbital separations, and eccentricities. These initial populations are then
-evolved using a set of assumptions for how astrophysical processes impact the
-evolution of the DCO merger progenitors, ultimately producing a synthetic
-catalog of mergers which can be compared of observations from ground-based GW
-detectors.
-
+    One promising way to extract information about stellar astrophysics from
+    gravitational wave catalogs is to compare the catalog to the outputs of
+    population synthesis modeling with varying physical assumptions.  The parameter
+    space of physical assumptions in population synthesis is high-dimensional and
+    the choice of parameters that best represents the evolution of a binary system
+    may depend in an as-yet-to-be-determined way on the system's properties; indeed,
+    measuring the variation of population synthesis parameter settings with binary
+    properties is one of the principal ways to extract information about binary
+    astrophysics from catalogs. Here we propose an inference pipeline to
+    simultaneously infer the posterior density of stellar progenitor parameters
+    (e.g. zero-age main sequence masses) and population synthesis parameter settings
+    controlling modeled binary evolution from gravitational wave observations.  Our
+    pipeline can efficiently explore the high-dimensional space of population
+    synthesis settings and progenitor system properties for each system in a catalog
+    of gravitational wave observations.  We apply our pipeline to observations in
+    the third LIGO Virgo Kagra Gravitational Wave Transient Catalog (GWTC3).  We
+    showcase the effectiveness of this pipeline with a detailed study of the
+    progenitor properties and population synthesis settings that produce mergers
+    like the observed GW150914.
+    \end{abstract}
+    
+    %\maketitle
+    
+    \section{Introduction}
+    As the detection rate of gravitation waves (GWs) from merging
+    double-compact-object (DCO) binaries increases with the sensitivity of the
+    ground-based GW detector network
+    \citep{Abbott2018,LIGOScientificCollaboration2015,Buikema2020,Tse2019,Acernese2015,Acernese2019,Aso2013,Akutsu2021},
+    we are beginning to constrain the astrophysical processes which shape the
+    evolution of GW progenitor populations. One of the most common ways to study
+    progenitor populations of GW mergers is through population synthesis simulations
+    for a host of formation environments including isolated binary stars, triple
+    systems, globular clusters, nuclear star clusters, AGN disks, and more
+    \citep{Mandel2022}. \wf{Moar citations here} In these types of studies, the
+    population is forward modeled based on random samples from empirically or
+    theoretically motivated distributions of initial parameters which define the
+    age, metallicity, and intrinsic properties of the population like masses,
+    orbital separations, and eccentricities. These initial populations are then
+    evolved using a set of assumptions for how astrophysical processes impact the
+    evolution of the DCO merger progenitors, ultimately producing a synthetic
+    catalog of mergers which can be compared of observations from ground-based GW
+    detectors.
+    
 
 
 %As the rate of detection of gravitational-wave (GW) increases with the sensitivity of the \kb{ground-based} GW detector network \kw{cite},
@@ -95,16 +95,16 @@ detectors.
 %After this, one can collect all the GW emitting binaries in the synthetic population and compare to the observed population.
 
 While forward modelling entire populations has been the canonical pathway to compare simulations and GW observations,
-it is not necessarily the most efficient way to constrain the underlying physical processes, or "hyper-parameters", which drive the evolution of the population.
-One of the most common skepticism of population synthesis studies is that these studies employ simulation sets which often 
+it is not necessarily the most efficient way to constrain the underlying physical processes, or ``hyper-parameters", which drive the evolution of the population.
+One of the most common skepticisms of population synthesis studies is that \kb{they} employ simulation sets which often 
 cover a small subdomain of the entire parameter space of uncertain physics, or only vary one uncertain process per simulation
-(e.g. common envelope efficiency) while holding all others fixed to some "default" values.
+(e.g. common envelope efficiency) while holding all others fixed to some ``default" values.
 On top of this, these values are often not calibrated to data.
 Even with recent developments in using emulators to speed up the simulation process, training the emulators 
 still requires a significant amount of computation to cover a wide range of uncertainty.
 As an example, to emulate a model with $10$ parameters, the simplest way to construct a training set of simulations is to 
 run a grid which varies combinations of uncertain physics.
-For 10 uncertain physical processes, if we consider $2$ variations for each physical process 
+For $10$ uncertain physical processes, if we consider $2$ variations for each physical process 
 this would still require $1024$ simulations.
 Because population synthesis simulations require hundreds to thousands of cpu hours,
 training an emulator which spans a high dimensional uncertainty space remains an impossibility at present.
@@ -128,7 +128,7 @@ However, the method was limited to a single event instead of the population.
 More importantly, the method did not vary the hyper-parameters while sampling the posterior density of the ZAMS parameters,
 which limit its capability to be applied to understand a population of binary systems.
 
-In this paper, we propose a method to "backward" model each GW event to its progenitor state 
+In this paper, we propose a method to ``backward" model each GW event to its progenitor state 
 while allowing the hyper-parameters to vary across their full range of physical uncertainty
 following a two-stage process.
 First, we solve a root finding problem to obtain guesses that are likely to produce the desired system properties in the joint progenitor--hyper-parameter space.
@@ -142,8 +142,8 @@ We discuss the implications of this work and future direction in Sec. ~\ref{sec:
 
 
 
-We define the parameters that describe the progenitor's zero age main sequence (ZAMS) properties
-masses and eccentricity as progenitor parameters $\bm{\theta'}$, the parameters
+We define the progenitor's zero age main sequence (ZAMS) properties like
+mass, orbital period, and eccentricity as progenitor parameters $\bm{\theta'}$, the parameters
 that control different uncertain physical prescriptions such as wind strength and common
 envelope efficiency as hyper-parameters $\bm{\lambda}$, and random variables
 that affect certain stochastic process such as whether CO natal kick unbinds a
@@ -351,12 +351,18 @@ to explore how keeping a fixed model which only varies one hyper-parameter affec
 Figure~\ref{fig:compare_fixed_variable} shows the distribution of ZAMS masses for three models (first through third columns), 
 each with a different $\alpha$ but the same hyper-parameters as A21, 
 as well as the results of our sampling which allows our hyper-parameters to vary (fourth column). We find that holding the accretion 
-efficiency, common envelope and natal kick physics to fixed values greatly reduces the ZAMS parameter space 
+efficiency, $f_{\rm{acc}}$, and common envelope ejection efficiency, $\alpha$, to fixed values greatly reduces the ZAMS parameter space 
 that produces GW150914-like mergers. In contrast, by allowing the hyper-parameters to fully span the model uncertainty, we 
 find that there are distinct ZAMS parameters which produce GW150914-like mergers and conversely, ZAMS parameters which 
-fail to produce GW150914-like mergers \emph{regardless of our hyper-parameter choice.}
-\kw{@Katie, can you put a frame around the fourth column highlighting it is this work?}
-
+fail to produce GW150914-like mergers \emph{regardless of our hyper-parameter choice.} For primary ZAMS masses between 
+$\sim95-135\,M_{\odot}$ and secondary ZAMS masses between $\sim50-95\,M_{\odot}$, we find that there is no combination of accretion
+efficiency and common envelope ejection efficiency which produces merging BBHs that have masses consistent with GW150914's posteriors.
+In this region, if BBHs with masses consistent with GW150914's masses are produced through a combination of $\alpha$ and 
+$f_{\rm{acc}}$, they do not merge in a Hubble time. Conversely, in the region of the fourth column of Figure~\ref{fig:compare_fixed_variable}
+which does produce GW150914-like mergers, the combination of $\alpha$, $f_{\rm{acc}}$, and the ZAMS masses and orbital separations 
+balance to produce BHs with the correct masses that merge within a Hubble time.
+%\kw{@Katie, can you put a frame around the fourth column highlighting it is this work?}
+%\kb{done!}
 
 
 \begin{figure*}
