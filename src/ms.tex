@@ -95,13 +95,8 @@
 %After this, one can collect all the GW emitting binaries in the synthetic population and compare to the observed population.
 
 While forward modelling entire populations has been the canonical pathway to compare simulations and GW observations,
-<<<<<<< HEAD
-it is not necessarily the most efficient way to constrain the underlying physical processes, or ``hyper-parameters", which drive the evolution of the population.
+it is not necessarily the most efficient way to constrain the underlying physical processes, or ``hyperparameters", which drive the evolution of the population.
 One of the most common skepticisms of population synthesis studies is that \kb{they} employ simulation sets which often 
-=======
-it is not necessarily the most efficient way to constrain the underlying physical processes, or "hyperparameters", which drive the evolution of the population.
-One of the most common skepticism of population synthesis studies is that these studies employ simulation sets which often 
->>>>>>> upstream/Rework
 cover a small subdomain of the entire parameter space of uncertain physics, or only vary one uncertain process per simulation
 (e.g. common envelope efficiency) while holding all others fixed to some ``default" values.
 On top of this, these values are often not calibrated to data.
@@ -133,13 +128,8 @@ However, the method was limited to a single event instead of the population.
 More importantly, the method did not vary the hyperparameters while sampling the posterior density of the ZAMS parameters,
 which limit its capability to be applied to understand a population of binary systems.
 
-<<<<<<< HEAD
 In this paper, we propose a method to ``backward" model each GW event to its progenitor state 
 while allowing the hyper-parameters to vary across their full range of physical uncertainty
-=======
-In this paper, we propose a method to "backward" model each GW event to its progenitor state 
-while allowing the hyperparameters to vary across their full range of physical uncertainty
->>>>>>> upstream/Rework
 following a two-stage process.
 First, we solve a root finding problem to obtain guesses that are likely to produce the desired system properties in the joint progenitor--hyper-parameter space.
 We then sample the posterior in the joint space with Markov chain Monte Carlo (MCMC) algorithm that is initialized using the roots found in the previous stage.
@@ -150,15 +140,9 @@ We discuss the implications of this work and future direction in Sec. ~\ref{sec:
 \section{Method}
 \label{sec:method}
 
-<<<<<<< HEAD
-
 
 We define the progenitor's zero age main sequence (ZAMS) properties like
 mass, orbital period, and eccentricity as progenitor parameters $\bm{\theta'}$, the parameters
-=======
-We define the parameters that describe the progenitor's zero age main sequence (ZAMS) properties
-masses and eccentricity as progenitor parameters $\bm{\theta'}$, the parameters
->>>>>>> upstream/Rework
 that control different uncertain physical prescriptions such as wind strength and common
 envelope efficiency as hyperparameters $\bm{\lambda}$, and random variables
 that affect certain stochastic process such as whether CO natal kick unbinds a
@@ -374,17 +358,10 @@ Once we obtain a set of binaries which successfully map the ZAMS parameters and 
 we re-evolve the set of ZAMS parameters with the same physical assumptions as A21, but vary the common envelope efficiency 
 to explore how keeping a fixed model which only varies one hyper-parameter affects our analysis. 
 Figure~\ref{fig:compare_fixed_variable} shows the distribution of ZAMS masses for three models (first through third columns), 
-<<<<<<< HEAD
 each with a different $\alpha$ but the same hyper-parameters as A21, 
 as well as the results of our sampling which allows our hyper-parameters to vary (fourth column). We find that holding the accretion 
 efficiency, $f_{\rm{acc}}$, and common envelope ejection efficiency, $\alpha$, to fixed values greatly reduces the ZAMS parameter space 
 that produces GW150914-like mergers. In contrast, by allowing the hyper-parameters to fully span the model uncertainty, we 
-=======
-each with a different $\alpha$ but the same hyperparameters as A21, 
-as well as the results of our sampling which allows our hyperparameters to vary (fourth column). We find that holding the accretion 
-efficiency, common envelope and natal kick physics to fixed values greatly reduces the ZAMS parameter space 
-that produces GW150914-like mergers. In contrast, by allowing the hyperparameters to fully span the model uncertainty, we 
->>>>>>> upstream/Rework
 find that there are distinct ZAMS parameters which produce GW150914-like mergers and conversely, ZAMS parameters which 
 fail to produce GW150914-like mergers \emph{regardless of our hyper-parameter choice.} For primary ZAMS masses between 
 $\sim95-135\,M_{\odot}$ and secondary ZAMS masses between $\sim50-95\,M_{\odot}$, we find that there is no combination of accretion
