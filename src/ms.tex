@@ -26,6 +26,7 @@
 \flatiron
 
 \author{Katelyn Breivik}
+\email{kbreivik@flatironinstitute.org}
 \flatiron
 
 \author{Will M. Farr}
@@ -252,7 +253,7 @@ check whether the KL divergence varies significantly. A varying KL divergence me
 to randomness in the evolution of the progenitor, and extra caution should be used when interpreting the result.
 
 
-\section{Result}
+\section{Results}
 \label{sec:result}
     
 \begin{table*}[hbt!]
@@ -310,14 +311,15 @@ the eccentricity $e$, the metallicity $Z$ at ZAMS. Note that the progenitor form
 obtained through the root-finding process because the formation redshift does not intrinsically affect 
 the evolution of the binary. Instead, we compute the time it takes for the binary to evolve from 
 formation to the merger and add this time back to the lookback time when a GW event is observed and limit the total 
-time to merger to by less than $13.7\,\rm{Gyr}$.
+time to merger to be less than $13.7\,\rm{Gyr}$.
 Using the total lookback time, we can compute the redshift of the binary at ZAMS formation following the 
-\kw{cite Planck 18} cosmological model.
-The main benefit of post-processing the redshift in this way is we do not rely on a particular assumption
+Planck 2018 cosmological model \citep{Planck2018}.
+The main benefit of post-processing the redshift in this way is that we do not rely on a particular assumption
 of star formation rate (SFR) distribution when we solve for the posterior distribution in redshift.
 This means we can put the prior on formation redshift (or in general, metallicity-redshfit distribution) in
 by reweighting the posterior distribution according to a particular SFR model,
-therefore we do not have to rerun the inference everytime we change the SFR model.
+\kb{and} therefore do not have to rerun the inference everytime we change the SFR model. This is especially helpful
+since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep{Broekgaarden2021}.
 For hyperparameters, we choose parameters that affect 
 binary evolution in \texttt{COSMIC} mostly significantly for massive stars, including the common envelope 
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$, 
@@ -327,11 +329,53 @@ $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
 employed for CO natal kicks, $\sigma$. 
 
 We show a portion of the joint posterior of the progenitor parameters 
-and hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}.
-\kb{We need to describe the interpretation of this as well.}
-\kw{I think we can just hightlight the fact that we have three kinds of correlation, progenitor-hyper, progenitor-hyper, hyper-hyper,
-since the implication is related to figure @Katie made.}
-\kb{Need to describe the formation channels and gaps here.}
+and hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. 
+Each panel is colored based on the comparison between progenitor parameters (blue), hyperparameters (orange), or 
+a mix of the two (green). 
+We find that the choice for $\sigma$ does not affect the formation of GW150914-like BBHs. This is not unexpected 
+since we use the \citet{Fryer2012} delayed model which reduces the natal kick strength at BH formation based on the amount
+of fallback onto the proto-CO. In the case of GW150914-like BBHs, the BH progenitors are massive enough that the 
+fallback reduces the natal kick to zero. Because of this we do not include $\sigma$ in Figure~\ref{fig:GW150914_posterior}.
+Similarly, we do not include the ZAMS orbital period and eccentricity are correlated with one another, but not strongly with the other progenitor
+parameters or hyperparameters. We find strong correlations in the ZAMS masses, as well as 
+strong correlations between $M_{2,\rm{ZAMS}}$ and $f_{\rm{acc}}$ and $f_{\rm{acc}}$ and $\alpha$. We show scatter points of each of these 
+combinations in the upper-right inset of the figure.
+
+The correlations between the ZAMS masses are similar to those found by A21 with the majority of the population preferring primary 
+and secondary masses between $60--90\,M_{\odot}$. However, we also find some ZAMS masses which extend up to $150\,M_{\odot}$ which 
+is the limit imposed by our assumptions. We explore the formation scenarios which lead to successful GW150914-like mergers and those 
+which fail to produce GW150914-like mergers below in Figure~\ref{fig:compare_fixed_variable}.
+
+The correlations between $M_{2,\rm{ZAMS}}$ and $f_{\rm acc}$ illustrate the variety of ways which GW150914-like mergers can be produced.
+For binaries with $M_{2,\rm{ZAMS}} < 70\,M_{\odot}$, we find that accretion efficiencies of $f_{\rm acc} > 0.5$ 
+are preferred. One reason for this is based on the requirement that the total mass in the binary must remain above the 
+total mass of GW150914 and strongly non-conservative mass transfer (i.e. $f_{\rm acc} > 0.5$) reduces the total 
+mass of the system. A compounding factor is that as mass leaves the binary due to non-conservative mass transfer, the 
+evolution of the binary's orbit is less dramatic and leads to wider binaries on average and thus fewer mergers in a Hubble time.
+For binaries with $M_{2,\rm{ZAMS}} \sim 80\,M_{\odot}$, $f_{\rm acc}$ is less constrained. This is because of a preference for 
+these secondaries to also have primary masses near $ 80\,M_{\odot}$ and thus enter a double-core common envelope evolution in 
+which both stars' envelopes are ejected, leaving behind two stripped helium cores in a tight orbit. In this case, $f_{\rm acc}$ 
+does not affect the binary evolution and is thus unconstrained. This effect can also be seen in the ZAMS mass and $q_{\rm crit 3}$ 
+panels for masses near $80\,M_{\odot}$ because double-core common-envelope evolution is triggered in \texttt{COSMIC} when the
+radii of the two stars touch due to the rapid expansion of the primary star upon helium ignition. In this case, the choice for 
+Roche-overflow mass transfer to proceed stably (as prescribed by $f_{\rm{acc}}$) or unstably (as prescribed by $\alpha$) using 
+$q_{\rm crit, 3}$ is totally irrelevant, and thus unconstrained. Finally, for binaries with $M_{2,\rm{ZAMS}} > 80$, we find that 
+$f_{\rm acc}$ is correlated to decrease with increasing mass. This is due to limits on the total mass which must be ejected from 
+the binary to produce BH masses that match GW150914. Binaries with both component masses near $150\,M_{\odot}$ must either go 
+through a common envelope evolution (in which case $f_{\rm acc}$ is unconstrained), or very non-conservative mass transfer 
+(where $f_{\rm acc}$) is low, to produce BBHs with the proper mass.
+
+Finally, we find that $\alpha$ and $f_{\rm acc}$ are largely uncorrelated, though there exists independent trends in each hyper parameter.
+This is not totally unexpected since the physical processes which are described by each hyperparameter, i.e. stable Roche-lobe overflow and 
+common envelope evolution are two independent channels. Generally, we find that GW150914-like BBHs tend to prefer larger accretion efficiencies 
+and have common envelope ejection efficiencies peaking near $\alpha=1$. One shortcoming of our method implementation is the application of a single 
+hyper parameter for $f_acc$ and $\alpha$ for each binary, while both the primary and the secondary star could in principle be defined by their own 
+hyperparameters that prescribe the outcomes for when each star fills it's Roche lobe. We reserve full treatment of this for future work but note 
+that this improvement could reveal correlations between hyperparameters that are not present in our current analysis.
+%\kb{We need to describe the interpretation of this as well.}
+%\kw{I think we can just hightlight the fact that we have three kinds of correlation, progenitor-hyper, progenitor-hyper, hyper-hyper,
+%since the implication is related to figure @Katie made.}
+%\kb{Need to describe the formation channels and gaps here.}
 
 \begin{figure*}[h]
     \includegraphics[width=\textwidth]{static/GW150914_corner_zoomed_lowres.png}
@@ -356,7 +400,7 @@ since the implication is related to figure @Katie made.}
 % \kw{Talk about implication on single event posterior.}
 Once we obtain a set of binaries which successfully map the ZAMS parameters and hyperparameters to BBH merger masses, 
 we re-evolve the set of ZAMS parameters with the same physical assumptions as A21, but vary the common envelope efficiency 
-to explore how keeping a fixed model which only varies one hyper-parameter affects our analysis. 
+to explore how keeping a fixed model which only varies one hyper-parameter contrasts to our results. 
 Figure~\ref{fig:compare_fixed_variable} shows the distribution of ZAMS masses for three models (first through third columns), 
 each with a different $\alpha$ but the same hyper-parameters as A21, 
 as well as the results of our sampling which allows our hyper-parameters to vary (fourth column). We find that holding the accretion 
@@ -389,8 +433,6 @@ In particular, we compute KL divergence of the samples obtained from root-findin
 For GW150914, the KL divergence between the reprojected posterior and the original posterior is \kw{fill later} nats on average if we use the root-finding result alone,
 whereas the MCMC result has a higher KL divergence at \kw{fill} nats.
 The KL divergence stays stable for reprojecting with different random seeds. 
-\kb{Can we show this in the figure somehow? Maybe like KL divergence as a function of reprojection number as a lower small panel?}
-\kw{The problem with that is it is basically one dot or a flat line, which is very unentertaining. I wouldn't necessarily want to make a figure out of the KL divergence just because it is pretty boring and distracting.}
 In fig.\ref{fig:GW150914_reprojection}, we can see the reprojected posterior from both the root-finding process alone and the MCMC result agrees well with the original posterior,
 even though the agreement between the MCMC result and the original posterior is not perfect. 
 This degradation of the agreement comes from the fact that we are using a KDE to estimate the posterior density in the observable space.
@@ -424,7 +466,8 @@ which can lead to a final system either with or without a merger event randomly,
 so the reprojected posterior may not agree with the original posterior in the observable space consistently, hence yielding a higher KL divergence on average.
 On the other hand, \texttt{COSMIC} struggles to produce events above the pair instability supernova mass cutoff $m_{1,{\rm GW}}$,
 so the posterior in the evolutionary parameter space only correspond part of the posterior in the observable space, therefore events beyond the PISN mass gap has higher KL divergence.
-Events with more extreme mass ratios are not likely to be recovered by the method. \kw{@Katie gives reason?}
+Events with more extreme mass ratios are not likely to be recovered by the method. This could be due to our method assuming a single value for $f_{\rm acc}$ and $\alpha$ as discussed 
+in Section~\ref{sec:result}.
 
 The point of figure \ref{fig:GWTC3_f_acc_mass} is to show this method could in principal reveal the correlation between progenitor parameters and hyperparameters on a population level.
 A careful treatment of all event in the catalog and discussion related the physical implication of figure \ref{fig:GWTC3_f_acc_mass} is beyond the scope of this paper,
@@ -456,14 +499,16 @@ In this work we first showcase the power of the proposed method with GW150914.
 We show the joint posterior of the two events' progenitor parameters and hyperparameters.
 In particular, to the authors' knowledge, this is the first time the correlation between progenitor parameters and hyperparameters is explored.
 Our work is not only a more efficient way to study GW events' progenitors,
-but also allows the possibility of measuring the astrophysics related the binary evolution, especially in capturing the correlation between different hyperparameters.
+but also allows the possibility of measuring the astrophysics related the binary evolution, especially in capturing the correlation between different hyperparameters. 
+In future work, we will extend our method to applying hyperparameters to individual binary components in order to better capture correlations between 
+hyperparameters and progenitor parameters. 
 
 To further illustrate the power of the method, we show the inferred fraction of accretion during SMT depends on the progenitor masses.
 The most obvious advantage our method provides is it returns the joint posterior distribution of progenitor parameters and hyperparameters for each event.
 This enables a data-driven way to study the distribution of hyperparameters,
 i.e. once we have a catalog of events, each has their own set of posterior in the hyper-parameter space,
 we can employ common techniques such as hierarchical Bayesian analysis to fit a population model to the distribution of hyperparameters,
-without making specific assumptions such as fixing the hyperparameters for all types of event.
+without making specific assumptions such as fixing the hyperparameters for all types of event. 
 
 % Rate analysis is now just counting, like what's done in phenomenological model, instead of forward modelling.
 Another perk of our method is the "rate" calculation is now independent of assumed initial condition such as a particular star formation rate model,
@@ -550,10 +595,10 @@ but parameters about the evolutionary function.
 This means the binary evolution functions can be constrained on an individual event basis.
 We "back propagate" the posterior in the observable space to the evolutionary parameter space,
 thus allowing us to study hyperparameters and its correlation with progenitor parameters in a data-driven manner.
-Our method makes less assumption than the traditional forward modelling approach,
+Our method makes less assumptions than the traditional forward modelling approach,
 which often fix the hyperparameters across the entire population.
-Since we are not limited to the fix hyperparameters assumption, we can explore the behavior of the hyperparameters across the population much more efficiently.
-While our work lay down a data analysis pathway to understand the population of GW events,
+Since we are not limited to the fixed hyperparameters assumption, we can explore the behavior of the hyperparameters across the population much more efficiently.
+While our work lays down a data analysis pathway to understand the population of GW events,
 no physics can be learned without a comprehensive physical model.
 We hope this letter would motivate the community to build the next generation population synthesis codes that have the following properties:
 first, they should have explicit control over the random variables so marginalizing over random variables can be done more precisely;
