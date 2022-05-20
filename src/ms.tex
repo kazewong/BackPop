@@ -38,51 +38,6 @@
 \date{\today}
 
 \begin{abstract}
-<<<<<<< HEAD
-    One promising way to extract information about stellar astrophysics from
-    gravitational wave catalogs is to compare the catalog to the outputs of
-    population synthesis modeling with varying physical assumptions.  The parameter
-    space of physical assumptions in population synthesis is high-dimensional and
-    the choice of parameters that best represents the evolution of a binary system
-    may depend in an as-yet-to-be-determined way on the system's properties; indeed,
-    measuring the variation of population synthesis parameter settings with binary
-    properties is one of the principal ways to extract information about binary
-    astrophysics from catalogs. Here we propose an inference pipeline to
-    simultaneously infer the posterior density of stellar progenitor parameters
-    (e.g. zero-age main sequence masses) and population synthesis parameter settings
-    controlling modeled binary evolution from gravitational wave observations.  Our
-    pipeline can efficiently explore the high-dimensional space of population
-    synthesis settings and progenitor system properties for each system in a catalog
-    of gravitational wave observations.  We apply our pipeline to observations in
-    the third LIGO Virgo Kagra Gravitational Wave Transient Catalog (GWTC3).  We
-    showcase the effectiveness of this pipeline with a detailed study of the
-    progenitor properties and population synthesis settings that produce mergers
-    like the observed GW150914.
-    \end{abstract}
-    
-    %\maketitle
-    
-    \section{Introduction}
-    As the detection rate of gravitation waves (GWs) from merging
-    double-compact-object (DCO) binaries increases with the sensitivity of the
-    ground-based GW detector network
-    \citep{Abbott2018,LIGOScientificCollaboration2015,Buikema2020,Tse2019,Acernese2015,Acernese2019,Aso2013,Akutsu2021},
-    we are beginning to constrain the astrophysical processes which shape the
-    evolution of GW progenitor populations. One of the most common ways to study
-    progenitor populations of GW mergers is through population synthesis simulations
-    for a host of formation environments including isolated binary stars, triple
-    systems, globular clusters, nuclear star clusters, AGN disks, and more
-    \citep{Mandel2022}. \wf{Moar citations here} In these types of studies, the
-    population is forward modeled based on random samples from empirically or
-    theoretically motivated distributions of initial parameters which define the
-    age, metallicity, and intrinsic properties of the population like masses,
-    orbital separations, and eccentricities. These initial populations are then
-    evolved using a set of assumptions for how astrophysical processes impact the
-    evolution of the DCO merger progenitors, ultimately producing a synthetic
-    catalog of mergers which can be compared of observations from ground-based GW
-    detectors.
-    
-=======
 One promising way to extract information about stellar astrophysics from
 gravitational wave catalogs is to compare the catalog to the outputs of
 population synthesis modeling with varying physical assumptions.  The parameter
@@ -124,7 +79,6 @@ astrophysical assumptions (population synthesis parameter settings) to produce a
 synthetic catalog of mergers which can be compared to observations from
 GW detectors.
 
->>>>>>> fix-this-shit
 
 
 %As the rate of detection of gravitational-wave (GW) increases with the sensitivity of the \kb{ground-based} GW detector network \kw{cite},
@@ -372,18 +326,22 @@ proceeds stably or produces a common envelope when the donor star is on the Hert
 $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
 employed for CO natal kicks, $\sigma$. 
 
-We show a portion of the joint posterior of the progenitor parameters 
-and hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. 
-Each panel is colored based on the comparison between progenitor parameters (blue), hyperparameters (orange), or 
-a mix of the two (green). 
-We find that the choice for $\sigma$ does not affect the formation of GW150914-like BBHs. This is not unexpected 
-since we use the \citet{Fryer2012} delayed model which reduces the natal kick strength at BH formation based on the amount
-of fallback onto the proto-CO. In the case of GW150914-like BBHs, the BH progenitors are massive enough that the 
-fallback reduces the natal kick to zero. Because of this we do not include $\sigma$ in Figure~\ref{fig:GW150914_posterior}.
-Similarly, we do not include the ZAMS orbital period and eccentricity are correlated with one another, but not strongly with the other progenitor
-parameters or hyperparameters. We find strong correlations in the ZAMS masses, as well as 
-strong correlations between $M_{2,\rm{ZAMS}}$ and $f_{\rm{acc}}$ and $f_{\rm{acc}}$ and $\alpha$. We show scatter points of each of these 
-combinations in the upper-right inset of the figure.
+We show a portion of the joint posterior of the progenitor parameters and
+hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. Each panel
+is colored based on the comparison between progenitor parameters (blue),
+hyperparameters (orange), or a mix of the two (green). We find that the choice
+for $\sigma$ does not affect the formation of GW150914-like BBHs. This is not
+unexpected since we use the \citet{Fryer2012} delayed model which reduces the
+natal kick strength at BH formation based on the amount of fallback onto the
+proto-CO. In the case of GW150914-like BBHs, the BH progenitors are massive
+enough that the fallback reduces the natal kick to zero. Because of this we do
+not include $\sigma$ in Figure~\ref{fig:GW150914_posterior}. Similarly, we do
+not include the ZAMS orbital period and eccentricity, which are correlated with
+one another, but not strongly with the other progenitor parameters or
+hyperparameters. We find strong correlations between the ZAMS masses, as well as
+strong correlations between $M_{2,\rm{ZAMS}}$ and $f_{\rm{acc}}$, and
+$f_{\rm{acc}}$ and $\alpha$. We show scatter plots of each of these combinations
+in the upper-right inset of the figure.
 
 The correlations between the ZAMS masses are similar to those found by A21 with the majority of the population preferring primary 
 and secondary masses between $60--90\,M_{\odot}$. However, we also find some ZAMS masses which extend up to $150\,M_{\odot}$ which 
