@@ -29,7 +29,7 @@ params = {
     "ytick.right": True,
     "ytick.direction": "in",
     "axes.grid": False,
-    "text.usetex": True,
+    "text.usetex": False,
     "savefig.dpi": 100,
     "lines.markersize": 14,
     #          'axes.formatter.useoffset': False,
