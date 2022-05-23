@@ -20,8 +20,15 @@ jobs:
         shell: bash -l {0}
         run: |
           wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh 
-          ~/bin/latex --version
           sudo ~/bin/tlmgr install type1cm cm-super
+          echo "~/bin" >> $GITHUB_PATH
+
+      - name: Test TeX installation
+        id: test-tex
+        shell: bash -l {0}
+        run: |
+          latex --version
+          pdflatex --version
 
       - name: Build the article PDF
         id: build
