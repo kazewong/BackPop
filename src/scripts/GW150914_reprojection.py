@@ -2,7 +2,7 @@ import numpy as np
 import h5py
 import matplotlib.pyplot as plt
 import copy
-
+import paths
 import matplotlib as mpl
 import corner
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
@@ -72,9 +72,9 @@ def get_posterior(value, coord,cut = 1e-2):
     index = np.where((b<criteria))
     return a[index],b[index],weight[index],index
 
-data = h5py.File('../data/GW150914_progenitor_posterior.hdf5','r')
-GWTC = np.load('../data/GW150914_posterior.npz')
-processed_data = h5py.File('../data/GW150914_progenitor_posterior_reproject.hdf5','r')
+data = h5py.File(paths.data / 'GW150914_progenitor_posterior.hdf5','r')
+GWTC = np.load(paths.data / 'GW150914_posterior.npz')
+processed_data = h5py.File(paths.data / 'GW150914_progenitor_posterior_reproject.hdf5','r')
 m1_obs = np.median(GWTC['m1'])
 m2_obs = np.median(GWTC['m2'])
 z_obs = np.median(GWTC['z'])
@@ -106,4 +106,4 @@ custom_lines = [Line2D([0], [0], color='C0', lw=4),
                 Line2D([0], [0], color='C1', lw=4),
                 Line2D([0], [0], color='C2', lw=4)]
 plt.legend(custom_lines, ['Reprojected','Corresponding','Data'],fontsize=20)
-plt.savefig('GW150914_reprojection.pdf')
+plt.savefig(paths.figures / 'GW150914_reprojection.pdf')

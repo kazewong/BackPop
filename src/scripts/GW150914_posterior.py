@@ -2,7 +2,7 @@ import numpy as np
 import h5py
 import matplotlib.pyplot as plt
 import copy
-
+import paths
 import corner
 import matplotlib as mpl
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
@@ -73,9 +73,9 @@ def get_posterior(value, coord,cut = 1e-2):
     index = np.where((b<criteria))
     return a[index],b[index],weight[index],index
 
-data = h5py.File('../data/GW150914_progenitor_posterior.hdf5','r')
-processed_data = h5py.File('../data/GW150914_progenitor_posterior_reproject.hdf5','r')
-GWTC = np.load('../data/GW150914_posterior.npz')
+data = h5py.File(paths.data / 'GW150914_progenitor_posterior.hdf5','r')
+processed_data = h5py.File(paths.data / 'GW150914_progenitor_posterior_reproject.hdf5','r')
+GWTC = np.load(paths.data / 'GW150914_posterior.npz')
 m1_obs = np.median(GWTC['m1'])
 m2_obs = np.median(GWTC['m2'])
 z_obs = np.median(GWTC['z'])
@@ -131,4 +131,4 @@ for i in range(Ndim):
         ax.tick_params(axis="both",direction="in",which='minor',width=1.5,length=3,right=True,top=True)
         ax.xaxis.set_minor_locator(AutoMinorLocator())
         ax.yaxis.set_minor_locator(AutoMinorLocator())
-fig.savefig('./GW150914_corner.pdf',bbox_inches='tight')
+fig.savefig(paths.figures / 'GW150914_corner.pdf',bbox_inches='tight')

@@ -280,7 +280,7 @@ We show a portion of the joint posterior of the progenitor parameters and hyper-
 The full posterior is available in appendix \kw{Or we should put a link to the dataset?}
 
 \begin{figure*}[h]
-\includegraphics[width=\textwidth]{figures/GW150914_corner_zoomed.pdf}
+\includegraphics[width=\textwidth]{figures/GW150914_corner.pdf}
 \caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
 $M_1$ and $M_2$ are the progenitors' masses. $\log{Z}$ is log metallicity at ZAMS.
 $z$ is the redshift at ZAMS. 
@@ -292,6 +292,7 @@ Once we have find the evolutionary parameters, we add the time it would take the
 then from the total lookback time we can compute the redshift at ZAMS.
 }
 \label{fig:GW150914_posterior}
+\script{GW150914_posterior.py}
 \end{figure*}
 
 To check the validity of the recovered posterior, it is essential to check whether it is consistent with the original posterior in the observable space.
@@ -308,6 +309,7 @@ The orange contour is the posterior samples from LVK that have corresponding sam
 The green contour is the posterior plotted using all of LVK posterior samples.
 }
 \label{fig:GW150914_reprojection}
+\script{GW150914_reprojection.py}
 \end{figure}
 
 We can see the reprojected posterior agrees very well with the original posterior in fig.\ref{fig:GW150914_reprojection}.
