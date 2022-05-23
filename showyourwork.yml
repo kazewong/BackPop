@@ -1,26 +1,34 @@
-# User configuration; see the docs for details!
-verbose: true
+version: 0.3.0.dev2
 
 dependencies:
-    src/figures/GW150914_posterior.py:
-        - src/data/GW150914_posterior.npz
-        - src/data/GW150914_progenitor_posterior.hdf5
-        - src/data/GW150914_progenitor_posterior_reproject.hdf5
+  src/scripts/figure1_cornerPlot.py:
+    - src/data/GWTC3_LVK_posterior.npz
+    - src/data/GWTC3_mcmc_processed.hdf5
 
-    src/figures/GW150914_reprojection.py:
-        - src/data/GW150914_posterior.npz
-        - src/data/GW150914_progenitor_posterior.hdf5
-        - src/data/GW150914_progenitor_posterior_reproject.hdf5
-        
-zenodo:
-    - src/data/GW150914_posterior.npz:
-        id: 1030349
-        sandbox: true
+  src/scripts/figure2_varyAlphaFacc.py:
+    - src/data/A22_02_rerun.hdf
+    - src/data/A22_5_rerun.hdf
+    - src/data/A22_rerun.hdf
+    - src/data/KW_rerun.h5
 
-    - src/data/GW150914_progenitor_posterior.hdf5:
-        id: 1030349
-        sandbox: true
+  src/scripts/figure3_sanityCheck.py:
+    - src/data/GWTC3_LVK_posterior.npz
+    - src/data/GW150914_roots_raw.hdf5
+    - src/data/GW150914_roots_processed.hdf5
+    - src/data/GWTC3_mcmc_processed.hdf5
 
-    - src/data/GW150914_progenitor_posterior_reproject.hdf5:
-        id: 1030349
-        sandbox: true
+  src/scripts/figure4_population.py:
+    - src/data/GWTC3_mcmc_processed.hdf5
+
+datasets:
+  10.5072/zenodo.1064623:
+    destination: src/data
+    contents:
+      A22_02_rerun.hdf:
+      A22_5_rerun.hdf:
+      A22_rerun.hdf:
+      GW150914_roots_processed.hdf5:
+      GW150914_roots_raw.hdf5:
+      GWTC3_LVK_posterior.npz:
+      GWTC3_mcmc_processed.hdf5:
+      KW_rerun.h5:
