@@ -1,26 +1,19 @@
-# User configuration; see the docs for details!
-verbose: true
+version: 0.3.0.dev2
 
 dependencies:
-    src/figures/GW150914_posterior.py:
-        - src/data/GW150914_posterior.npz
-        - src/data/GW150914_progenitor_posterior.hdf5
-        - src/data/GW150914_progenitor_posterior_reproject.hdf5
+  src/scripts/GW150914_posterior.py:
+    - src/data/GW150914_posterior.npz
+    - src/data/GW150914_progenitor_posterior.hdf5
+    - src/data/GW150914_progenitor_posterior_reproject.hdf5
 
-    src/figures/GW150914_reprojection.py:
-        - src/data/GW150914_posterior.npz
-        - src/data/GW150914_progenitor_posterior.hdf5
-        - src/data/GW150914_progenitor_posterior_reproject.hdf5
-        
-zenodo:
-    - src/data/GW150914_posterior.npz:
-        id: 1030349
-        sandbox: true
+  src/scripts/GW150914_reprojection.py:
+    - src/data/GW150914_posterior.npz
+    - src/data/GW150914_progenitor_posterior.hdf5
+    - src/data/GW150914_progenitor_posterior_reproject.hdf5
 
-    - src/data/GW150914_progenitor_posterior.hdf5:
-        id: 1030349
-        sandbox: true
-
-    - src/data/GW150914_progenitor_posterior_reproject.hdf5:
-        id: 1030349
-        sandbox: true
+datasets:
+  10.5072/zenodo.1030349:
+    contents:
+      GW150914_posterior.npz: src/data/GW150914_posterior.npz
+      GW150914_progenitor_posterior.hdf5: src/data/GW150914_progenitor_posterior.hdf5
+      GW150914_progenitor_posterior_reproject.hdf5: src/data/GW150914_progenitor_posterior_reproject.hdf5

@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{bm}
 \usepackage{xcolor}
+\usepackage{showyourwork}
 \definecolor{rb4}{HTML}{27408B}
 \newcommand{\kw}[1]{{\color{rb4}[KW: #1 ]}}
 \newcommand{\wf}[1]{\textcolor{cyan}{WF: #1}}
@@ -279,7 +280,7 @@ We show a portion of the joint posterior of the progenitor parameters and hyper-
 The full posterior is available in appendix \kw{Or we should put a link to the dataset?}
 
 \begin{figure*}[h]
-\includegraphics[width=\textwidth]{static/GW150914_corner_zoomed.pdf}
+\includegraphics[width=\textwidth]{figures/GW150914_corner_zoomed.pdf}
 \caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
 $M_1$ and $M_2$ are the progenitors' masses. $\log{Z}$ is log metallicity at ZAMS.
 $z$ is the redshift at ZAMS. 
@@ -300,7 +301,7 @@ The KL divergence stays stable for reprojecting with different random seeds.
 
 
 \begin{figure}
-\includegraphics[width=0.49\textwidth]{static/GW150914_reprojection.pdf}
+\includegraphics[width=0.49\textwidth]{figures/GW150914_reprojection.pdf}
 \caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.
 The blue contour is the posterior reprojected using the samples in the evolutionary parameter space.
 The orange contour is the posterior samples from LVK that have corresponding samples in the evolutionary parameter space.
@@ -314,14 +315,14 @@ We can see the reprojected posterior agrees very well with the original posterio
 
 
 % \begin{figure}
-% \includegraphics[width=0.49\textwidth]{static/GW150914_CE_SMT.pdf}
+% \includegraphics[width=0.49\textwidth]{figures/GW150914_CE_SMT.pdf}
 % \caption{}
 % \label{fig:GW150914_CE_SMT}
 % \end{figure}
 % \kw{Add figure of stable mass transfer vs common envelope}
 
 \begin{figure}
-\includegraphics[width=0.49\textwidth]{static/GW150914_m1m2alpha.png}
+\includegraphics[width=0.49\textwidth]{figures/GW150914_m1m2alpha.png}
 \caption{The posterior samples of GW150914 in the progenitor masses space, colorcoded by the common envelope efficiency $\alpha$ for that sample.}
 \label{fig:GW150914_m1_m2_alpha}
 \end{figure}
