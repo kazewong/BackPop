@@ -95,17 +95,17 @@ def sample_z(kde,m1m2):
     return kde_mass[2,np.argmin(distance,axis=0)]
     
 i = 0
-processed_data = h5py.File('../data/GWTC3_processed.hdf5','r')
+processed_data = h5py.File('../data/GWTC3_mcmc_processed.hdf5','r')
 
 m1_pred = processed_data['m1'][i]
 m2_pred = processed_data['m2'][i]
-t_merge = processed_data['t_merge'][0][()]/1000
+t_merge = processed_data['t_merge'][i][()]/1000
 
 posterior_array = []
 observable_array = []
 quantile_array = []
 
-posterior_array.append(processed_data['coord_array'][0][()].T)
+posterior_array.append(processed_data['coord_array'][i][()].T)
 m1m2_array = np.stack([m1_pred[()],m2_pred[()]]).T
 obs_kde = gaussian_kde(observables[0].T)
 
