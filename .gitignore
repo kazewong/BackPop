@@ -1,16 +1,23 @@
-# Snakemake temporaries
-.snakemake
-.showyourwork
+# Snakemake and showyourwork temporaries
+**/.snakemake
+**/.showyourwork*
 
 # VSCode
 .vscode
 
 # Showyourwork output files
+ms.pdf
 report.html
 arxiv.tar.gz
-ms.pdf
-dag.pdf
-src/figures/matplotlibrc
+
+# Figure output
+src/tex/figures/*
+
+# Miscellaneous
+__pycache__
+
+# Other
+src/scripts/matplotlibrc
 src/static/GW150914_corner.pdf
 src/static/GW150914_reprojection.pdf
 
