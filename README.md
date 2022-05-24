@@ -10,7 +10,7 @@
 <a href="https://github.com/kazewong/BackPop/raw/main-pdf/arxiv.tar.gz">
 <img src="https://img.shields.io/badge/article-tarball-blue.svg?style=flat" alt="Article tarball"/>
 </a>
-<a href="https://github.com/kazewong/BackPop/raw/main-pdf/ms.pdf">
+<a href="https://github.com/kazewong/BackPop/raw/Rework-pdf/ms.pdf">
 <img src="https://img.shields.io/badge/article-pdf-blue.svg?style=flat" alt="Read the article"/>
 </a>
 </p>
