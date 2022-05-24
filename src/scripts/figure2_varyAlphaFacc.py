@@ -12,37 +12,14 @@ plt.rcParams["mathtext.fontset"] = "dejavuserif"
 models = ["A22_02", "A22", "A22_5", "KW"]
 
 
-def get_data(model):
-    if model == "KW":
-        bpp = pd.read_hdf(paths.data / "{}_rerun.h5".format(model), key="bpp")
-        initC = pd.read_hdf(paths.data / "{}_rerun.h5".format(model), key="initC")
-    else:
-        bpp = pd.read_hdf(paths.data / "{}_rerun.hdf".format(model), key="bpp")
-        initC = pd.read_hdf(paths.data / "{}_rerun.hdf".format(model), key="initC")
+def get_initC_list(models):
+    initC_list = []
+    for m in models:
+        initC_list.append(pd.read_hdf(paths.data / 'fig_2_dat.h5', key=m))
+    
+    return initC_list
 
-    mergers = bpp.loc[(bpp.kstar_1 == 14) & (bpp.kstar_2 == 14) & (bpp.evol_type == 3)]
-    formation = (
-        bpp.loc[
-            (bpp.bin_num.isin(mergers.bin_num))
-            & (bpp.kstar_1 == 14)
-            & (bpp.kstar_2 == 14)
-        ]
-        .groupby("bin_num")
-        .first()
-        .reset_index()
-    )
-    bpp = []
-    return initC.loc[initC.bin_num.isin(mergers.bin_num)], mergers, formation
-
-
-initC_list = []
-merger_list = []
-formation_list = []
-for m in models:
-    dat = get_data(model=m)
-    initC_list.append(dat[0])
-    merger_list.append(dat[1])
-    formation_list.append(dat[2])
+initC_list = get_initC_list(models)
 
 labels = [
     r"$\alpha=0.2$, $f_{\rm{acc}}=0.5$",
