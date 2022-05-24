@@ -6,10 +6,7 @@ dependencies:
     - src/data/GWTC3_mcmc_processed.hdf5
 
   src/scripts/figure2_varyAlphaFacc.py:
-    - src/data/A22_02_rerun.hdf
-    - src/data/A22_5_rerun.hdf
-    - src/data/A22_rerun.hdf
-    - src/data/KW_rerun.h5
+    - src/data/fig_2_dat.h5
 
   src/scripts/figure3_sanityCheck.py:
     - src/data/GWTC3_LVK_posterior.npz
@@ -21,14 +18,11 @@ dependencies:
     - src/data/GWTC3_mcmc_processed.hdf5
 
 datasets:
-  10.5072/zenodo.1064623:
+  10.5072/zenodo.1065343:
     destination: src/data
     contents:
-      A22_02_rerun.hdf:
-      A22_5_rerun.hdf:
-      A22_rerun.hdf:
       GW150914_roots_processed.hdf5:
       GW150914_roots_raw.hdf5:
       GWTC3_LVK_posterior.npz:
       GWTC3_mcmc_processed.hdf5:
-      KW_rerun.h5:
+      fig_2_dat.h5:
