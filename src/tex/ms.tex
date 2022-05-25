@@ -480,25 +480,17 @@ BHs with the correct masses that merge within a Hubble time.
     \script{figure2_varyAlphaFacc.py}
 \end{figure*}
 
-We reproject the recovered posterior to the observable
-space, and compare the KL divergence between the original posterior and the
-reprojected posterior. We compute KL divergence of the samples
-obtained from root-finding alone as well as after the MCMC sampling procedure. %\wf{Clean up wording.}
-For GW150914, the KL divergence between the reprojected posterior and the
-original posterior is \kw{fill later} nats on average if we use the root-finding
-result alone, whereas the MCMC result has a higher KL divergence at \kw{fill}
-nats. The KL divergence stays stable for reprojecting with different random
-seeds. In fig.\ref{fig:GW150914_reprojection}, we can see the reprojected
-posterior from both the root-finding process alone and the MCMC result agrees
-well with the original posterior, even though the agreement between the MCMC
-result and the original posterior is not perfect. This degradation of the
-agreement comes from the fact that we are using a KDE to estimate the posterior
-density in the observable space. Note that the result from root-finding alone
-and the result from MCMC agrees well in the evolutionary parameter space.
-Compared to the result shown in a previous study, our result covers almost all
-the posterior of GW150914 in the masses space, which means our result is more
-consistent with the observation.
-
+It is interesting to re-project the posterior over progenitor ($\bm{\theta}'$)
+and hyperparameters ($\bm{\lambda}$) using fresh random variables ($\bm{X}$) to
+the observable space of GW parameters ($\bm{\theta}$).  Agreement between the
+observed parameters and the re-projected parameters indicates good exploration
+of the random variable space and lack of sensitivity to the details of these
+random parameters.  Figure \ref{fig:GW150914_reprojection} shows good agreement
+between the re-projected root-finding outputs as well as the re-projected MCMC
+draws for our analysis of GW150914.  Unlike \citet{Andrews2021}, we find there
+are no regions of observable space inaccessible to our evolutionary models; this
+difference arises because we allow the evolutionary hyperparameters
+$\bm{\lambda}$ to vary.
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{figures/GW150914_reprojection.pdf}
