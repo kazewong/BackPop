@@ -306,7 +306,7 @@ observable space, and is thus a viable channel for that specific event. Otherwis
 can only explain part of the posterior or cannot explain the event at all. This is completely expected behavior since
 \texttt{COSMIC}, and isolated binary evolution more generally, carries its own assumptions and is expected to
 fail in reproducing a subset of the event in GWTC3. One example of this are GW events with at least one component
-with mass above the pair instability supernova mass limit \kb{cite Farmer, and others}.
+with mass above the pair instability supernova mass limit \citep{Woosley2017, Farmer2020}.
 The reprojection could also be subject to stochasticity in the evolution of each binary
 To account for this, we reproject the posterior multiple times with different random seeds and
 check whether the KL divergence varies significantly. A varying KL divergence means a particular GW event is subject
@@ -363,7 +363,7 @@ to randomness in the evolution of the progenitor, and extra caution should be us
 We apply the method described in section \ref{sec:method} to the first GW event GW150914.
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular
-momentum transport in massive stars which is still highly uncertain \kb{(see however Bavera+, fuller+)},
+momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
 therefore we only consider the two component masses in the observable space in the both the
 root-finding stage and the MCMC stage. For progenitor parameters, we characterize each guess with
 five parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the orbital period $t_{\rm orb}$,
@@ -571,7 +571,7 @@ observable space below this cutoff, and therefore events beyond the PISN mass
 gap also have higher KL divergence.
 
 Events with more extreme mass ratios are hard to produce with \texttt{COSMIC},
-and therefore less likely to be accurately recovered by our method. This could
+and therefore less likely to be accurately recovered by our method \citep[e.g.][]{Zevin2020}. This could
 be due to our method assuming a single value for $f_{\rm acc}$ and $\alpha$ as
 discussed in Section~\ref{sec:result}.
 
