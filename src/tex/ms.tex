@@ -582,7 +582,11 @@ follow up these events in detail.
 
 Figure \ref{fig:GWTC3_f_acc_mass} shows that our method could in principle
 reveal the correlation between progenitor parameters and hyperparameters on a
-population level. A careful treatment of all events in the catalog and
+population level. Here we impose a cut to eliminate event with KL divergence larger
+than 0.1.
+This is a heuristic choice to exclude events that are obviously not compatible with
+\texttt{COSMIC}.
+A careful treatment of all events in the catalog and
 discussion related to the detailed physical implications of figure
 \ref{fig:GWTC3_f_acc_mass} is beyond the scope of this paper.  We defer a
 detailed study of the physics related to the population of GW events to future
@@ -593,6 +597,7 @@ work.
 \includegraphics[width=0.49\textwidth]{figures/GWTC3_f_acc_mass.pdf}
 \caption{
     The posterior density in the $m_{1,{\rm GW}}-f_{\rm acc}$ space for most of the events in GWTC3.
+    Note that $m_{1,{\rm GW}}$ here refers to the reprojected posterior instead of the posterior released by LIGO.
     Each contour is the $68\%$ credible interval of the posterior density for a particular event.
     At $m_{1,{\rm GW}} \sim 45 M_{\odot}$, the pair instability supernova mechanism prevents \texttt{COSMIC} from producing events that are more massive than this cutoff.
     Therefore, events with the majority of posterior support above this cutoff is not compatible with \texttt{COSMIC}, hence has a large KL divergence and excluded from this figure.
