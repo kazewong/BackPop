@@ -64,7 +64,7 @@ for i in range(data["coord_array"].shape[0]):
                 label="GWTC3",
                 plot_datapoints=False,
                 plot_density=False,
-                levels=[0.5],
+                levels=[0.68],
                 ax=ax,
                 range=[[0, 45], [0, 1]],
                 contour_kwargs={
