@@ -91,10 +91,10 @@ Traditionally, population synthesis studies simulate merging DCO populations
 with a Monte-Carlo approach.  Using theoretically motivated distributions of
 initial parameters like age, metallicity, component mass, orbital separation,
 and eccentricity, initial populations are evolved with fixed astrophysical
-assumptions, or population synthesis parameter settings, to produce a synthetic
-catalog of DCO mergers which can be compared to parameterized models derived
-from observations. This approach relies on several assumptions, both in the
-simulations and model parameterizations fitted to the GW data, which are
+assumptions, or population synthesis hyperparameter settings, to produce a
+synthetic catalog of DCO mergers which can be compared to parameterized models
+derived from observations. This approach relies on several assumptions, both in
+the simulations and model parameterizations fitted to the GW data, which are
 unlikely to be fully correct.  For example, there is no reason to suppose that
 the entire population of DCOs should evolve with the same fixed hyperparameters;
 there is no a priori reason the fitted parameterized model should capture the
@@ -103,7 +103,8 @@ physics of interest; etc. A better approach would be to compare progenitor
 parameters and hyperparameter settings directly to DCO observations, treating
 the population synthesis model as a mapping from progenitor to merger
 parameters; merger parameters can then be mapped into observations using a
-waveform family, and parameter inference proceeds in the usual way
+gravitational waveform family, and parameter inference proceeds in the usual
+way, propagating information back up the mapping chain
 \citep[e.g.][]{Veitch2015}.  A similar methodology, though with \emph{fixed}
 hyperparameter settings, was advanced in \citet{Andrews2018,Andrews2021}, as we
 discuss in more detail below.
@@ -126,7 +127,10 @@ $1024$ simulations. Because population synthesis simulations require hundreds to
 thousands of cpu hours, training an emulator which spans a high dimensional
 uncertainty space remains an impossibility at present.  Thus inference of
 hyperpameter settings must proceed \emph{dynamically}, generating trial DCO
-systems to match a particular observation one- or few-at-a-time.
+systems via population synthesis recipes to match a particular observation one-
+or few-at-a-time while simultaneously adjusting the hyperparameters. (Eventually
+it may be even be possible to use more physically-motivated modeling of binary
+physics \citep[e.g.][]{Gallego-Garcia2021} in such a procedure.)
 
 \citet{Andrews2021} (hereafter A21) used \texttt{DartBoard} \citep{Andrews2018}
 to determine the ZAMS parameters which produce GW150914-like BBH merger based on
