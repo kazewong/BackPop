@@ -18,7 +18,6 @@ import paths
 params = {
     "axes.labelsize": 32,
     "font.family": "serif",
-    "font.serif": "Computer Modern Raman",
     "font.size": 32,
     "axes.linewidth": 2,
     "legend.fontsize": 20,
@@ -32,9 +31,10 @@ params = {
     "text.usetex": False,
     "savefig.dpi": 100,
     "lines.markersize": 14,
-    #          'axes.formatter.useoffset': False,
     "axes.formatter.limits": (-3, 3),
+    "mathtext.fontset": "dejavuserif",
 }
+
 
 mpl.rcParams["text.latex.preamble"] = [r"\usepackage{amsmath}"]  # for \text command
 
