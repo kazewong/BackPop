@@ -652,13 +652,13 @@ understanding of binary evolution and the relative rate of other formation
 channels.
 
 % Single formation channel and fundamental limitation on that.
-While our method allows data-driven exploration of the hyperparameters space for the first time, there are a number of improvements can be implemented in future studies.
+While our method allows data-driven exploration of the hyperparameters space for the first time, there are a number of improvements that can be implemented in future studies.
 In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC-3.
-For example, event with either of the component mass larger than the PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
-Alternative channels such as dynamic formation channel will be needed to explain some subset of the events in GWTC-3 \citep{Zevin2021}.
-As GW detectors sensitivity increase, we expect to see more and more events that are unusual in some way.
+For example, event with either of the component mass larger than the lower edge of PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
+Alternative channels such as dynamical formation might be needed to explain some subset of the events in GWTC-3 \citep{Zevin2021}.
+As the sensitivity of GW detectors increases, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
-In this paper, our main focus is to illustrate the concept of "back-propagating" GW events posterior sample in this work,
+In this paper, our main focus is to illustrate the concept of "back-propagating" GW events posterior samples,
 highlighting the capability of our method and motivating the community to build the next generation population synthesis code that can work with our method.
 To avoid cluttering of focus, we discuss the physical implication of the result presented in this work under our specific assumption (i.e. using \texttt{COSMIC} as our evolutionary function) in a companion paper.
 
@@ -666,10 +666,10 @@ To avoid cluttering of focus, we discuss the physical implication of the result 
 % Randomness paragraph
 Due to the implicit definition of random variables in \texttt{COSMIC}, our evolutionary function is stochastic.
 This introduces significant inefficiency in our root-finding and sampling algorithm.
-The main stochasticity in \texttt{COSMIC} comes from natal kick, which significantly affect the evolution pathway of low mass events such as BNS events.
-The effect of natal kick is suppressed for heavier mass events due to fallback.
+The main stochasticity in \texttt{COSMIC} comes from natal kick, which significantly affect the evolutioary pathway of low mass events such as BNS mergers.
+The effect of the natal kick is suppressed for heavier mass events due to fallback.
 This means events with lighter masses are subject to stochasticity of the function,
-where the sampling process for heavier events behaves as if the evolutionary function we use are deterministic.
+where the sampling process for heavier events behaves as if the evolutionary function we use is deterministic.
 % Indeed, we see this behavior in a couple of case studies.
 % For heavy event such as GW150914, the reprojected posterior agrees with the data posterior.
 % For light event such as GW170817, although during the root-finding process the convergence criteria is met,
@@ -714,9 +714,9 @@ This can only be done if we have explicit control over the random variables that
 % This makes sense since the roots basically eliminate the long burn-in needed to go from random location in the evolutionary parameters to the most probable region.
 % We leave a detail comparison between this method and direct sampling to future studies.
 
-Another technical note is we use finite differencing to estimate the gradient of the objective function, which could be a significant source of error near transition points in the evolutionary parameter space.
-Also, finite differencing is increasing inefficiency as we increase the dimensionality of the problem.
-To improve the accuracy and efficiency in estimating the gradient of objective function, automatic differentiation is a promising feature that modeler should consider incorporating in their population synthesis code in the future.
+Another technical note is that we use finite differencing to estimate the gradient of the objective function, which could be a significant source of error near transition points in the evolutionary parameter space.
+Also, finite differencing is increasingly inefficient as we increase the dimensionality of the problem.
+To improve the accuracy and efficiency in estimating the gradient of the objective function, automatic differentiation is a promising feature that modelers should consider incorporating in their population synthesis codes in the future.
 
 
 To summarize, we propose a novel method to recover the posterior samples in the evolutionary parameter space for each GW event.
@@ -724,16 +724,16 @@ We point out hyperparameters in the usual population synthesis simulation contex
 but parameters about the evolutionary function.
 This means the binary evolution functions can be constrained on an individual event basis.
 We "back propagate" the posterior in the observable space to the evolutionary parameter space,
-thus allowing us to study hyperparameters and its correlation with progenitor parameters in a data-driven manner.
+thus allowing us to study hyperparameters and theirs correlations with progenitor parameters in a data-driven manner.
 Our method makes less assumptions than the traditional forward modelling approach,
 which often fix the hyperparameters across the entire population.
-Since we are not limited to the fixed hyperparameters assumption, we can explore the behavior of the hyperparameters across the population much more efficiently.
+Since we are not limited to the fixed hyperparameters assumptions, we can explore the behavior of the hyperparameters across the population much more efficiently.
 While our work lays down a data analysis pathway to understand the population of GW events,
 no physics can be learned without a comprehensive physical model.
-We hope this letter would motivate the community to build the next generation population synthesis codes that have the following properties:
+We hope this letter will motivate the community to build the next generation population synthesis codes that have the following properties:
 first, they should have explicit control over the random variables so marginalizing over random variables can be done more precisely;
 second, they should be as automatically differentiable as much as possible so exploring the evolutionary parameter space is efficient.
-Combining this work and the next generation population synthesis code,
+Combining this work and the next generation of population synthesis codes,
 we can explore the full parameter space of binary evolution models with the next-generation GW detectors network in the near future.
 
 
