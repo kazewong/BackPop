@@ -153,7 +153,7 @@ the progenitor and the necessary hyperparameter settings to produce the observed
 merger properties.
 
 In full: we propose a method to ``backward" model each GW event to its
-progenitor state while allowing the hyper-parameters to vary across their full
+progenitor state while allowing the hyperparameters to vary across their full
 range of physical uncertainty following a two-stage process. First, we solve a
 root finding problem to obtain guesses that are likely to produce the desired
 system properties in the joint progenitor--hyperparameter space. We then sample
@@ -163,7 +163,7 @@ roots found in the previous stage.  We demonstrate our algorithm in a realistic
 setting by producing a posterior over progenitor properties and \texttt{COSMIC}
 hyperparameters implied by the observation of GW150914.  
 
-We find that the progenitor properties and even ability to produce a
+We find that the progenitor properties and even the ability to produce a
 GW150914-like merger event is strongly correlated with hyperparameter settings;
 different assumptions about the black hole masses at merger in GW150914 imply
 wildly different formation channels and ZAMS progenitor masses for this event
@@ -220,7 +220,7 @@ to develop samples of progenitor parameters, hyperparameters, and random
 variables in $\bm{\Theta}$ from a posterior density.
 
 Since the GW likelihood function
-ultimately depends only on the GW parameters $\theta$, and GWTC3 already has samples over these parameters from a posterior density
+ultimately depends only on the GW parameters $\theta$, and GWTC-3 already has samples over these parameters from a posterior density
 \begin{equation}
     p\left( \bm{\theta} \mid d \right) \propto p\left( d \mid \bm{\theta} \right) \pi_\mathrm{GW} \left( \bm{\theta} \right),
 \end{equation}
@@ -233,7 +233,7 @@ $\bm{\theta}$, namely
     p(\bm{\Theta} | d) = \frac{p(\bm{\theta}(\bm{\Theta})| d) \pi(\bm{\Theta})}{\pi_\mathrm{GW}(\bm{\theta}(\bm{\Theta}))}.
 \end{align}
 We apply a kernel density estimator with a Gaussian kernel to the posterior
-samples released in GWTC3 to estimate $p(\bm{\theta}(\bm{\Theta})|d)$.
+samples released in GWTC-3 to estimate $p(\bm{\theta}(\bm{\Theta})|d)$.
 
 Including hyperparameters and random variables %in the sampling
 drastically increases the dimensionality of the problem, which can make the
@@ -306,7 +306,7 @@ D_{KL}(P||Q) = \int P(\bm{x}) \log(P(\bm{x})/Q(\bm{x})) dx.
 observable space, and is thus a viable channel for that specific event. Otherwise, it either means \texttt{COSMIC}
 can only explain part of the posterior or cannot explain the event at all. This is completely expected behavior since
 \texttt{COSMIC}, and isolated binary evolution more generally, carries its own assumptions and is expected to
-fail in reproducing a subset of the event in GWTC3. One example of this are GW events with at least one component
+fail in reproducing a subset of the event in GWTC-3. One example of this are GW events with at least one component
 with mass above the pair instability supernova mass limit \citep{Woosley2017, Farmer2020}.
 The reprojection could also be subject to stochasticity in the evolution of each binary
 To account for this, we reproject the posterior multiple times with different random seeds and
@@ -463,7 +463,7 @@ analysis.
 
 \begin{figure*}[h]
     \includegraphics[width=\textwidth]{figures/GW150914_corner_zoomed_lowres.png}
-    \caption{The posterior for GW150914 in both the progenitor parameter space and hyper-parameter space.
+    \caption{The posterior for GW150914 in both the progenitor parameter space and hyperparameter space.
     $M_1$ and $M_2$ are the progenitors' masses. $\log{Z}$ is log metallicity at ZAMS.
     $z$ is the redshift at ZAMS.
     $\alpha$ is the common envelope efficiency.
@@ -486,20 +486,20 @@ Once we obtain a set of binaries which successfully map the ZAMS parameters and
 hyperparameters to BBH merger masses, we re-evolve the set of ZAMS parameters
 with the same physical assumptions as A21, but vary the common envelope
 efficiency to explore how keeping a fixed model which only varies one
-hyper-parameter contrasts to our results.
+hyperparameter contrasts to our results.
 Figure~\ref{fig:compare_fixed_variable} shows the distribution of ZAMS masses
 for three models (first through third columns), each with a different $\alpha$
-but the same hyper-parameters as A21, as well as the results of our sampling
-which allows our hyper-parameters to vary (fourth column). We find that holding
+but the same hyperparameters as A21, as well as the results of our sampling
+which allows our hyperparameters to vary (fourth column). We find that holding
 the accretion efficiency, $f_{\rm{acc}}$, and common envelope ejection
 efficiency, $\alpha$, to fixed values greatly reduces the ZAMS parameter space
 that produces GW150914-like mergers. In contrast, by allowing the
-hyper-parameters to fully span the model uncertainty, we find that there are
+hyperparameters to fully span the model uncertainty, we find that there are
 distinct ZAMS parameters which produce GW150914-like mergers.
 
 Because we can explore the full evolutionary parameter space, we can also
 determine that there are ZAMS parameters which fail to produce GW150914-like
-mergers \emph{regardless of our hyper-parameter choice.} For primary ZAMS masses
+mergers \emph{regardless of our hyperparameter choice.} For primary ZAMS masses
 between $\sim95-135\,M_{\odot}$ and secondary ZAMS masses between
 $\sim50-95\,M_{\odot}$, we find that there is no combination of accretion
 efficiency and common envelope ejection efficiency which produces merging BBHs
@@ -547,9 +547,9 @@ The green contour is the posterior plotted using the original LVK posterior samp
 
 % Paragraph discussing the potential application on the population side.
 To illustrate the potential benefit of using our method on the population level, we
-perform the same analysis for all events in GWTC3. Plotted in figure
-\ref{fig:GWTC3_f_acc_mass} is the posterior density in the $m_{1,{\rm
-GW}}-f_{\rm acc}$ space for most of the events in GWTC3. Each contour represents
+perform the same analysis for all events in GWTC-3. Plotted in figure
+\ref{fig:GWTC-3_f_acc_mass} is the posterior density in the $m_{1,{\rm
+GW}}-f_{\rm acc}$ space for most of the events in GWTC-3. Each contour represents
 the $68\%$ credible interval of the posterior density for that particular event.
 There is a suggestive trend showing that $f_{\rm acc}$ could increase as the mass of
 the progenitor increases. Such a trend implies the stable mass transfer
@@ -558,7 +558,7 @@ more conservative mass transfer in more massive binary systems.
 
 Note that some events did not pass the KL divergence test we proposed in section
 \ref{sec:method}; we do not include these systems in figure
-\ref{fig:GWTC3_f_acc_mass}. Binaries that form low-mass compact objects have
+\ref{fig:GWTC-3_f_acc_mass}. Binaries that form low-mass compact objects have
 lower amounts of fallback and tend to have correspondingly larger variance in
 their random natal kicks. Larger kicks can unbind the progenitor binary, or lead
 to wide binaries that do not merge within a Hubble time.  In these cases, the
@@ -581,7 +581,7 @@ informative about formation channels and binary evolution physics, and are
 therefore likely worthy of close study.  We anticipate that future work will
 follow up these events in detail.
 
-Figure \ref{fig:GWTC3_f_acc_mass} shows that our method could in principle
+Figure \ref{fig:GWTC-3_f_acc_mass} shows that our method could in principle
 reveal the correlation between progenitor parameters and hyperparameters on a
 population level. Here we impose a cut to eliminate event with KL divergence larger
 than 0.1.
@@ -589,15 +589,15 @@ This is a heuristic choice to exclude events that are obviously not compatible w
 \texttt{COSMIC}.
 A careful treatment of all events in the catalog and
 discussion related to the detailed physical implications of figure
-\ref{fig:GWTC3_f_acc_mass} is beyond the scope of this paper.  We defer a
+\ref{fig:GWTC-3_f_acc_mass} is beyond the scope of this paper.  We defer a
 detailed study of the physics related to the population of GW events to future
 work.
 
 
 \begin{figure}
-\includegraphics[width=0.49\textwidth]{figures/GWTC3_f_acc_mass.pdf}
+\includegraphics[width=0.49\textwidth]{figures/GWTC-3_f_acc_mass.pdf}
 \caption{
-    The posterior density in the $m_{1,{\rm GW}}-f_{\rm acc}$ space for most of the events in GWTC3.
+    The posterior density in the $m_{1,{\rm GW}}-f_{\rm acc}$ space for most of the events in GWTC-3.
     Note that $m_{1,{\rm GW}}$ here refers to the reprojected posterior instead of the posterior released by LIGO.
     Each contour is the $68\%$ credible interval of the posterior density for a particular event.
     At $m_{1,{\rm GW}} \sim 45 M_{\odot}$, the pair instability supernova mechanism prevents \texttt{COSMIC} from producing events that are more massive than this cutoff.
@@ -605,7 +605,7 @@ work.
     On the low mass end, neutron star binaries or neutron star-black hole binaries are subjected to randomness induced by the natal kick,
     also resulting in a larger and fluctuating KL divergence, therefore they are also excluded from the analysis.
 }
-\label{fig:GWTC3_f_acc_mass}
+\label{fig:GWTC-3_f_acc_mass}
 \script{figure4_population.py}
 \end{figure}
 
@@ -651,9 +651,9 @@ channels.
 
 % Single formation channel and fundamental limitation on that.
 While our method allows data-driven exploration of the hyperparameters space for the first time, there are a number of improvements can be implemented in future studies.
-In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC3.
+In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC-3.
 For example, event with either of the component mass larger than the PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
-Alternative channels such as dynamic formation channel will be needed to explain some subset of the events in GWTC3 \citep{Zevin2021}.
+Alternative channels such as dynamic formation channel will be needed to explain some subset of the events in GWTC-3 \citep{Zevin2021}.
 As GW detectors sensitivity increase, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
 In this paper, our main focus is to illustrate the concept of "back-propagating" GW events posterior sample in this work,
