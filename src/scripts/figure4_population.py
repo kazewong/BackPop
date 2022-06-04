@@ -75,7 +75,7 @@ for i in range(data["coord_array"].shape[0]):
             ax.collections[-2].set_alpha(0.1)
     except:
         continue
-ax.set_xlabel(r"$m_{\rm 1}$")
+ax.set_xlabel(r"$m_{\rm 1, GW}$")
 ax.set_ylabel(r"$f_{\rm acc}$")
 ax.tick_params(
     axis="both",

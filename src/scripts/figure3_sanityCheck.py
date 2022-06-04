@@ -98,7 +98,7 @@ observable_array.append(observables[i][index[0]])
 quantile_array.append(np.quantile(a, [0.5 - 0.95 / 2, 0.5, 0.5 + 0.95 / 2], axis=0))
 quantile_array = np.array(quantile_array)
 plt.figure(figsize=(10, 9))
-percentile = [0.7, 0.9]
+percentile = [0.68, 0.95]
 corner.hist2d(
     m1_pred[()],
     m2_pred[()],
@@ -108,6 +108,9 @@ corner.hist2d(
     labels="Root-finding",
     levels=percentile,
     plot_datapoints=False,
+    contour_kwargs={
+    "linewidths": 3,
+    },
 )
 corner.hist2d(
     m1_pred_mcmc[()],
@@ -117,6 +120,9 @@ corner.hist2d(
     labels="MCMC",
     levels=percentile,
     plot_datapoints=False,
+    contour_kwargs={
+    "linewidths": 3,
+    },
 )
 corner.hist2d(
     observables[i][:, 0],
@@ -126,6 +132,9 @@ corner.hist2d(
     labels="Data",
     levels=percentile,
     plot_datapoints=False,
+    contour_kwargs={
+    "linewidths": 3,
+    },
 )
 plt.xlabel(r"$M_1$", fontsize=30)
 plt.ylabel(r"$M_2$", fontsize=30)

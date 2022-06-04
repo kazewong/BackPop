@@ -306,9 +306,9 @@ D_{KL}(P||Q) = \int P(\bm{x}) \log(P(\bm{x})/Q(\bm{x})) dx.
 observable space, and is thus a viable channel for that specific event. Otherwise, it either means \texttt{COSMIC}
 can only explain part of the posterior or cannot explain the event at all. This is completely expected behavior since
 \texttt{COSMIC}, and isolated binary evolution more generally, carries its own assumptions and is expected to
-fail in reproducing a subset of the event in GWTC-3. One example of this are GW events with at least one component
+fail in reproducing a subset of the event in GWTC-3. One example of this is GW events with at least one component
 with mass above the pair instability supernova mass limit \citep{Woosley2017, Farmer2020}.
-The reprojection could also be subject to stochasticity in the evolution of each binary
+The reprojection could also be subject to stochasticity in the evolution of each binary.
 To account for this, we reproject the posterior multiple times with different random seeds and
 check whether the KL divergence varies significantly. A varying KL divergence means a particular GW event is subject
 to randomness in the evolution of the progenitor, and extra caution should be used when interpreting the result.
@@ -356,7 +356,7 @@ to randomness in the evolution of the progenitor, and extra caution should be us
     \hline
     \hline
     \end{tabular}
-    \caption{A list of parameters we used in this study.}
+    \caption{A list of parameters used in this study.}
     \label{tab:parameters}
     \end{center}
 \end{table*}
@@ -365,13 +365,13 @@ We apply the method described in section \ref{sec:method} to the first GW event 
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular
 momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
-therefore we only consider the two component masses in the observable space in the both the
+therefore we only consider the two component masses in the observable space in both the
 root-finding stage and the MCMC stage. For progenitor parameters, we characterize each guess with
 five parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the orbital period $t_{\rm orb}$,
-the eccentricity $e$, the metallicity $Z$ at ZAMS. Note that the progenitor formation redshift is not
+the eccentricity $e$, and the metallicity $Z$ at ZAMS. Note that the progenitor formation redshift is not
 obtained through the root-finding process because the formation redshift does not intrinsically affect
 the evolution of the binary. Instead, we compute the time it takes for the binary to evolve from
-formation to the merger and add this time back to the lookback time when a GW event is observed and limit the total
+formation to the merger and add this time to the lookback time when a GW event is observed and limit the total
 time to merger to be less than $13.7\,\rm{Gyr}$.
 Using the total lookback time, we can compute the redshift of the binary at ZAMS formation following the
 Planck 2018 cosmological model \citep{Planck2018}.
@@ -379,10 +379,10 @@ The main benefit of post-processing the redshift in this way is that we do not r
 of star formation rate (SFR) distribution when we solve for the posterior distribution in redshift.
 This means we can put the prior on formation redshift (or in general, metallicity-redshfit distribution) in
 by reweighting the posterior distribution according to a particular SFR model,
-and therefore do not have to rerun the inference everytime we change the SFR model. This is especially helpful
+and therefore do not have to rerun the inference every time we change the SFR model. This is especially helpful
 since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep{Broekgaarden2021}.
 For hyperparameters, we choose parameters that affect
-binary evolution in \texttt{COSMIC} mostly significantly for massive stars, including the common envelope
+binary evolution in \texttt{COSMIC} most significantly for massive stars, including the common envelope
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$,
 the critical mass ratio which determines whether Roche-overflow mass transfer
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
@@ -430,7 +430,7 @@ preference for these secondaries to also have primary masses near $
 both stars' envelopes are ejected, leaving behind two stripped helium cores in a
 tight orbit. In this case, $f_{\rm acc}$ does not affect the binary evolution
 and is thus unconstrained. This effect can also be seen in the ZAMS mass and
-$q_{\rm crit 3}$ panels for masses near $80\,M_{\odot}$ because double-core
+$q_{\rm crit, 3}$ panels for masses near $80\,M_{\odot}$ because double-core
 common-envelope evolution is triggered in \texttt{COSMIC} when the radii of the
 two stars touch due to the rapid expansion of the primary star upon helium
 ignition. In this case, the choice for Roche-overflow mass transfer to proceed
@@ -442,7 +442,7 @@ mass which must be ejected from the binary to produce BH masses that match
 GW150914, the reverse situation to $M_{2,\rm{ZAMS}} < 70 \, M_\odot$. Binaries
 with both component masses near $150\,M_{\odot}$ must either go through a common
 envelope evolution (in which case $f_{\rm acc}$ is unconstrained), or very
-non-conservative mass transfer (where $f_{\rm acc}$) is low, to produce BBHs
+non-conservative mass transfer (where $f_{\rm acc}$ is low), to produce BBHs
 with the proper mass.
 
 Finally, we find that $\alpha$ and $f_{\rm acc}$ are largely uncorrelated,
@@ -468,14 +468,15 @@ analysis.
     $z$ is the redshift at ZAMS.
     $\alpha$ is the common envelope efficiency.
     $f_{\rm acc}$ is the fraction of mass accreted during stable mass transfer.
-    $q_{\rm crit 3}$ is the critical mass ratio on the Hertzsprung Gap,
+    $q_{\rm crit, 3}$ is the critical mass ratio on the Hertzsprung Gap.
+    The contours correspond to the $68\%$ and $95\%$ confidence intervals.
     Note that the redshift is not fitted during the root finding process or the MCMC process.
-    Once we have find the evolutionary parameters, we add the delay time to the lookback time of the observed posterior sample,
+    Once we find the evolutionary parameters, we add the delay time to the lookback time of the observed posterior sample,
     then from the total lookback time we can compute the redshift at ZAMS.
     We highlight three panels in the corner plots to show the fine structure of the set of posterior samples in the evolutionary parameter space.
-    We also color the posterior in a particular panel according to the type of parameters involved in the corner.
+    We also color the posterior in a particular panel according to the type of parameters involved in the corner plot.
     Blue denotes panels that include only progenitor parameters,
-    green denotes panels that include a mix of progenitor and hyperparameters,
+    green denotes panels that include a mix of progenitor parameters and hyperparameters,
     and orange denotes panels that include only hyperparameters.
     }
     \label{fig:GW150914_posterior}
@@ -515,13 +516,13 @@ BHs with the correct masses that merge within a Hubble time.
 \begin{figure*}
     \includegraphics[width=0.98\textwidth]{figures/compare_fixed_variable.png}
     \caption{Comparison of ZAMS masses for binaries which produce GW150914-like mergers for three variations of $\alpha$
-     with fixed set of parameter assumptions matching those of A22 (first three columns) and for binaries which produce
-     GW150914-like mergers when $\alpha$, $f_{\mathrm{acc}}$, and $q_{c,3}$ are allowed to vary, (fourth column).}
+     with a fixed set of parameter assumptions matching those of A21 (first three columns) and for binaries which produce
+     GW150914-like mergers when $\alpha$, $f_{\mathrm{acc}}$, and $q_{crit,3}$ are allowed to vary, (fourth column).}
     \label{fig:compare_fixed_variable}
     \script{figure2_varyAlphaFacc.py}
 \end{figure*}
 
-It is interesting to re-project the posterior over progenitor ($\bm{\theta}'$)
+It is interesting to re-project the posterior over progenitor parameters ($\bm{\theta}'$)
 and hyperparameters ($\bm{\lambda}$) using fresh random variables ($\bm{X}$) to
 the observable space of GW parameters ($\bm{\theta}$).  Agreement between the
 observed parameters and the re-projected parameters indicates good exploration
@@ -536,6 +537,7 @@ $\bm{\lambda}$ to vary.
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{figures/GW150914_reprojection.pdf}
 \caption{Reprojecting the posterior in evolutionary parameter space of GW150914 to observable space.
+The contours correspond to the $68\%$ and $95\%$ confidence intervals.
 The blue contour is the reprojected posterior after the root-finding procedure.
 The orange contour is the reprojected posterior after the MCMC procedure.
 The green contour is the posterior plotted using the original LVK posterior samples.
@@ -583,7 +585,7 @@ follow up these events in detail.
 
 Figure \ref{fig:GWTC-3_f_acc_mass} shows that our method could in principle
 reveal the correlation between progenitor parameters and hyperparameters on a
-population level. Here we impose a cut to eliminate event with KL divergence larger
+population level. Here we impose a cut to eliminate events with KL divergence larger
 than 0.1.
 This is a heuristic choice to exclude events that are obviously not compatible with
 \texttt{COSMIC}.
