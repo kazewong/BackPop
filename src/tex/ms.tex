@@ -55,7 +55,7 @@ from individual gravitational wave observations of merging compact binaries. Our
 pipeline can efficiently explore the high-dimensional space of population
 synthesis settings and progenitor system properties for each system in a catalog
 of gravitational wave observations.  We apply our pipeline to observations in
-the third LIGO Virgo Kagra Gravitational Wave Transient Catalog. We showcase the
+the third third LIGO--Virgo Gravitational-Wave Transient Catalog. We showcase the
 effectiveness of this pipeline with a detailed study of the progenitor
 properties and population synthesis settings that produce mergers like the
 observed GW150914.  Our pipeline permits a measurement of the variation of
@@ -95,7 +95,9 @@ Traditionally, population synthesis studies simulate merging DCO populations
 with a Monte-Carlo approach.  Using theoretically motivated distributions of
 initial parameters like age, metallicity, component mass, orbital separation,
 and eccentricity, initial populations are evolved with fixed astrophysical
-assumptions, or population synthesis hyperparameter settings, to produce a
+assumptions, or population synthesis hyperparameter settings like the stability 
+of Roche-overflow mass transfer, common envelope ejection efficiency, or the 
+strength of compact-object natal kicks, to produce a
 synthetic catalog of DCO mergers which can be compared to parameterized models
 derived from observations. This approach relies on several assumptions, both in
 the simulations and model parameterizations fitted to the GW data, which are
@@ -361,7 +363,7 @@ to randomness in the evolution of the progenitor, and extra caution should be us
     \end{center}
 \end{table*}
 
-We apply the method described in section \ref{sec:method} to the first GW event GW150914.
+We apply the method described in section \ref{sec:method} to the first GW event GW150914 \citep{GW150914}.
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular
 momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
@@ -380,7 +382,7 @@ of star formation rate (SFR) distribution when we solve for the posterior distri
 This means we can put the prior on formation redshift (or in general, metallicity-redshfit distribution) in
 by reweighting the posterior distribution according to a particular SFR model,
 and therefore do not have to rerun the inference every time we change the SFR model. This is especially helpful
-since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep{Broekgaarden2021}.
+since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep[e.g. ][]{Broekgaarden2021}.
 For hyperparameters, we choose parameters that affect
 binary evolution in \texttt{COSMIC} most significantly for massive stars, including the common envelope
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$,
@@ -568,9 +570,9 @@ extra variance during the reprojection can produce a posterior that may not
 agree with the original posterior, hence yielding a higher KL divergence.
 
 For high-mass binaries, \texttt{COSMIC} struggles to produce events above the
-pair instability supernova mass cutoff $m_{1,{\rm GW}}$, so the posterior in the
+pair instability supernova mass cutoff, so the posterior in the
 evolutionary parameter space only corresponds to part of the posterior in the
-observable space below this cutoff, and therefore events beyond the PISN mass
+observable space below this cutoff, and therefore events beyond the lower edge of the PISN mass
 gap also have higher KL divergence.
 
 Events with more extreme mass ratios are hard to produce with \texttt{COSMIC},
