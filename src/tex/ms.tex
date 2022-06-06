@@ -656,13 +656,13 @@ channels.
 % Single formation channel and fundamental limitation on that.
 While our method allows data-driven exploration of the hyperparameters space for the first time, there are a number of improvements that can be implemented in future studies.
 In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC-3.
-For example, event with either of the component mass larger than the lower edge of PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
+For example, events with either of the component mass larger than the lower edge of PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
 Alternative channels such as dynamical formation might be needed to explain some subset of the events in GWTC-3 \citep{Zevin2021}.
 As the sensitivity of GW detectors increases, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
-In this paper, our main focus is to illustrate the concept of "back-propagating" GW events posterior samples,
-highlighting the capability of our method and motivating the community to build the next generation population synthesis code that can work with our method.
-To avoid cluttering of focus, we discuss the physical implication of the result presented in this work under our specific assumption (i.e. using \texttt{COSMIC} as our evolutionary function) in a companion paper.
+In this paper, our main focus is to illustrate the concept of "back-propagating" GW-event posterior samples,
+highlighting the capability of our method and motivating the benefits of building population synthesis codes that can work seamlessly with our method.
+To avoid cluttering of focus, we discuss the physical implications of the results presented in this work under our specific assumptions (i.e. using \texttt{COSMIC} as our evolutionary function) in a future companion paper.
 
 
 % Randomness paragraph
@@ -732,11 +732,11 @@ which often fix the hyperparameters across the entire population.
 Since we are not limited to the fixed hyperparameters assumptions, we can explore the behavior of the hyperparameters across the population much more efficiently.
 While our work lays down a data analysis pathway to understand the population of GW events,
 no physics can be learned without a comprehensive physical model.
-We hope this letter will motivate the community to build the next generation population synthesis codes that have the following properties:
-first, they should have explicit control over the random variables so marginalizing over random variables can be done more precisely;
-second, they should be as automatically differentiable as much as possible so exploring the evolutionary parameter space is efficient.
-Combining this work and the next generation of population synthesis codes,
-we can explore the full parameter space of binary evolution models with the next-generation GW detectors network in the near future.
+We hope this letter will motivate the construction of next-generation population synthesis codes that have the following properties:
+first, they should retain explicit control over the random variables so marginalizing over random variables can be done precisely and
+second, they should be as automatically differentiable as possible so that exploring the evolutionary parameter space is efficient.
+By combining the methods presented in this work and future, differentiable population synthesis codes,
+we can explore the full parameter space of binary evolution models with future GW data.
 
 
 \section{Acknowledgement}
