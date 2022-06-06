@@ -77,7 +77,7 @@ progenitor populations of GW mergers is through population synthesis simulations
 of stellar populations from a host of formation environments. In the case of isolated binary star evolution, merging
 double compact objects can form from massive binary stars through the
 standard stable mass transfer or common envelope channels
-\citep[e.g.][]{Belczynski2002, Dominik2012, Belczynski2016, Zevin2020, Bavera2021, Broekgaarden2021, VanSon2022}
+\citep[e.g.][]{Belczynski2002, Dominik2012, Belczynski2016, Stevenson2017, Zevin2020, Bavera2021, Broekgaarden2021, VanSon2022}
 as well as through chemically homogenous evolution \citep{Mandel2016, Marchant2016, deMink2016}
 or with population III stars \citep[e.g.][]{Belczynski2004, Kinugawa2014, Inayoshi2016, Inayoshi2017, Tanikawa2021, Tanikawa2022}.
 Merging DCO binaries can also originate from a wide variety of dynamically active environments including
@@ -274,10 +274,17 @@ merge within a Hubble time.
 
 Retaining explicit control over random variables allows us to marginalize over
 their contribution, and thus allows us to focus on progenitor parameters and
-hyperparameters. However, in practice most population synthesis codes (including
-\texttt{COSMIC} which we use in this study) define their random variables
-implicitly such that the random variables are drawn within the program instead
-of being passed as arguments. This means that the process of evolving the binary
+hyperparameters. The strength and direction of natal kicks for compact objects 
+are directly specified in the \texttt{COMPAS} binary population synthesis code 
+\citep{Riley2022} and can also be specified in \texttt{COSMIC}, however 
+this requires the user to specify the strength and direction of natal kicks as 
+inputs through a user-specified pre-processing script.  In this study, we use 
+\texttt{COSMIC} in it's default state which does not specify the kick strength 
+and direction at run time. %However, in practice most population synthesis codes (including
+%\texttt{COSMIC} which we use in this study) define their random variables
+%implicitly such that the random variables are drawn within the program instead
+%of being passed as arguments by default 
+This means that the process of evolving the binary
 is not fully deterministic. Thus, even if the root-finding algorithm performs
 perfectly, forward modelling a set of roots does not guarantee that the
 simulated population reproduces exactly the set of posterior samples due to
@@ -309,7 +316,7 @@ observable space, and is thus a viable channel for that specific event. Otherwis
 can only explain part of the posterior or cannot explain the event at all. This is completely expected behavior since
 \texttt{COSMIC}, and isolated binary evolution more generally, carries its own assumptions and is expected to
 fail in reproducing a subset of the event in GWTC-3. One example of this is GW events with at least one component
-with mass above the pair instability supernova mass limit \citep{Woosley2017, Farmer2020}.
+with mass above the pair instability supernova mass limit \citep{Woosley2017, Farmer2019}.
 The reprojection could also be subject to stochasticity in the evolution of each binary.
 To account for this, we reproject the posterior multiple times with different random seeds and
 check whether the KL divergence varies significantly. A varying KL divergence means a particular GW event is subject
