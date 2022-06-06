@@ -383,13 +383,16 @@ This means we can put the prior on formation redshift (or in general, metallicit
 by reweighting the posterior distribution according to a particular SFR model,
 and therefore do not have to rerun the inference every time we change the SFR model. This is especially helpful
 since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep[e.g. ][]{Broekgaarden2021}.
-For hyperparameters, we choose parameters that affect
-binary evolution in \texttt{COSMIC} most significantly for massive stars, including the common envelope
+For hyperparameters, we choose parameters that strongly affect
+binary evolution in \texttt{COSMIC} for massive stars, including the common envelope
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$,
 the critical mass ratio which determines whether Roche-overflow mass transfer
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
 $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
-employed for CO natal kicks, $\sigma$.
+employed for CO natal kicks, $\sigma$. For systems which begin a common envelope 
+with a Hertzsprung-gap donor, we always assume the pessimistic outcome that the two 
+stars merge since the donor has likely not formed a strong core-envelope boundary 
+\citep{Ivanova2004, Belczynski2008}.
 
 We show a portion of the joint posterior of the progenitor parameters and
 hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. Each panel
