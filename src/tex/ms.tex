@@ -270,13 +270,19 @@ space that are likely to produce DCO mergers. To construct a list of initial gue
 ZAMS parameters uniformly sampled from the initial binary parameter space, then keep the systems that
 merge within a Hubble time.
 
-Retaining explicit control over random variables, as done in \texttt{COMPAS} 
-a binary population synthesis code \citep{Riley2022}, allows us to marginalize over
+Retaining explicit control over random variables allows us to marginalize over
 their contribution, and thus allows us to focus on progenitor parameters and
-hyperparameters. However, in practice most population synthesis codes (including
-\texttt{COSMIC} which we use in this study) define their random variables
-implicitly such that the random variables are drawn within the program instead
-of being passed as arguments. This means that the process of evolving the binary
+hyperparameters. The strength and direction of natal kicks for compact objects 
+are directly specified in the \texttt{COMPAS} binary population synthesis code 
+\citep{Riley2022} and can also be specified in \texttt{COSMIC}, however 
+this requires the user to specify the strength and direction of natal kicks as 
+inputs through a user-specified pre-processing script.  In this study, we use 
+\texttt{COSMIC} in it's default state which does not specify the kick strength 
+and direction at run time. %However, in practice most population synthesis codes (including
+%\texttt{COSMIC} which we use in this study) define their random variables
+%implicitly such that the random variables are drawn within the program instead
+%of being passed as arguments by default 
+This means that the process of evolving the binary
 is not fully deterministic. Thus, even if the root-finding algorithm performs
 perfectly, forward modelling a set of roots does not guarantee that the
 simulated population reproduces exactly the set of posterior samples due to
