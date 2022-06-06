@@ -55,7 +55,7 @@ from individual gravitational wave observations of merging compact binaries. Our
 pipeline can efficiently explore the high-dimensional space of population
 synthesis settings and progenitor system properties for each system in a catalog
 of gravitational wave observations.  We apply our pipeline to observations in
-the third LIGO Virgo Kagra Gravitational Wave Transient Catalog. We showcase the
+the third third LIGO--Virgo Gravitational-Wave Transient Catalog. We showcase the
 effectiveness of this pipeline with a detailed study of the progenitor
 properties and population synthesis settings that produce mergers like the
 observed GW150914.  Our pipeline permits a measurement of the variation of
@@ -95,7 +95,9 @@ Traditionally, population synthesis studies simulate merging DCO populations
 with a Monte-Carlo approach.  Using theoretically motivated distributions of
 initial parameters like age, metallicity, component mass, orbital separation,
 and eccentricity, initial populations are evolved with fixed astrophysical
-assumptions, or population synthesis hyperparameter settings, to produce a
+assumptions, or population synthesis hyperparameter settings like the stability 
+of Roche-overflow mass transfer, common envelope ejection efficiency, or the 
+strength of compact-object natal kicks, to produce a
 synthetic catalog of DCO mergers which can be compared to parameterized models
 derived from observations. This approach relies on several assumptions, both in
 the simulations and model parameterizations fitted to the GW data, which are
@@ -368,7 +370,7 @@ to randomness in the evolution of the progenitor, and extra caution should be us
     \end{center}
 \end{table*}
 
-We apply the method described in section \ref{sec:method} to the first GW event GW150914.
+We apply the method described in section \ref{sec:method} to the first GW event GW150914 \citep{GW150914}.
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular
 momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
@@ -387,14 +389,17 @@ of star formation rate (SFR) distribution when we solve for the posterior distri
 This means we can put the prior on formation redshift (or in general, metallicity-redshfit distribution) in
 by reweighting the posterior distribution according to a particular SFR model,
 and therefore do not have to rerun the inference every time we change the SFR model. This is especially helpful
-since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep{Broekgaarden2021}.
-For hyperparameters, we choose parameters that affect
-binary evolution in \texttt{COSMIC} most significantly for massive stars, including the common envelope
+since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep[e.g. ][]{Broekgaarden2021}.
+For hyperparameters, we choose parameters that strongly affect
+binary evolution in \texttt{COSMIC} for massive stars, including the common envelope
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$,
 the critical mass ratio which determines whether Roche-overflow mass transfer
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
 $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
-employed for CO natal kicks, $\sigma$.
+employed for CO natal kicks, $\sigma$. For systems which begin a common envelope 
+with a Hertzsprung-gap donor, we always assume the pessimistic outcome that the two 
+stars merge since the donor has likely not formed a strong core-envelope boundary 
+\citep{Ivanova2004, Belczynski2008}.
 
 We show a portion of the joint posterior of the progenitor parameters and
 hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. Each panel
@@ -575,9 +580,9 @@ extra variance during the reprojection can produce a posterior that may not
 agree with the original posterior, hence yielding a higher KL divergence.
 
 For high-mass binaries, \texttt{COSMIC} struggles to produce events above the
-pair instability supernova mass cutoff $m_{1,{\rm GW}}$, so the posterior in the
+pair instability supernova mass cutoff, so the posterior in the
 evolutionary parameter space only corresponds to part of the posterior in the
-observable space below this cutoff, and therefore events beyond the PISN mass
+observable space below this cutoff, and therefore events beyond the lower edge of the PISN mass
 gap also have higher KL divergence.
 
 Events with more extreme mass ratios are hard to produce with \texttt{COSMIC},
@@ -661,13 +666,13 @@ channels.
 % Single formation channel and fundamental limitation on that.
 While our method allows data-driven exploration of the hyperparameters space for the first time, there are a number of improvements that can be implemented in future studies.
 In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC-3.
-For example, event with either of the component mass larger than the lower edge of PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
+For example, events with either of the component mass larger than the lower edge of PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
 Alternative channels such as dynamical formation might be needed to explain some subset of the events in GWTC-3 \citep{Zevin2021}.
 As the sensitivity of GW detectors increases, we expect to see more and more events that are unusual in some way.
 Therefore, having a self-consistence population synthesis code that contains multiple formation channels is essential to accommodate the growing catalog of GW events.
-In this paper, our main focus is to illustrate the concept of "back-propagating" GW events posterior samples,
-highlighting the capability of our method and motivating the community to build the next generation population synthesis code that can work with our method.
-To avoid cluttering of focus, we discuss the physical implication of the result presented in this work under our specific assumption (i.e. using \texttt{COSMIC} as our evolutionary function) in a companion paper.
+In this paper, our main focus is to illustrate the concept of "back-propagating" GW-event posterior samples,
+highlighting the capability of our method and motivating the benefits of building population synthesis codes that can work seamlessly with our method.
+To avoid cluttering of focus, we discuss the physical implications of the results presented in this work under our specific assumptions (i.e. using \texttt{COSMIC} as our evolutionary function) in a future companion paper.
 
 
 % Randomness paragraph
@@ -737,11 +742,11 @@ which often fix the hyperparameters across the entire population.
 Since we are not limited to the fixed hyperparameters assumptions, we can explore the behavior of the hyperparameters across the population much more efficiently.
 While our work lays down a data analysis pathway to understand the population of GW events,
 no physics can be learned without a comprehensive physical model.
-We hope this letter will motivate the community to build the next generation population synthesis codes that have the following properties:
-first, they should have explicit control over the random variables so marginalizing over random variables can be done more precisely;
-second, they should be as automatically differentiable as much as possible so exploring the evolutionary parameter space is efficient.
-Combining this work and the next generation of population synthesis codes,
-we can explore the full parameter space of binary evolution models with the next-generation GW detectors network in the near future.
+We hope this letter will motivate the construction of next-generation population synthesis codes that have the following properties:
+first, they should retain explicit control over the random variables so marginalizing over random variables can be done precisely and
+second, they should be as automatically differentiable as possible so that exploring the evolutionary parameter space is efficient.
+By combining the methods presented in this work and future, differentiable population synthesis codes,
+we can explore the full parameter space of binary evolution models with future GW data.
 
 
 \section{Acknowledgement}
