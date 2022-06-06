@@ -371,6 +371,8 @@ to randomness in the evolution of the progenitor, and extra caution should be us
 \end{table*}
 
 We apply the method described in section \ref{sec:method} to the first GW event GW150914 \citep{GW150914}.
+We use the "Overall_posterior" posterior samples for GW150914,
+publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}. 
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular
 momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
@@ -560,10 +562,14 @@ The green contour is the posterior plotted using the original LVK posterior samp
 
 
 % Paragraph discussing the potential application on the population side.
-To illustrate the potential benefit of using our method on the population level, we
-perform the same analysis for all events in GWTC-3. Plotted in figure
+To illustrate the potential benefit of using our method on the population level,
+we perform the same analysis for all events in GWTC-3.
+For events announced in GWTC-1, we use "Overall_posterior", "PublicationSamples","IMRPhenomXPHM_comoving" and "C01:Mixed" posterior samples, respectively.
+All the data are publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}.
+Plotted in figure
 \ref{fig:GWTC-3_f_acc_mass} is the posterior density in the $m_{1,{\rm
-GW}}-f_{\rm acc}$ space for most of the events in GWTC-3. Each contour represents
+GW}}-f_{\rm acc}$ space for most of the events in GWTC-3.
+We use the  Each contour represents
 the $68\%$ credible interval of the posterior density for that particular event.
 There is a suggestive trend showing that $f_{\rm acc}$ could increase as the mass of
 the progenitor increases. Such a trend implies the stable mass transfer
@@ -752,6 +758,17 @@ we can explore the full parameter space of binary evolution models with future G
 \section{Acknowledgement}
 The authors are grateful for discussions with the CCA Gravitational Wave Astronomy Group.
 The Flatiron Institute is supported by the Simons Foundation.
+This research has made use of data or software obtained from the Gravitational Wave Open Science Center (gw-openscience.org),
+a service of LIGO Laboratory, the LIGO Scientific Collaboration, the Virgo Collaboration, and KAGRA.
+LIGO Laboratory and Advanced LIGO are funded by the United States National Science Foundation (NSF) as well as
+the Science and Technology Facilities Council (STFC) of the United Kingdom, the Max-Planck-Society (MPS),
+and the State of Niedersachsen/Germany for support of the construction of Advanced LIGO and construction and operation of the GEO600 detector.
+Additional support for Advanced LIGO was provided by the Australian Research Council. Virgo is funded, through the European Gravitational Observatory (EGO),
+by the French Centre National de Recherche Scientifique (CNRS), the Italian Istituto Nazionale di Fisica Nucleare (INFN) and the Dutch Nikhef,
+with contributions by institutions from Belgium, Germany, Greece, Hungary, Ireland, Japan, Monaco, Poland, Portugal, Spain.
+The construction and operation of KAGRA are funded by Ministry of Education, Culture, Sports, Science and Technology (MEXT),
+and Japan Society for the Promotion of Science (JSPS), National Research Foundation (NRF) and Ministry of Science and ICT (MSIT) in Korea,
+Academia Sinica (AS) and the Ministry of Science and Technology (MoST) in Taiwan.
 
 \software{
     \texttt{corner}\ \citep{corner};
