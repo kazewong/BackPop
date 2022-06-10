@@ -41,4 +41,4 @@ stable mass transfer efficiency parameter may vary with primary black hole mass.
 
 ## Data Release
 
-**Put Zenodo links here**
+[Link](https://zenodo.org/record/6624911#.YqM2oWDMKUk) to zenodo data repo. Note that showyourwork will fetch the data from zenodo the first time you build the document, which could take a while to download ~5GB of data.
