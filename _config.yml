@@ -30,7 +30,7 @@ twitter_username: physicskaze
 github_username:  kazewong
 
 # Build settings
-theme: beautiful-jekyll-theme
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
 
