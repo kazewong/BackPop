@@ -286,9 +286,10 @@ and direction at run time. %However, in practice most population synthesis codes
 %\texttt{COSMIC} which we use in this study) define their random variables
 %implicitly such that the random variables are drawn within the program instead
 %of being passed as arguments by default 
-This means that the process of evolving the binary
-is not fully deterministic. Thus, even if the root-finding algorithm performs
-perfectly, forward modelling a set of roots does not guarantee that the
+This means that the process of evolving the binary is not fully
+deterministic\textbf{, i.e. we only have access to $\bm{\theta'}$ and
+$\bm{\lambda}$ but not $\bm{X}$}. Thus, even if the root-finding algorithm
+performs perfectly, forward modelling a set of roots does not guarantee that the
 simulated population reproduces exactly the set of posterior samples due to
 randomness in the evolution of each binary. To assure that the recovered
 progenitor and hyperparameters robustly correspond to the posterior in the
