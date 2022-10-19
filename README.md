@@ -13,6 +13,9 @@
 <a href="https://github.com/kazewong/BackPop/raw/main-pdf/ms.pdf">
 <img src="https://img.shields.io/badge/article-pdf-blue.svg?style=flat" alt="Read the article"/>
 </a>
+<a href="https://doi.org/10.5281/zenodo.6624911">
+<img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6624911.svg" alt="DOI">
+</a>
 </p>
 
 # Backward Population Synthesis: Mapping the Evolutionary History of Gravitational-Wave Progenitors
