@@ -563,18 +563,21 @@ The green contour is the posterior plotted using the original LVK posterior samp
 
 % Paragraph discussing the potential application on the population side.
 To illustrate the potential benefit of using our method on the population level,
-we perform the same analysis for all events in GWTC-3.
-For events announced in GWTC-1, we use \texttt{Overall\_posterior}, \texttt{PublicationSamples},\texttt{IMRPhenomXPHM\_comoving} and \texttt{C01:Mixed} posterior samples, respectively.
-All the data are publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}.
-Plotted in figure
-\ref{fig:GWTC-3_f_acc_mass} is the posterior density in the $m_{1,{\rm
-GW}}-f_{\rm acc}$ space for most of the events in GWTC-3.
-Each contour represents
-the $68\%$ credible interval of the posterior density for that particular event.
-There is a suggestive trend showing that $f_{\rm acc}$ could increase as the mass of
-the progenitor increases. Such a trend implies the stable mass transfer
-phase of a less massive binary would be preferentially non-conservative, with
-more conservative mass transfer in more massive binary systems.
+we perform the same analysis for all events in GWTC-3. For events announced in
+GWTC-1, we use \texttt{Overall\_posterior},
+\texttt{PublicationSamples},\texttt{IMRPhenomXPHM\_comoving} and
+\texttt{C01:Mixed} posterior samples, respectively. All the data are publicly
+available from the Gravitational wave Open Science Center
+\citep{LIGOScientific:2019lzm}. Plotted in figure \ref{fig:GWTC-3_f_acc_mass} is
+the posterior density in the $m_{1,{\rm GW}}-f_{\rm acc}$ space for
+most\footnote{\textbf{We excluded events for which our reconstructed posterior has KL
+divergence greater than 0.1 nats relative to the GWTC-3 posterior; see below.}}
+of the events in GWTC-3. Each contour represents the $68\%$ credible interval of
+the posterior density for that particular event. There is a suggestive trend
+showing that $f_{\rm acc}$ could increase as the mass of the progenitor
+increases. Such a trend implies the stable mass transfer phase of a less massive
+binary would be preferentially non-conservative, with more conservative mass
+transfer in more massive binary systems.
 
 Note that some events did not pass the KL divergence test we proposed in section
 \ref{sec:method}; we do not include these systems in figure
@@ -638,7 +641,7 @@ paper. Instead of forward modelling an assumed distribution of initial binaries
 to the observed population, we find the corresponding evolutionary parameters
 event-by-event. In this first work, we showcase the power of the proposed method
 with an application to GW150914. We show the joint posterior of the event's
-progenitor parameters and hyperparameters.  Our work is both a more efficient
+progenitor parameters and hyperparameters.  Our work is a \textbf{data-driven}
 way to study GW event progenitors, and also allows the possibility of
 constraining the astrophysics related to binary evolution, especially by
 capturing the correlation between hyperparameters in different systems.
@@ -658,19 +661,19 @@ Working event-by-event as we do permits post-processing application of
 arbitrarily complicated models of star formation and metalliticy evolution by
 re-weighting the samples we obtain \citep[e.g.][]{VanSon2022}. Once we have
 pulled the GW event posterior back from the observable space to the evolutionary
-parameter space, we can apply the same hierarchical inference methods currently
-used to infer the compact binary population to our progenitor population.  In
-particular, we can use our progenitor population to infer the formation rate of
-compact binary population progenitor systems over cosmic time without needing to
-make artifical and simplistic assumptions about the delay time distribution or
-the metallicity-specific star formation rate
-\citep{Vitale2019,Ng2021,VanSon2022}.  Comparing the formation rate of
-progenitors to the star formation rate provides an avenue to check our
-understanding of binary evolution and the relative rate of other formation
-channels.
+parameter space, \textbf{and have accounted for selection effects}, we can apply
+the same hierarchical inference methods currently used to infer the compact
+binary population to our progenitor population.  In particular, we can use our
+progenitor population to infer the formation rate of compact binary population
+progenitor systems over cosmic time without needing to make artifical and
+simplistic assumptions about the delay time distribution or the
+metallicity-specific star formation rate \citep{Vitale2019,Ng2021,VanSon2022}.
+Comparing the formation rate of progenitors to the star formation rate provides
+an avenue to check our understanding of binary evolution and the relative rate
+of other formation channels.
 
 % Single formation channel and fundamental limitation on that.
-While our method allows data-driven exploration of the hyperparameters space for the first time, there are a number of improvements that can be implemented in future studies.
+While our method allows data-driven exploration of the hyperparameters space, there are a number of improvements that can be implemented in future studies.
 In this study we use only \texttt{COSMIC} as our evolutionary function, which by design cannot explain all the events in GWTC-3.
 For example, events with either of the component mass larger than the lower edge of PISN gap such as GW190521 cannot be explained by \texttt{COSMIC}.
 Alternative channels such as dynamical formation might be needed to explain some subset of the events in GWTC-3 \citep{Zevin2021}.
@@ -737,7 +740,7 @@ Also, finite differencing is increasingly inefficient as we increase the dimensi
 To improve the accuracy and efficiency in estimating the gradient of the objective function, automatic differentiation is a promising feature that modelers should consider incorporating in their population synthesis codes in the future.
 
 
-To summarize, we propose a novel method to recover the posterior samples in the evolutionary parameter space for each GW event.
+To summarize, we propose a method to recover the posterior samples in the evolutionary parameter space for each GW event.
 We point out hyperparameters in the usual population synthesis simulation context are not actually parameters related to the population,
 but parameters about the evolutionary function.
 This means the binary evolution functions can be constrained on an individual event basis.
