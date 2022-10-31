@@ -18,7 +18,7 @@ dependencies:
     - src/data/GWTC3_mcmc_processed.hdf5
 
 datasets:
-  10.5072/zenodo.1065343:
+  10.5281/zenodo.6624911:
     destination: src/data
     contents:
       GW150914_roots_processed.hdf5:
