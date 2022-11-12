@@ -247,8 +247,9 @@ $\bm{\theta}$, namely
 \begin{align}
     p(\bm{\Theta} | d) = \frac{p(\bm{\theta}(\bm{\Theta})| d) \pi(\bm{\Theta})}{\pi_\mathrm{GW}(\bm{\theta}(\bm{\Theta}))}.
 \end{align}
-We apply a kernel density estimator with a Gaussian kernel to the posterior
-samples released in GWTC-3 to estimate $p(\bm{\theta}(\bm{\Theta})|d)$.
+We apply a kernel density estimator with a Gaussian kernel \footnote{We use the
+implementation in \texttt{scipy} \cite{2020SciPy-NMeth}} to the posterior
+samples released in GWTC-3 to estimate $p(\bm{\theta}(\bm{\Theta})|d)$. 
 
 Including hyperparameters and random variables %in the sampling
 drastically increases the dimensionality of the problem, which can make the
