@@ -249,7 +249,9 @@ $\bm{\theta}$, namely
 \end{align}
 We apply a kernel density estimator with a Gaussian kernel \footnote{We use the
 implementation in \texttt{scipy} \cite{2020SciPy-NMeth}} to the posterior
-samples released in GWTC-3 to estimate $p(\bm{\theta}(\bm{\Theta})|d)$. 
+samples released in GWTC-3 to estimate $p(\bm{\theta}(\bm{\Theta})|d)$.
+\textbf{A desired prior in the evolutionary parameters can be included through
+the prior $\pi(\bm{\Theta})$ in the above equation.}
 
 Including hyperparameters and random variables %in the sampling
 drastically increases the dimensionality of the problem, which can make the
