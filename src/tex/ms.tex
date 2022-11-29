@@ -58,9 +58,10 @@ the third LIGO--Virgo Gravitational-Wave Transient Catalog. We showcase the
 effectiveness of this pipeline with a detailed study of the progenitor
 properties and population synthesis settings that produce mergers like the
 observed GW150914.  Our pipeline permits a measurement of the variation of
-population synthesis parameter settings with binary properties, if any; we
-present inferences for the recent GWTC-3 transient catalog that suggest that the
-stable mass transfer efficiency parameter may vary with primary black hole mass.  
+population synthesis parameter settings with binary properties, if any;
+\textbf{we illustrate the possibility of such capability by presenting
+inferences for the recent GWTC-3 transient catalog that suggest that the stable
+mass transfer efficiency parameter may vary with primary black hole mass.}  
 \end{abstract}
 
 %\maketitle
@@ -113,19 +114,20 @@ Barrett2018, Mastrogiovanni2022} or contributions from multiple formation
 environments \citep[e.g][]{Zevin2017, Stevenson2017, Bouffanais2019, Zevin2021,
 Wong2021, Bouffanais2021, Mapelli2022}}. These approaches rely on several
 assumptions, both in the simulations and model parameterizations fitted to the
-GW data, which are unlikely to be fully correct. For example, there is no reason
-to suppose that the entire population of DCOs should evolve with the same fixed
-hyperparameters; there is no a priori reason the fitted parameterized model
-should capture the relevant features of the observed DCO distributions to
-correspond to the binary physics of interest; etc. A better approach would be to
-compare progenitor parameters and hyperparameter settings directly to DCO
-observations, treating the population synthesis model as a mapping from
-progenitor to merger parameters; merger parameters can then be mapped into
-observations using a gravitational waveform family, and parameter inference
-proceeds in the usual way, propagating information back up the mapping chain
-\citep[e.g.][]{Veitch2015}.  A similar methodology, though with \emph{fixed}
-hyperparameter settings, was advanced in \citet{Andrews2018,Andrews2021}, as we
-discuss in more detail below.
+GW data, which are unlikely to be fully correct. For example, \textbf{without
+knowing whether the parameterization of hyperparameters is sufficiently
+accurate}, there is no reason to suppose that the entire population of DCOs
+should evolve with the same fixed hyperparameters; there is no a priori reason
+the fitted parameterized model should capture the relevant features of the
+observed DCO distributions to correspond to the binary physics of interest; etc.
+A better approach would be to compare progenitor parameters and hyperparameter
+settings directly to DCO observations, treating the population synthesis model
+as a mapping from progenitor to merger parameters; merger parameters can then be
+mapped into observations using a gravitational waveform family, and parameter
+inference proceeds in the usual way, propagating information back up the mapping
+chain \citep[e.g.][]{Veitch2015}.  A similar methodology, though with
+\emph{fixed} hyperparameter settings, was advanced in
+\citet{Andrews2018,Andrews2021}, as we discuss in more detail below.
 
 %One of the most common skepticisms of population synthesis studies is that they
 %employ simulation sets which often cover a small subdomain of the entire
@@ -693,7 +695,13 @@ hyperparameters.  That is, once we have a catalog of events, each has their own
 posterior in the hyperparameter space, and we can employ well-known techniques
 such as hierarchical Bayesian analysis to fit a population model to the
 distribution of hyperparameters; this avoids making overly-specific assumptions
-like fixing the hyperparameters for all types of event.
+like fixing the hyperparameters for all types of event. \textbf{In this work we
+focus on illustrating the possibililty of conducting such analysis with our
+pipeline. Note that there are concerns that need to be addressed before one can
+make statments about the physics, such as the number of channels considered and
+specific choices of parameterization. These concerns are beyond the scope of
+this paper, and we defer a detailed study of the physics related to the
+population of GW events to future work.}
 
 % Rate analysis is now just counting, like what's done in phenomenological
 % model, instead of forward modelling.
