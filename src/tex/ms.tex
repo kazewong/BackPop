@@ -198,10 +198,11 @@ The rest of the paper is structured as follows: We detail our method in Sec.
 our method to a number of real events. We discuss the implications of this work
 and future direction in Sec. ~\ref{sec:discussion}.
 
-\section{Method}
+\section{Methods}
 \label{sec:method}
 
-
+\subsection{\textbf{Statistical method}}
+\label{subsec:stats}
 We define the progenitor's zero age main sequence (ZAMS) properties like mass,
 orbital period, and eccentricity as progenitor parameters $\bm{\theta'}$, the
 parameters that control different uncertain physical prescriptions such as wind
@@ -353,9 +354,8 @@ A varying KL divergence means a particular GW event is subject to randomness in
 the evolution of the progenitor, and extra caution should be used when
 interpreting the result.
 
-
-\section{Results}
-\label{sec:result}
+\subsection{\textbf{Binary evolution assumptions}}
+\label{subsec:binaries}
 
 \begin{table*}[hbt!]
     \begin{center}
@@ -403,14 +403,16 @@ interpreting the result.
     \end{center}
 \end{table*}
 
-We apply the method described in section \ref{sec:method} to the first GW event GW150914 \citep{GW150914}.
+We apply the method described in section \textbf{\ref{subsec:stats}} to the first GW event GW150914 \citep{GW150914}.
 We use the \texttt{Overall\_posterior} posterior samples for GW150914,
 publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}. 
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular
 momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
 therefore we only consider the two component masses in the observable space $\bm{\theta}$ in both the
-root-finding stage and the MCMC stage. For progenitor parameters $\bm{\theta'}$, we characterize each guess with
+root-finding stage and the MCMC stage. 
+
+For progenitor parameters $\bm{\theta'}$, we characterize each guess with
 five parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the orbital period $t_{\rm orb}$,
 the eccentricity $e$, and the metallicity $Z$ at ZAMS. Note that the progenitor formation redshift is not
 obtained through the root-finding process because the formation redshift does not intrinsically affect
@@ -425,23 +427,41 @@ This means we can put the prior on formation redshift (or in general, metallicit
 by reweighting the posterior distribution according to a particular SFR model,
 and therefore do not have to rerun the inference every time we change the SFR model. This is especially helpful
 since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep[e.g. ][]{Broekgaarden2021}.
+
 For hyperparameters $\bm{\lambda}$, we choose parameters that strongly affect
 binary evolution in \texttt{COSMIC} for massive stars, including the common envelope
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$,
 the critical mass ratio which determines whether Roche-overflow mass transfer
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
 $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
-employed for CO natal kicks, $\sigma$. For systems which begin a common envelope 
+employed for CO natal kicks, $\sigma$. \textbf{We follow the critical mass ratio prescription 
+described in \cite{Neijssel2019} for donors which fill their Roche lobes during
+ other phases of stellar evolution.} 
+For systems which begin a common envelope 
 with a Hertzsprung-gap donor, we always assume the pessimistic outcome that the two 
 stars merge since the donor has likely not formed a strong core-envelope boundary 
-\citep{Ivanova2004, Belczynski2008}.
+\citep{Ivanova2004, Belczynski2008}. \textbf{We fix other assumptions for how stellar and binary 
+evolution proceed. In particular, we assume that stars lose mass through stellar winds 
+in a metallicity-dependent 
+fashion according to \cite{Vink2001,Vink2005}. We assume that binaries are rapidly circularized
+during both stable Roche-overflow mass transfer and common envelopes.
+We further assume that the CO formation mechanism follows the delayed 
+prescription of \citet{Fryer2012} which allows neutrino-driven supernova explosions to 
+occur from instabilities which grow on timescales longer than $250\,\rm{ms}$, 
+and that natal kicks due to supernovae are reduced by the amount 
+of mass which falls back onto the proto-CO
+as described in \citet{Fryer2012}.}
+
+
+\section{Results}
+\label{sec:result}
 
 We show a portion of the joint posterior of the progenitor parameters and
 hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. Each panel
 is colored based on the comparison between progenitor parameters (blue),
 hyperparameters (orange), or a mix of the two (green). We find that the choice
 for $\sigma$ does not affect the formation of GW150914-like BBHs. This is not
-unexpected since we use the \citet{Fryer2012} delayed model which reduces the
+unexpected since \textbf{the \citet{Fryer2012} delayed model can significantly reduce} the
 natal kick strength at BH formation based on the amount of fallback onto the
 proto-CO. In the case of GW150914-like BBHs, the BH progenitors are massive
 enough that the fallback reduces the natal kick to zero. Because of this we do
