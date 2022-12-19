@@ -58,9 +58,10 @@ the third LIGO--Virgo Gravitational-Wave Transient Catalog. We showcase the
 effectiveness of this pipeline with a detailed study of the progenitor
 properties and population synthesis settings that produce mergers like the
 observed GW150914.  Our pipeline permits a measurement of the variation of
-population synthesis parameter settings with binary properties, if any; we
-present inferences for the recent GWTC-3 transient catalog that suggest that the
-stable mass transfer efficiency parameter may vary with primary black hole mass.  
+population synthesis parameter settings with binary properties, if any;
+\textbf{we illustrate the possibility of such capability by presenting
+inferences for the recent GWTC-3 transient catalog that suggest that the stable
+mass transfer efficiency parameter may vary with primary black hole mass.}  
 \end{abstract}
 
 %\maketitle
@@ -113,19 +114,20 @@ Barrett2018, Mastrogiovanni2022} or contributions from multiple formation
 environments \citep[e.g][]{Zevin2017, Stevenson2017, Bouffanais2019, Zevin2021,
 Wong2021, Bouffanais2021, Mapelli2022}}. These approaches rely on several
 assumptions, both in the simulations and model parameterizations fitted to the
-GW data, which are unlikely to be fully correct. For example, there is no reason
-to suppose that the entire population of DCOs should evolve with the same fixed
-hyperparameters; there is no a priori reason the fitted parameterized model
-should capture the relevant features of the observed DCO distributions to
-correspond to the binary physics of interest; etc. A better approach would be to
-compare progenitor parameters and hyperparameter settings directly to DCO
-observations, treating the population synthesis model as a mapping from
-progenitor to merger parameters; merger parameters can then be mapped into
-observations using a gravitational waveform family, and parameter inference
-proceeds in the usual way, propagating information back up the mapping chain
-\citep[e.g.][]{Veitch2015}.  A similar methodology, though with \emph{fixed}
-hyperparameter settings, was advanced in \citet{Andrews2018,Andrews2021}, as we
-discuss in more detail below.
+GW data, which are unlikely to be fully correct. For example, \textbf{without
+knowing whether the parameterization of hyperparameters is sufficiently
+accurate}, there is no reason to suppose that the entire population of DCOs
+should evolve with the same fixed hyperparameters; there is no a priori reason
+the fitted parameterized model should capture the relevant features of the
+observed DCO distributions to correspond to the binary physics of interest; etc.
+A better approach would be to compare progenitor parameters and hyperparameter
+settings directly to DCO observations, treating the population synthesis model
+as a mapping from progenitor to merger parameters; merger parameters can then be
+mapped into observations using a gravitational waveform family, and parameter
+inference proceeds in the usual way, propagating information back up the mapping
+chain \citep[e.g.][]{Veitch2015}.  A similar methodology, though with
+\emph{fixed} hyperparameter settings, was advanced in
+\citet{Andrews2018,Andrews2021}, as we discuss in more detail below.
 
 %One of the most common skepticisms of population synthesis studies is that they
 %employ simulation sets which often cover a small subdomain of the entire
@@ -196,10 +198,11 @@ The rest of the paper is structured as follows: We detail our method in Sec.
 our method to a number of real events. We discuss the implications of this work
 and future direction in Sec. ~\ref{sec:discussion}.
 
-\section{Method}
+\section{Methods}
 \label{sec:method}
 
-
+\subsection{\textbf{Statistical method}}
+\label{subsec:stats}
 We define the progenitor's zero age main sequence (ZAMS) properties like mass,
 orbital period, and eccentricity as progenitor parameters $\bm{\theta'}$, the
 parameters that control different uncertain physical prescriptions such as wind
@@ -247,8 +250,11 @@ $\bm{\theta}$, namely
 \begin{align}
     p(\bm{\Theta} | d) = \frac{p(\bm{\theta}(\bm{\Theta})| d) \pi(\bm{\Theta})}{\pi_\mathrm{GW}(\bm{\theta}(\bm{\Theta}))}.
 \end{align}
-We apply a kernel density estimator with a Gaussian kernel to the posterior
+We apply a kernel density estimator with a Gaussian kernel \footnote{We use the
+implementation in \texttt{scipy} \cite{2020SciPy-NMeth}} to the posterior
 samples released in GWTC-3 to estimate $p(\bm{\theta}(\bm{\Theta})|d)$.
+\textbf{A desired prior in the evolutionary parameters can be included through
+the prior $\pi(\bm{\Theta})$ in the above equation.}
 
 Including hyperparameters and random variables %in the sampling
 drastically increases the dimensionality of the problem, which can make the
@@ -348,9 +354,8 @@ A varying KL divergence means a particular GW event is subject to randomness in
 the evolution of the progenitor, and extra caution should be used when
 interpreting the result.
 
-
-\section{Results}
-\label{sec:result}
+\subsection{\textbf{Binary evolution assumptions}}
+\label{subsec:binaries}
 
 \begin{table*}[hbt!]
     \begin{center}
@@ -360,14 +365,14 @@ interpreting the result.
     Parameters &  Description & Optimization range\\
     \hline
     \hline
-    Observables &\ &\  \\
+    Observables $\bm{\theta}$ &\ &\  \\
     \hline
     \hline
     $m_{\rm 1, GW}$ & Primary mass of the GW event & NA \\
     $m_{\rm 2, GW}$ & Secondary mass of the GW event  & NA\\
     \hline
     \hline
-    Progenitor parameters &\ &\  \\
+    Progenitor parameters $\bm{\theta'}$&\ &\  \\
     \hline
     \hline
     $m_{\rm 1, ZAMS}$ & Primary mass at ZAMS & $[10,150]\ M_{\odot}$\\
@@ -378,7 +383,7 @@ interpreting the result.
     $z$ & Redshift at ZAMS & NA\\
     \hline
     \hline
-    hyperparameters &\ &\ \\
+    Hyperparameters $\bm{\lambda    }$ &\ &\ \\
     \hline
     \hline
 
@@ -398,14 +403,16 @@ interpreting the result.
     \end{center}
 \end{table*}
 
-We apply the method described in section \ref{sec:method} to the first GW event GW150914 \citep{GW150914}.
+We apply the method described in section \textbf{\ref{subsec:stats}} to the first GW event GW150914 \citep{GW150914}.
 We use the \texttt{Overall\_posterior} posterior samples for GW150914,
 publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}. 
 The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
 The spin of BHs formed in isolated binaries depends strongly on the angular
 momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
-therefore we only consider the two component masses in the observable space in both the
-root-finding stage and the MCMC stage. For progenitor parameters, we characterize each guess with
+therefore we only consider the two component masses in the observable space $\bm{\theta}$ in both the
+root-finding stage and the MCMC stage. 
+
+For progenitor parameters $\bm{\theta'}$, we characterize each guess with
 five parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the orbital period $t_{\rm orb}$,
 the eccentricity $e$, and the metallicity $Z$ at ZAMS. Note that the progenitor formation redshift is not
 obtained through the root-finding process because the formation redshift does not intrinsically affect
@@ -420,23 +427,41 @@ This means we can put the prior on formation redshift (or in general, metallicit
 by reweighting the posterior distribution according to a particular SFR model,
 and therefore do not have to rerun the inference every time we change the SFR model. This is especially helpful
 since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep[e.g. ][]{Broekgaarden2021}.
-For hyperparameters, we choose parameters that strongly affect
+
+For hyperparameters $\bm{\lambda}$, we choose parameters that strongly affect
 binary evolution in \texttt{COSMIC} for massive stars, including the common envelope
 efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$,
 the critical mass ratio which determines whether Roche-overflow mass transfer
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
 $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
-employed for CO natal kicks, $\sigma$. For systems which begin a common envelope 
+employed for CO natal kicks, $\sigma$. \textbf{We follow the critical mass ratio prescription 
+described in \cite{Neijssel2019} for donors which fill their Roche lobes during
+ other phases of stellar evolution.} 
+For systems which begin a common envelope 
 with a Hertzsprung-gap donor, we always assume the pessimistic outcome that the two 
 stars merge since the donor has likely not formed a strong core-envelope boundary 
-\citep{Ivanova2004, Belczynski2008}.
+\citep{Ivanova2004, Belczynski2008}. \textbf{We fix other assumptions for how stellar and binary 
+evolution proceed. In particular, we assume that stars lose mass through stellar winds 
+in a metallicity-dependent 
+fashion according to \cite{Vink2001,Vink2005}. We assume that binaries are rapidly circularized
+during both stable Roche-overflow mass transfer and common envelopes.
+We further assume that the CO formation mechanism follows the delayed 
+prescription of \citet{Fryer2012} which allows neutrino-driven supernova explosions to 
+occur from instabilities which grow on timescales longer than $250\,\rm{ms}$, 
+and that natal kicks due to supernovae are reduced by the amount 
+of mass which falls back onto the proto-CO
+as described in \citet{Fryer2012}.}
+
+
+\section{Results}
+\label{sec:result}
 
 We show a portion of the joint posterior of the progenitor parameters and
 hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. Each panel
 is colored based on the comparison between progenitor parameters (blue),
 hyperparameters (orange), or a mix of the two (green). We find that the choice
 for $\sigma$ does not affect the formation of GW150914-like BBHs. This is not
-unexpected since we use the \citet{Fryer2012} delayed model which reduces the
+unexpected since \textbf{the \citet{Fryer2012} delayed model can significantly reduce} the
 natal kick strength at BH formation based on the amount of fallback onto the
 proto-CO. In the case of GW150914-like BBHs, the BH progenitors are massive
 enough that the fallback reduces the natal kick to zero. Because of this we do
@@ -503,28 +528,28 @@ correlations between hyperparameters that are not present in our current
 analysis.
 
 
-\begin{figure*}[h]
-    \includegraphics[width=\textwidth]{figures/GW150914_corner_zoomed_lowres.png}
-    \caption{The posterior for GW150914 in both the progenitor parameter space
-    and hyperparameter space. $M_1$ and $M_2$ are the progenitors' masses.
-    $\log{Z}$ is log metallicity at ZAMS. $z$ is the redshift at ZAMS. $\alpha$
-    is the common envelope efficiency. $f_{\rm acc}$ is the fraction of mass
-    accreted during stable mass transfer. $q_{\rm crit, 3}$ is the critical mass
-    ratio on the Hertzsprung Gap. The contours correspond to the $68\%$ and
-    $95\%$ confidence intervals. Note that the redshift is not fitted during the
-    root finding process or the MCMC process. Once we find the evolutionary
-    parameters, we add the delay time to the lookback time of the observed
-    posterior sample, then from the total lookback time we can compute the
-    redshift at ZAMS. We highlight three panels in the corner plots to show the
-    fine structure of the set of posterior samples in the evolutionary parameter
-    space. We also color the posterior in a particular panel according to the
-    type of parameters involved in the corner plot. Blue denotes panels that
-    include only progenitor parameters, green denotes panels that include a mix
-    of progenitor parameters and hyperparameters, and orange denotes panels that
-    include only hyperparameters. }
-    \label{fig:GW150914_posterior}
-    \script{figure1_cornerPlot.py}
-\end{figure*}
+% \begin{figure*}[h]
+%     \includegraphics[width=\textwidth]{figures/GW150914_corner_zoomed_lowres.png}
+%     \caption{The posterior for GW150914 in both the progenitor parameter space
+%     and hyperparameter space. $M_1$ and $M_2$ are the progenitors' masses.
+%     $\log{Z}$ is log metallicity at ZAMS. $z$ is the redshift at ZAMS. $\alpha$
+%     is the common envelope efficiency. $f_{\rm acc}$ is the fraction of mass
+%     accreted during stable mass transfer. $q_{\rm crit, 3}$ is the critical mass
+%     ratio on the Hertzsprung Gap. The contours correspond to the $68\%$ and
+%     $95\%$ confidence intervals. Note that the redshift is not fitted during the
+%     root finding process or the MCMC process. Once we find the evolutionary
+%     parameters, we add the delay time to the lookback time of the observed
+%     posterior sample, then from the total lookback time we can compute the
+%     redshift at ZAMS. We highlight three panels in the corner plots to show the
+%     fine structure of the set of posterior samples in the evolutionary parameter
+%     space. We also color the posterior in a particular panel according to the
+%     type of parameters involved in the corner plot. Blue denotes panels that
+%     include only progenitor parameters, green denotes panels that include a mix
+%     of progenitor parameters and hyperparameters, and orange denotes panels that
+%     include only hyperparameters. }
+%     \label{fig:GW150914_posterior}
+%     \script{figure1_cornerPlot.py}
+% \end{figure*}
 
 Once we obtain a set of binaries which successfully map the ZAMS parameters and
 hyperparameters to BBH merger masses, we re-evolve the set of ZAMS parameters
@@ -556,16 +581,16 @@ $f_{\rm{acc}}$, and the ZAMS masses and orbital separations balance to produce
 BHs with the correct masses that merge within a Hubble time.
 
 
-\begin{figure*}
-    \includegraphics[width=0.98\textwidth]{figures/compare_fixed_variable.png}
-    \caption{Comparison of ZAMS masses for binaries which produce GW150914-like
-     mergers for three variations of $\alpha$ with a fixed set of parameter
-     assumptions matching those of A21 (first three columns) and for binaries
-     which produce GW150914-like mergers when $\alpha$, $f_{\mathrm{acc}}$, and
-     $q_{crit,3}$ are allowed to vary, (fourth column).}
-    \label{fig:compare_fixed_variable}
-    \script{figure2_varyAlphaFacc.py}
-\end{figure*}
+% \begin{figure*}
+%     \includegraphics[width=0.98\textwidth]{figures/compare_fixed_variable.png}
+%     \caption{Comparison of ZAMS masses for binaries which produce GW150914-like
+%      mergers for three variations of $\alpha$ with a fixed set of parameter
+%      assumptions matching those of A21 (first three columns) and for binaries
+%      which produce GW150914-like mergers when $\alpha$, $f_{\mathrm{acc}}$, and
+%      $q_{crit,3}$ are allowed to vary, (fourth column).}
+%     \label{fig:compare_fixed_variable}
+%     \script{figure2_varyAlphaFacc.py}
+% \end{figure*}
 
 It is interesting to re-project the posterior over progenitor parameters
 ($\bm{\theta}'$) and hyperparameters ($\bm{\lambda}$) using fresh random
@@ -579,17 +604,17 @@ GW150914.  Unlike \citet{Andrews2021}, we find there are no regions of
 observable space inaccessible to our evolutionary models; this difference arises
 because we allow the evolutionary hyperparameters $\bm{\lambda}$ to vary.
 
-\begin{figure}
-\includegraphics[width=0.49\textwidth]{figures/GW150914_reprojection.pdf}
-\caption{Reprojecting the posterior in evolutionary parameter space of GW150914
-to observable space. The contours correspond to the $68\%$ and $95\%$ confidence
-intervals. The blue contour is the reprojected posterior after the root-finding
-procedure. The orange contour is the reprojected posterior after the MCMC
-procedure. The green contour is the posterior plotted using the original LVK
-posterior samples. }
-\label{fig:GW150914_reprojection}
-\script{figure3_sanityCheck.py}
-\end{figure}
+% \begin{figure}
+% \includegraphics[width=0.49\textwidth]{figures/GW150914_reprojection.pdf}
+% \caption{Reprojecting the posterior in evolutionary parameter space of GW150914
+% to observable space. The contours correspond to the $68\%$ and $95\%$ confidence
+% intervals. The blue contour is the reprojected posterior after the root-finding
+% procedure. The orange contour is the reprojected posterior after the MCMC
+% procedure. The green contour is the posterior plotted using the original LVK
+% posterior samples. }
+% \label{fig:GW150914_reprojection}
+% \script{figure3_sanityCheck.py}
+% \end{figure}
 
 
 % Paragraph discussing the potential application on the population side.
@@ -610,14 +635,17 @@ increases. Such a trend implies the stable mass transfer phase of a less massive
 binary would be preferentially non-conservative, with more conservative mass
 transfer in more massive binary systems.
 
-Note that some events did not pass the KL divergence test we proposed in section
-\ref{sec:method}; we do not include these systems in figure
-\ref{fig:GWTC-3_f_acc_mass}. Binaries that form low-mass compact objects have
-lower amounts of fallback and tend to have correspondingly larger variance in
-their random natal kicks. Larger kicks can unbind the progenitor binary, or lead
-to wide binaries that do not merge within a Hubble time.  In these cases, the
-extra variance during the reprojection can produce a posterior that may not
-agree with the original posterior, hence yielding a higher KL divergence.
+\textbf{We have validated the robustness of every events shown in
+\ref{fig:GWTC-3_f_acc_mass} by reprojecting the posterior density in the
+evolutionary parameter space to the observable space.} Note that some events did
+not pass the KL divergence test we proposed in section \ref{sec:method}; we do
+not include these systems in figure \ref{fig:GWTC-3_f_acc_mass}. Binaries that
+form low-mass compact objects have lower amounts of fallback and tend to have
+correspondingly larger variance in their random natal kicks. Larger kicks can
+unbind the progenitor binary, or lead to wide binaries that do not merge within
+a Hubble time.  In these cases, the extra variance during the reprojection can
+produce a posterior that may not agree with the original posterior, hence
+yielding a higher KL divergence.
 
 For high-mass binaries, \texttt{COSMIC} struggles to produce events above the
 pair instability supernova mass cutoff, so the posterior in the
@@ -646,24 +674,24 @@ detailed study of the physics related to the population of GW events to future
 work.
 
 
-\begin{figure}
-\includegraphics[width=0.49\textwidth]{figures/GWTC3_f_acc_mass.pdf}
-\caption{ The posterior density in the $m_{1,{\rm GW}}-f_{\rm acc}$ space for
-    most of the events in GWTC-3. Note that $m_{1,{\rm GW}}$ here refers to the
-    reprojected posterior instead of the posterior released by LIGO. Each
-    contour is the $68\%$ credible interval of the posterior density for a
-    particular event. At $m_{1,{\rm GW}} \sim 45 M_{\odot}$, the pair
-    instability supernova mechanism prevents \texttt{COSMIC} from producing
-    events that are more massive than this cutoff. Therefore, events with the
-    majority of posterior support above this cutoff are not compatible with
-    \texttt{COSMIC}, hence have a large KL divergence and are excluded from this
-    figure. On the low mass end, neutron star binaries or neutron star-black
-    hole binaries are subjected to randomness induced by the natal kick, also
-    resulting in a larger and fluctuating KL divergences, and therefore are also
-    excluded from the analysis. }
-\label{fig:GWTC-3_f_acc_mass}
-\script{figure4_population.py}
-\end{figure}
+% \begin{figure}
+% \includegraphics[width=0.49\textwidth]{figures/GWTC3_f_acc_mass.pdf}
+% \caption{ The posterior density in the $m_{1,{\rm GW}}-f_{\rm acc}$ space for
+%     most of the events in GWTC-3. Note that $m_{1,{\rm GW}}$ here refers to the
+%     reprojected posterior instead of the posterior released by LIGO. Each
+%     contour is the $68\%$ credible interval of the posterior density for a
+%     particular event. At $m_{1,{\rm GW}} \sim 45 M_{\odot}$, the pair
+%     instability supernova mechanism prevents \texttt{COSMIC} from producing
+%     events that are more massive than this cutoff. Therefore, events with the
+%     majority of posterior support above this cutoff are not compatible with
+%     \texttt{COSMIC}, hence have a large KL divergence and are excluded from this
+%     figure. On the low mass end, neutron star binaries or neutron star-black
+%     hole binaries are subjected to randomness induced by the natal kick, also
+%     resulting in a larger and fluctuating KL divergences, and therefore are also
+%     excluded from the analysis. }
+% \label{fig:GWTC-3_f_acc_mass}
+% \script{figure4_population.py}
+% \end{figure}
 
 \section{Discussion}
 \label{sec:discussion}
@@ -687,7 +715,13 @@ hyperparameters.  That is, once we have a catalog of events, each has their own
 posterior in the hyperparameter space, and we can employ well-known techniques
 such as hierarchical Bayesian analysis to fit a population model to the
 distribution of hyperparameters; this avoids making overly-specific assumptions
-like fixing the hyperparameters for all types of event.
+like fixing the hyperparameters for all types of event. \textbf{In this work we
+focus on illustrating the possibililty of conducting such analysis with our
+pipeline. Note that there are concerns that need to be addressed before one can
+make statments about the physics, such as the number of channels considered and
+specific choices of parameterization. These concerns are beyond the scope of
+this paper, and we defer a detailed study of the physics related to the
+population of GW events to future work.}
 
 % Rate analysis is now just counting, like what's done in phenomenological
 % model, instead of forward modelling.
@@ -702,9 +736,11 @@ progenitor population to infer the formation rate of compact binary population
 progenitor systems over cosmic time without needing to make artifical and
 simplistic assumptions about the delay time distribution or the
 metallicity-specific star formation rate \citep{Vitale2019,Ng2021,VanSon2022}.
-Comparing the formation rate of progenitors to the star formation rate provides
-an avenue to check our understanding of binary evolution and the relative rate
-of other formation channels.
+\textbf{In other word, just as we measure the event rate of GW events by
+counting, we can measure the event rate of the progenitor systems of GW events
+in the same way.} Comparing the formation rate of progenitors to the star
+formation rate provides an avenue to check our understanding of binary evolution
+and the relative rate of other formation channels.
 
 % Single formation channel and fundamental limitation on that.
 While our method allows data-driven exploration of the hyperparameters space, there are a number of improvements that can be implemented in future studies.
