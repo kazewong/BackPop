@@ -452,14 +452,19 @@ as described in \citet{Fryer2012}.}
 \subsection{\textbf{Case-specific configuration}}
 \label{subsec:configuration}
 
-We apply the method described in section \textbf{\ref{subsec:stats}} to the first GW event GW150914 \citep{GW150914}.
-We use the \texttt{Overall\_posterior} posterior samples for GW150914,
-publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}. 
-The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
-The spin of BHs formed in isolated binaries depends strongly on the angular
-momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
-therefore we only consider the two component masses in the observable space $\bm{\theta}$ in both the
-root-finding stage and the MCMC stage. 
+We apply the method described in section \textbf{\ref{subsec:stats}} to the
+first GW event GW150914 \citep{GW150914}. We use the \texttt{Overall\_posterior}
+posterior samples for GW150914, publicly available from the Gravitational wave
+Open Science Center \citep{LIGOScientific:2019lzm}. The parameters involved in
+the analysis and the range we allow for the inference are tabulated in table
+\ref{tab:parameters}. The spin of BHs formed in isolated binaries depends
+strongly on the angular momentum transport in massive stars which is still
+highly uncertain (see however \citet{Fuller2019, Bavera2020}), therefore we only
+consider the two component masses in the observable space $\bm{\theta}$ in both
+the root-finding stage and the MCMC stage. \textbf{Instead of the sampling the posterior
+in the two component masses space, we choose to perform the KDE in the chirp
+mass and mass ratio space, which are less degenerate and is less prone to error
+from the KDE.}
 
 For progenitor parameters $\bm{\theta'}$, we characterize each guess with
 five parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the orbital period $t_{\rm orb}$,
@@ -484,8 +489,6 @@ the critical mass ratio which determines whether Roche-overflow mass transfer
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
 $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
 employed for CO natal kicks, $\sigma$. 
-%Prior
-
 
 
 \section{Results}
