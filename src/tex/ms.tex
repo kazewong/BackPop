@@ -179,10 +179,38 @@ the posterior in the joint space that is induced by the DCO merger observations
 using a Markov chain Monte Carlo (MCMC) algorithm that is initialized by the
 roots found in the previous stage.  We demonstrate our algorithm in a realistic
 setting by producing a posterior over progenitor properties and \texttt{COSMIC}
-hyperparameters implied by the observation of GW150914.  
+hyperparameters implied by the observation of
+dependencies:
+  src/scripts/figure1_cornerPlot.py:
+    - src/data/GWTC3_LVK_posterior.npz
+    - src/data/GWTC3_mcmc_processed.hdf5
+
+  src/scripts/figure2_varyAlphaFacc.py:
+    - src/data/fig_2_dat.h5
+
+  src/scripts/figure3_sanityCheck.py:
+    - src/data/GWTC3_LVK_posterior.npz
+    - src/data/GW150914_roots_raw.hdf5
+    - src/data/GW150914_roots_processed.hdf5
+    - src/data/GWTC3_mcmc_processed.hdf5
+
+  src/scripts/figure4_population.py:
+    - src/data/GWTC3_mcmc_processed.hdf5
+
+datasets:
+  10.5281/zenodo.6624911:
+    destination: src/data
+    contents:
+      GW150914_roots_processed.hdf5:
+      GW150914_roots_raw.hdf5:
+      GWTC3_LVK_posterior.npz:
+      GWTC3_mcmc_processed.hdf5:
+      fig_2_dat.h5:
+ GW150914.  
 
 We find that the progenitor properties and even the ability to produce a
-GW150914-like merger event is strongly correlated with hyperparameter settings;
+GW150914-like merger event is strongly correlated with hyperparameter settings,
+consistent with results from prior forward modeling studies cited above;
 different assumptions about the black hole masses at merger in GW150914 imply
 wildly different formation channels and ZAMS progenitor masses for this event
 and some nearby combinations of ZAMS masses are unable, with any reasonable
@@ -403,6 +431,27 @@ interpreting the result.
     \end{center}
 \end{table*}
 
+\textbf{We follow the critical mass ratio prescription 
+described in \cite{Neijssel2019} for donors which fill their Roche lobes during
+ other phases of stellar evolution.} 
+For systems which begin a common envelope 
+with a Hertzsprung-gap donor, we always assume the pessimistic outcome that the two 
+stars merge since the donor has likely not formed a strong core-envelope boundary 
+\citep{Ivanova2004, Belczynski2008}. \textbf{We fix other assumptions for how stellar and binary 
+evolution proceed. In particular, we assume that stars lose mass through stellar winds 
+in a metallicity-dependent 
+fashion according to \cite{Vink2001,Vink2005}. We assume that binaries are rapidly circularized
+during both stable Roche-overflow mass transfer and common envelopes.
+We further assume that the CO formation mechanism follows the delayed 
+prescription of \citet{Fryer2012} which allows neutrino-driven supernova explosions to 
+occur from instabilities which grow on timescales longer than $250\,\rm{ms}$, 
+and that natal kicks due to supernovae are reduced by the amount 
+of mass which falls back onto the proto-CO
+as described in \citet{Fryer2012}.}
+
+\subsection{\textbf{Case-specific configuration}}
+\label{subsec:configuration}
+
 We apply the method described in section \textbf{\ref{subsec:stats}} to the first GW event GW150914 \citep{GW150914}.
 We use the \texttt{Overall\_posterior} posterior samples for GW150914,
 publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}. 
@@ -434,23 +483,9 @@ efficiency $\alpha$, the fraction of mass accreted onto the accretor during stab
 the critical mass ratio which determines whether Roche-overflow mass transfer
 proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
 $q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
-employed for CO natal kicks, $\sigma$. \textbf{We follow the critical mass ratio prescription 
-described in \cite{Neijssel2019} for donors which fill their Roche lobes during
- other phases of stellar evolution.} 
-For systems which begin a common envelope 
-with a Hertzsprung-gap donor, we always assume the pessimistic outcome that the two 
-stars merge since the donor has likely not formed a strong core-envelope boundary 
-\citep{Ivanova2004, Belczynski2008}. \textbf{We fix other assumptions for how stellar and binary 
-evolution proceed. In particular, we assume that stars lose mass through stellar winds 
-in a metallicity-dependent 
-fashion according to \cite{Vink2001,Vink2005}. We assume that binaries are rapidly circularized
-during both stable Roche-overflow mass transfer and common envelopes.
-We further assume that the CO formation mechanism follows the delayed 
-prescription of \citet{Fryer2012} which allows neutrino-driven supernova explosions to 
-occur from instabilities which grow on timescales longer than $250\,\rm{ms}$, 
-and that natal kicks due to supernovae are reduced by the amount 
-of mass which falls back onto the proto-CO
-as described in \citet{Fryer2012}.}
+employed for CO natal kicks, $\sigma$. 
+%Prior
+
 
 
 \section{Results}
