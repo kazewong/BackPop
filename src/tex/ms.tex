@@ -179,34 +179,7 @@ the posterior in the joint space that is induced by the DCO merger observations
 using a Markov chain Monte Carlo (MCMC) algorithm that is initialized by the
 roots found in the previous stage.  We demonstrate our algorithm in a realistic
 setting by producing a posterior over progenitor properties and \texttt{COSMIC}
-hyperparameters implied by the observation of
-dependencies:
-  src/scripts/figure1_cornerPlot.py:
-    - src/data/GWTC3_LVK_posterior.npz
-    - src/data/GWTC3_mcmc_processed.hdf5
-
-  src/scripts/figure2_varyAlphaFacc.py:
-    - src/data/fig_2_dat.h5
-
-  src/scripts/figure3_sanityCheck.py:
-    - src/data/GWTC3_LVK_posterior.npz
-    - src/data/GW150914_roots_raw.hdf5
-    - src/data/GW150914_roots_processed.hdf5
-    - src/data/GWTC3_mcmc_processed.hdf5
-
-  src/scripts/figure4_population.py:
-    - src/data/GWTC3_mcmc_processed.hdf5
-
-datasets:
-  10.5281/zenodo.6624911:
-    destination: src/data
-    contents:
-      GW150914_roots_processed.hdf5:
-      GW150914_roots_raw.hdf5:
-      GWTC3_LVK_posterior.npz:
-      GWTC3_mcmc_processed.hdf5:
-      fig_2_dat.h5:
- GW150914.  
+hyperparameters implied by the observation of GW150914.  
 
 We find that the progenitor properties and even the ability to produce a
 GW150914-like merger event is strongly correlated with hyperparameter settings,
