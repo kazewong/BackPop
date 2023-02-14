@@ -263,7 +263,8 @@ sampling process much more computationally expensive to converge. To speed up
 the convergence, we first solve a root-finding problem to find points
 $\bm{\Theta}$ that will generate GW parameters $\bm{\theta}$ close to the bulk
 of the posterior density of a GW event.  We then use those points to initialize
-a set of chains in the MCMC process.
+a set of chains in the MCMC process. \textbf{We use \textsc{emcee} \cite{emcee}
+to sample the posterior density in the evolutionary parameter space.}
 
 %The root-finding procedure is described as follows:
 For each posterior sample point in the GW-observable space, we can find the
@@ -321,16 +322,6 @@ progenitor and hyperparameters robustly correspond to the posterior in the
 GW-observable space, we push forward (or ``reproject'') the recovered
 evolutionary parameters to the GW-observable space to check whether the
 reprojected posterior agrees with the posterior given by the LVK collaboration.
-
-% Validity paragraph \wf{What if we made this a subsection of ``methods'', and
-%then just one sentence here about the values of the KL divergence for
-%GW150914?} To check the validity of the recovered posterior over evolutionary
-%parameters, it is essential to check whether it is consistent with the original
-%posterior in the observable space. We reproject the recovered posterior to the
-%observable space, and compare the KL divergence between the original posterior
-%and the reprojected posterior.
-
-
 
 We use KL divergence to measure the agreement between the two posterior
 distributions as:
@@ -425,41 +416,57 @@ as described in \citet{Fryer2012}.}
 \subsection{\textbf{Case-specific configuration}}
 \label{subsec:configuration}
 
-We apply the method described in section \textbf{\ref{subsec:stats}} to the first GW event GW150914 \citep{GW150914}.
-We use the \texttt{Overall\_posterior} posterior samples for GW150914,
-publicly available from the Gravitational wave Open Science Center \citep{LIGOScientific:2019lzm}. 
-The parameters involved in the analysis and the range we allow for the inference are tabulated in table \ref{tab:parameters}.
-The spin of BHs formed in isolated binaries depends strongly on the angular
-momentum transport in massive stars which is still highly uncertain (see however \citet{Fuller2019, Bavera2020}),
-therefore we only consider the two component masses in the observable space $\bm{\theta}$ in both the
-root-finding stage and the MCMC stage. 
+We apply the method described in section \textbf{\ref{subsec:stats}} to the
+first GW event GW150914 \citep{GW150914}. We use the \texttt{Overall\_posterior}
+posterior samples for GW150914, publicly available from the Gravitational wave
+Open Science Center \citep{LIGOScientific:2019lzm}. The parameters involved in
+the analysis and the range we allow for the inference are tabulated in table
+\ref{tab:parameters}. The spin of BHs formed in isolated binaries depends
+strongly on the angular momentum transport in massive stars which is still
+highly uncertain (see however \citet{Fuller2019, Bavera2020}), therefore we only
+consider the two component masses in the observable space $\bm{\theta}$ in both
+the root-finding stage and the MCMC stage. \textbf{Instead of the sampling the posterior
+in the two component masses space, we choose to perform the KDE in the chirp
+mass and mass ratio space, which are less degenerate and is less prone to error
+from the KDE.}
 
-For progenitor parameters $\bm{\theta'}$, we characterize each guess with
-five parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the orbital period $t_{\rm orb}$,
-the eccentricity $e$, and the metallicity $Z$ at ZAMS. Note that the progenitor formation redshift is not
-obtained through the root-finding process because the formation redshift does not intrinsically affect
-the evolution of the binary. Instead, we compute the time it takes for the binary to evolve from
-formation to the merger and add this time to the lookback time when a GW event is observed and limit the total
-time to merger to be less than $13.7\,\rm{Gyr}$.
-Using the total lookback time, we can compute the redshift of the binary at ZAMS formation following the
-Planck 2018 cosmological model \citep{Planck2018}.
-The main benefit of post-processing the redshift in this way is that we do not rely on a particular assumption
-of star formation rate (SFR) distribution when we solve for the posterior distribution in redshift.
-This means we can put the prior on formation redshift (or in general, metallicity-redshfit distribution) in
-by reweighting the posterior distribution according to a particular SFR model,
-and therefore do not have to rerun the inference every time we change the SFR model. This is especially helpful
-since SFR models are still highly uncertain but strongly impact the local merger rates of BBHs \citep[e.g. ][]{Broekgaarden2021}.
+For progenitor parameters $\bm{\theta'}$, we characterize each guess with five
+parameters: the two component masses $M_{\rm 1,ZAMS}$ and $M_{\rm 2,ZAMS}$, the
+orbital period $t_{\rm orb}$, the eccentricity $e$, and the metallicity $Z$ at
+ZAMS. \textbf{We use a log-uniform prior in sampling $M_{\rm 1,ZAMS}$, $M_{\rm
+2,ZAMS}$, $t_{\rm orb}$, and $Z$, and we use a uniform prior for $e$.
+The range follows the range for the optimization range as given by table
+\ref{tab:parameters}.} Note that the progenitor formation redshift is not
+obtained through the root-finding process because the formation redshift does
+not intrinsically affect the evolution of the binary. Instead, we compute the
+time it takes for the binary to evolve from formation to the merger and add this
+time to the lookback time when a GW event is observed and limit the total time
+to merger to be less than $13.7\,\rm{Gyr}$. Using the total lookback time, we
+can compute the redshift of the binary at ZAMS formation following the Planck
+2018 cosmological model \citep{Planck2018}. The main benefit of post-processing
+the redshift in this way is that we do not rely on a particular assumption of
+star formation rate (SFR) distribution when we solve for the posterior
+distribution in redshift. This means we can put the prior on formation redshift
+(or in general, metallicity-redshfit distribution) in by reweighting the
+posterior distribution according to a particular SFR model, and therefore do not
+have to rerun the inference every time we change the SFR model. This is
+especially helpful since SFR models are still highly uncertain but strongly
+impact the local merger rates of BBHs \citep[e.g. ][]{Broekgaarden2021}.
 
 For hyperparameters $\bm{\lambda}$, we choose parameters that strongly affect
-binary evolution in \texttt{COSMIC} for massive stars, including the common envelope
-efficiency $\alpha$, the fraction of mass accreted onto the accretor during stable mass transfer $f_{\rm acc}$,
-the critical mass ratio which determines whether Roche-overflow mass transfer
-proceeds stably or produces a common envelope when the donor star is on the Hertzsprung gap
-$q_{\rm crit,3}$, and the root-mean-square of the Maxwellian distribution
-employed for CO natal kicks, $\sigma$. 
-%Prior
+binary evolution in \texttt{COSMIC} for massive stars, including the common
+envelope efficiency $\alpha$, the fraction of mass accreted onto the accretor
+during stable mass transfer $f_{\rm acc}$, the critical mass ratio which
+determines whether Roche-overflow mass transfer proceeds stably or produces a
+common envelope when the donor star is on the Hertzsprung gap $q_{\rm crit,3}$,
+and the root-mean-square of the Maxwellian distribution employed for CO natal
+kicks, $\sigma$. \textbf{We use a uniform prior for $\alpha$, $f_{\rm acc}$, and
+$q_{\rm crit,3}$, and a log-uniform prior for $\sigma$.}
 
-
+\textbf{We use the same prior for all the events in this study. Note that our
+main goal is to see whether the events are compatible with \textsc{COSMIC} on an
+individual event basis, we do not consider any population analysis here, and
+therefore we do not account for any selection effect.}
 
 \section{Results}
 \label{sec:result}
