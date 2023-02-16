@@ -179,11 +179,11 @@ the posterior in the joint space that is induced by the DCO merger observations
 using a Markov chain Monte Carlo (MCMC) algorithm that is initialized by the
 roots found in the previous stage.  We demonstrate our algorithm in a realistic
 setting by producing a posterior over progenitor properties and \texttt{COSMIC}
-hyperparameters implied by the observation of GW150914.
+hyperparameters implied by the observation of GW150914.  
 
 We find that the progenitor properties and even the ability to produce a
 GW150914-like merger event is strongly correlated with hyperparameter settings,
-consistent with results from prior forward modeling studies cited above;
+\textbf{consistent with results from prior forward modeling studies cited above};
 different assumptions about the black hole masses at merger in GW150914 imply
 wildly different formation channels and ZAMS progenitor masses for this event
 and some nearby combinations of ZAMS masses are unable, with any reasonable
@@ -474,8 +474,8 @@ therefore we do not account for any selection effect.}
 We show a portion of the joint posterior of the progenitor parameters and
 hyperparameters of GW150914 in figure \ref{fig:GW150914_posterior}. Each panel
 is colored based on the comparison between progenitor parameters (blue),
-hyperparameters (orange), or a mix of the two (green). We find that the choice
-for $\sigma$ does not affect the formation of GW150914-like BBHs. This is not
+hyperparameters (orange), or a mix of the two (green). \textbf{The choice
+for $\sigma$ does not affect the formation of GW150914-like BBHs.} This is not
 unexpected since \textbf{the \citet{Fryer2012} delayed model can significantly reduce} the
 natal kick strength at BH formation based on the amount of fallback onto the
 proto-CO. In the case of GW150914-like BBHs, the BH progenitors are massive
@@ -483,7 +483,11 @@ enough that the fallback reduces the natal kick to zero. Because of this we do
 not include $\sigma$ in Figure~\ref{fig:GW150914_posterior}. Similarly, we do
 not include the ZAMS orbital period and eccentricity, which are correlated with
 one another, but not strongly with the other progenitor parameters or
-hyperparameters. We find strong correlations between the ZAMS masses, as well as
+hyperparameters. 
+
+\textbf{The formation redshift distribution is slightly correlated with the $q_{\rm crit, 3}$ and $f_{acc}$ hyperparameters, though the GW150914-like progenitors generally prefer formation redshifts of $z\sim0.1$ (delay times of $\lesssim0.1\,\rm{Gyr}$). This correlation is due to the preference for longer delay times between ZAMS formation and merger for progenitors which undergo stable mass transfer at Roche overflow instead of a common envelope. This result is in direct agreement with \citet{vanSon2022a} who also find that the common envelope evolution channel produces BBH mergers with shorter delay times than the stable Roche-overflow channel.}
+
+\textbf{The joint posterior exhibits} strong correlations between the ZAMS masses, as well as
 strong correlations between $M_{2,\rm{ZAMS}}$ and $f_{\rm{acc}}$, and
 $f_{\rm{acc}}$ and $\alpha$. We show scatter plots of each of these combinations
 in the upper-right inset of the figure.
@@ -491,9 +495,9 @@ in the upper-right inset of the figure.
 The correlations between the ZAMS masses are similar to those found by A21 with
 the majority of the population preferring primary and secondary masses between
 $60$--$90\,M_{\odot}$. However, we also find some ZAMS masses which extend up to
-$150\,M_{\odot}$ which is the limit imposed by our assumptions. We explore the
+$150\,M_{\odot}$ which is the limit imposed by our assumptions. \textbf{The features in the scatter points of the ZAMS masses, most obvious in the region where $M_1,\rm{ZAMS}\sim 140-150\,M_\odot$, are the outcome of the interplay between the progenitor parameters and hyperparameters. The dominant cause of regions with fewer data points is that fewer binary progenitors produce BBH mergers with chirp masses and mass ratios consistent with GW150914's priors. This is most clearly illustrated for progenitors with primary masses between $142-144\,M_\odot$ and secondary masses below $80\,M_[\odot]$.} We explore the
 formation scenarios which lead to successful GW150914-like mergers and those
-which fail to produce GW150914-like mergers below in
+which fail to produce GW150914-like mergers \textbf{in more detail} below in
 Figure~\ref{fig:compare_fixed_variable}.
 
 The correlations between $M_{2,\rm{ZAMS}}$ and $f_{\rm acc}$ illustrate the
@@ -527,7 +531,7 @@ envelope evolution (in which case $f_{\rm acc}$ is unconstrained), or very
 non-conservative mass transfer (where $f_{\rm acc}$ is low), to produce BBHs
 with the proper mass.
 
-Finally, we find that $\alpha$ and $f_{\rm acc}$ are largely uncorrelated,
+Finally, $\alpha$ and $f_{\rm acc}$ are largely uncorrelated,
 though there exist independent trends in each hyper parameter. This is not
 totally unexpected since the physical processes which are described by each
 hyperparameter, i.e. stable Roche-lobe overflow and common envelope evolution
