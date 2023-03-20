@@ -35,7 +35,7 @@ params = {
     "mathtext.fontset": "dejavuserif",
 }
 
-mpl.rcParams["text.latex.preamble"] = [r"\usepackage{amsmath}"]  # for \text command
+# mpl.rcParams["text.latex.preamble"] = [r"\usepackage{amsmath}"]  # for \text command
 
 mpl.rcParams.update(params)
 
